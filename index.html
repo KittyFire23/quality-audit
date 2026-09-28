@@ -62,9 +62,57 @@ button{
 <option>Estampado</option>
 </select>
 
-<button>
+<button onclick="comenzarAuditoria()">
 Comenzar Auditoría
 </button>
+
+<div id="contenido"></div>
+
+<script>
+function comenzarAuditoria(){
+
+document.getElementById("contenido").innerHTML = `
+<hr>
+
+<h2>Pregunta 1 de 36</h2>
+
+<p>
+¿Están las condiciones de seguridad contempladas? De no ser así exponerlas.
+</p>
+
+<label>
+<input type="radio" name="p1">
+Cumple
+</label>
+
+<br><br>
+
+<label>
+<input type="radio" name="p1">
+No Cumple
+</label>
+
+<br><br>
+
+<label>
+<input type="radio" name="p1">
+No Aplica
+</label>
+
+<br><br>
+
+<textarea
+style="width:100%;height:100px;"
+placeholder="Observaciones">
+</textarea>
+
+<br><br>
+
+<button>Siguiente</button>
+
+`;
+}
+</script>
 
 </div>
 
