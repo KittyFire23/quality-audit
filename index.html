@@ -7,7 +7,7 @@
 <style>
 
 body{
-    font-family:Arial,sans-serif;
+    font-family: Arial, sans-serif;
     background:#f4f4f4;
     padding:20px;
 }
@@ -78,96 +78,21 @@ Comenzar Auditoría
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-
-const supabaseUrl = 'https://szjoqilrffchvqvjceym.supabase.co';
-
-const supabaseKey = 'sb_publishable_XjenDjK3p7wXqlDqDVyERg_N7PeEdzF';
-
-const supabase = window.supabase.createClient(
-  supabaseUrl,
-  supabaseKey
-);
-
-let preguntas = [];
-
-let actual = 0;
 
 function comenzarAuditoria(){
 
-alert("Botón funcionando");
-
-}
-
-
-function mostrarPregunta(){
-
 document.getElementById("contenido").innerHTML = `
 
 <hr>
 
-<h2>${preguntas[actual].section}</h2>
+<h2>Prueba OK</h2>
 
-<p><b>Pregunta ${actual + 1} de ${preguntas.length}</b></p>
-
-<p>${preguntas[actual].question}</p>
-
-<label>
-<input type="radio" name="respuesta">
-Cumple
-</label>
-
-<br><br>
-
-<label>
-<input type="radio" name="respuesta">
-No Cumple
-</label>
-
-<br><br>
-
-<label>
-<input type="radio" name="respuesta">
-No Aplica
-</label>
-
-<br><br>
-
-<textarea placeholder="Observaciones"></textarea>
-
-<br><br>
-
-<button onclick="siguientePregunta()">
-Siguiente
-</button>
+<p>
+El botón está funcionando correctamente.
+</p>
 
 `;
-
-}
-
-function siguientePregunta(){
-
-actual++;
-
-if(actual >= preguntas.length){
-
-document.getElementById("contenido").innerHTML = `
-
-<hr>
-
-<h2>Auditoría Finalizada</h2>
-
-<p>Se recorrieron todas las preguntas.</p>
-
-`;
-
-return;
-
-}
-
-mostrarPregunta();
 
 }
 
