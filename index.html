@@ -5,34 +5,41 @@
 <title>Auditorías AR</title>
 
 <style>
+
 body{
     font-family:Arial,sans-serif;
-    margin:40px;
-    background:#f5f5f5;
+    background:#f4f4f4;
+    padding:20px;
 }
 
 .card{
     background:white;
     padding:20px;
     border-radius:10px;
-    max-width:600px;
+    max-width:700px;
+    margin:auto;
 }
 
-select,input,button{
+button{
+    width:100%;
+    padding:12px;
+    background:#0d6efd;
+    color:white;
+    border:none;
+    margin-top:10px;
+}
+
+select,
+textarea{
     width:100%;
     padding:10px;
     margin-top:10px;
 }
 
-button{
-    background:#0d6efd;
-    color:white;
-    border:none;
-    cursor:pointer;
-}
 </style>
 
 </head>
+
 <body>
 
 <div class="card">
@@ -68,53 +75,91 @@ Comenzar Auditoría
 
 <div id="contenido"></div>
 
+</div>
+
 <script>
+
+const preguntas = [
+
+"¿Están las condiciones de seguridad contempladas?",
+
+"¿Están cerradas las puertas que dan al exterior?",
+
+"¿Se encuentran las paredes e instalaciones en estado adecuado?",
+
+"¿Están las zonas de tránsito libres de obstrucciones?"
+
+];
+
+let actual = 0;
+
 function comenzarAuditoria(){
+    actual = 0;
+    mostrarPregunta();
+}
+
+function mostrarPregunta(){
 
 document.getElementById("contenido").innerHTML = `
+
 <hr>
 
-<h2>Pregunta 1 de 36</h2>
+<h2>Pregunta ${actual + 1} de ${preguntas.length}</h2>
 
-<p>
-¿Están las condiciones de seguridad contempladas? De no ser así exponerlas.
-</p>
+<p>${preguntas[actual]}</p>
 
 <label>
-<input type="radio" name="p1">
+<input type="radio" name="respuesta">
 Cumple
 </label>
 
 <br><br>
 
 <label>
-<input type="radio" name="p1">
+<input type="radio" name="respuesta">
 No Cumple
 </label>
 
 <br><br>
 
 <label>
-<input type="radio" name="p1">
+<input type="radio" name="respuesta">
 No Aplica
 </label>
 
 <br><br>
 
-<textarea
-style="width:100%;height:100px;"
-placeholder="Observaciones">
-</textarea>
+<textarea placeholder="Observaciones"></textarea>
 
-<br><br>
-
-<button>Siguiente</button>
+<button onclick="siguientePregunta()">
+Siguiente
+</button>
 
 `;
-}
-</script>
 
-</div>
+}
+
+function siguientePregunta(){
+
+actual++;
+
+if(actual >= preguntas.length){
+
+document.getElementById("contenido").innerHTML = `
+<hr>
+<h2>Auditoría Finalizada</h2>
+<p>La prueba terminó correctamente.</p>
+`;
+
+return;
+
+}
+
+mostrarPregunta();
+
+}
+
+</script>
 
 </body>
 </html>
