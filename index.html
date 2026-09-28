@@ -204,14 +204,42 @@ return;
 
 }
 
+const valor = respuesta.parentElement.textContent.trim();
+
+const observacion =
+document.querySelector('textarea').value.trim();
+
+const foto =
+document.querySelector('input[type="file"]').files.length;
+
+if(
+valor === 'No Cumple' &&
+(
+observacion === '' ||
+foto === 0
+)
+){
+
+alert(
+'Para un No Cumple debe cargar observación y evidencia fotográfica.'
+);
+
+return;
+
+}
+
 actual++;
 
 if(actual >= preguntas.length){
 
 document.getElementById("contenido").innerHTML = `
+
 <hr>
+
 <h2>Auditoría Finalizada</h2>
+
 <p>Se completaron las ${preguntas.length} preguntas.</p>
+
 `;
 
 return;
@@ -221,7 +249,6 @@ return;
 mostrarPregunta();
 
 }
-
 </script>
 
 </body>
