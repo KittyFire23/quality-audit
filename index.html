@@ -95,7 +95,11 @@ let preguntas = [];
 
 let actual = 0;
 
-async function comenzarAuditoria(){
+function comenzarAuditoria(){
+
+alert("Botón funcionando");
+
+}
 
 const { data, error } = await supabase
   .from('questions')
