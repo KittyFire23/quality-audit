@@ -5,41 +5,42 @@
 <title>Auditorías AR</title>
 
 <style>
-
 body{
     font-family: Arial, sans-serif;
-    background: #f4f4f4;
-    padding: 20px;
+    background:#f4f4f4;
+    padding:20px;
 }
 
 .card{
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 700px;
-    margin: auto;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    max-width:800px;
+    margin:auto;
 }
 
 button{
-    width: 100%;
-    padding: 12px;
-    background: #0d6efd;
-    color: white;
-    border: none;
-    margin-top: 10px;
-    cursor: pointer;
+    width:100%;
+    padding:12px;
+    background:#0d6efd;
+    color:white;
+    border:none;
+    margin-top:10px;
+    cursor:pointer;
 }
 
 select,
 textarea,
 input[type="file"]{
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
+    width:100%;
+    padding:10px;
+    margin-top:10px;
 }
 
+h2{
+    color:#0d6efd;
+}
 </style>
-
 </head>
 
 <body>
@@ -78,64 +79,54 @@ input[type="file"]{
 <button onclick="comenzarAuditoria()">
 Comenzar Auditoría
 </button>
+
 <div id="contenido"></div>
 
 </div>
 
 <script>
 
-function comenzarAuditoria(){
+const preguntas = [
 
-document.getElementById("contenido").innerHTML = `
+"¿Están las condiciones de seguridad contempladas? De no ser así exponerlas. Ej.: matafuegos de libre acceso, salida de emergencias libres, kits de mitigación disponibles, tableros eléctricos cerrados, cableado seguro, etc.",
+"¿Están cerradas las puertas que dan al exterior? ¿De existir ventanas y abiertas, presentan mosquiteros en buen estado?",
+"¿Se encuentran las paredes e instalaciones en general en estado adecuado de manera tal de evitar situaciones que puedan generar el anidamiento de plagas?",
+"¿Están las zonas de tránsito libres de obstrucciones?",
+"Respecto a los elementos vinculados a la limpieza: ¿están en un lugar designado? ¿Los recipientes de residuos se encuentran tapados y bien clasificados de acuerdo a cartelería?",
+"¿Está el área productiva libre de vasos de café, alimentos y pertenencias personales?",
+"Si existen productos químicos en el sector, ¿están correctamente identificados?",
+"¿Se encuentra el botiquín con los elementos indicados?",
+"¿Se evita la presencia de muebles y/o pallets deteriorados que puedan desprender astillas u otros elementos contaminantes?",
+"En caso de uso de carros para actividades de mantenimiento, ¿los mismos se encuentran en estado adecuado? En caso de no aplicar colocar OK.",
+"¿Se verifican acrílicos y/o vidrios rotos? Cuando existen vidrios en el sector, ¿se encuentran laminados?",
+"¿Se observan elementos cortopunzantes correctamente ubicados, empotrados en la máquina, con cadenita o colgados?",
+"¿Se evita en el sector la acumulación de suciedad, restos de materiales, cajas u otros elementos sueltos?",
+"¿El sector posee correcta iluminación? ¿Se verifica la ausencia de goteras?",
+"¿Se encuentran las máquinas libres de elementos sueltos (herramientas, piezas, trapos, etc.) que podrían ser causantes de contaminación?",
+"¿Las partes mecánicas y eléctricas cuentan con sus correspondientes protecciones?",
+"Si existen reparaciones temporarias, ¿se encuentran adecuadamente indicadas?",
+"¿Se encuentran las máquinas libres de pérdidas de aceite, grasa o agua que puedan contaminar las piezas?",
+"¿Se encuentran las máquinas libres de pérdidas de aceite y/o agua? ¿Se evita consumo innecesario de energía cuando los equipos están fuera de proceso?",
+"¿Se evita la caída de materias primas, componentes y productos al piso?",
+"¿Se verifica la ausencia de piezas/componentes que pertenezcan a órdenes previas?",
+"¿Se encuentra en general el sector ordenado?",
+"En las máquinas, ¿se verifica ausencia de vidrios y/o acrílicos rotos?",
+"¿Los materiales/productos revisados se encuentran adecuadamente identificados, incluyendo código y estado de inspección/ensayo?",
+"¿Se evita la presencia de cajas pre-etiquetadas?",
+"¿Se evita la presencia de documentos correspondientes a producciones anteriores en el lugar de trabajo?",
+"Cuando se trabaja con alimentación desde entrepiso, ¿coinciden las OIPs cargadas arriba y abajo? En caso de no aplicar colocar OK.",
+"Tomar dos etiquetas de identificación y verificar materiales usados a pie de máquina vs información cargada en UNIX. ¿Existe coincidencia?",
+"¿Los materiales y/o productos se encuentran en sus lugares designados evitando materiales sobre el piso?",
+"¿Los materiales/productos se encuentran adecuadamente protegidos contra potencial contaminación?",
+"¿Los materiales/productos retenidos/rechazados se encuentran adecuadamente segregados e identificados?",
+"¿Se verifica algún material/producto/embalaje que no corresponda a la especificación requerida?",
+"¿Los contenedores y/o cajas se encuentran limpios y en buen estado?",
+"¿El personal utiliza los elementos de protección personal señalados de acuerdo al área y trabajo que está realizando?",
+"¿Se considera adecuado el estado de la ropa de trabajo del personal?",
+"¿El personal evita utilizar elementos que podrían causar contaminación del producto y evita alimentos, golosinas y chicles en el sector operativo?"
 
-<hr>
+];
 
-<h2>Pregunta 1 de 4</h2>
+let actual = 0;
 
-<p>
-¿Están las condiciones de seguridad contempladas?
-</p>
-
-<label>
-<input type="radio" name="respuesta">
-Cumple
-</label>
-
-<br><br>
-
-<label>
-<input type="radio" name="respuesta">
-No Cumple
-</label>
-
-<br><br>
-
-<label>
-<input type="radio" name="respuesta">
-No Aplica
-</label>
-
-<br><br>
-
-<textarea placeholder="Observaciones"></textarea>
-
-<br><br>
-
-<label>Evidencia fotográfica</label>
-
-<input type="file">
-
-<br><br>
-
-<button onclick="alert('SIGUIENTE FUNCIONA')">
-Siguiente
-</button>
-
-`;
-
-}
-
-</script>
-
-</body>
-</html>
+function comenzarAuditoria()
