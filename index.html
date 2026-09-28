@@ -155,20 +155,27 @@ Siguiente
 
 function siguientePregunta(){
 
-const seleccion = document.querySelector(
-'input[name="respuesta"]:checked'
-);
+actual++;
 
-if(!seleccion){
+if(actual >= preguntas.length){
 
-alert(
-'Debe seleccionar Cumple, No Cumple o No Aplica'
-);
+document.getElementById("contenido").innerHTML = `
+
+<hr>
+
+<h2>Auditoría Finalizada</h2>
+
+<p>La prueba terminó correctamente.</p>
+
+`;
 
 return;
 
 }
 
+mostrarPregunta();
+
+}
 const respuesta = seleccion.parentElement.textContent.trim();
 
 const observacion =
