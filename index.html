@@ -84,109 +84,54 @@ Comenzar Auditoría
 
 <script>
 
-const preguntas = [
-
-"¿Están las condiciones de seguridad contempladas?",
-
-"¿Están cerradas las puertas que dan al exterior?",
-
-"¿Se encuentran las paredes e instalaciones en estado adecuado?",
-
-"¿Están las zonas de tránsito libres de obstrucciones?"
-
-];
-
-let actual = 0;
-
 function comenzarAuditoria(){
-    actual = 0;
-    mostrarPregunta();
-}
-
-function mostrarPregunta(){
 
 document.getElementById("contenido").innerHTML = `
 
 <hr>
 
-<h2>Pregunta ${actual + 1} de ${preguntas.length}</h2>
+<h2>Pregunta 1 de 4</h2>
 
-<p>${preguntas[actual]}</p>
+<p>
+¿Están las condiciones de seguridad contempladas?
+</p>
 
 <label>
-<input type="radio" name="respuesta" value="Cumple">
+<input type="radio" name="respuesta">
 Cumple
 </label>
 
 <br><br>
 
 <label>
-<input type="radio" name="respuesta" value="No Cumple">
+<input type="radio" name="respuesta">
 No Cumple
 </label>
 
 <br><br>
 
 <label>
-<input type="radio" name="respuesta" value="No Aplica">
+<input type="radio" name="respuesta">
 No Aplica
 </label>
 
 <br><br>
 
-<textarea id="observacion" placeholder="Observaciones"></textarea>
+<textarea placeholder="Observaciones"></textarea>
 
 <br><br>
 
 <label>Evidencia fotográfica</label>
 
-<input type="file" id="foto" accept="image/*">
+<input type="file">
 
 <br><br>
 
-<button onclick="siguientePregunta()">
+<button onclick="alert('SIGUIENTE FUNCIONA')">
 Siguiente
 </button>
 
 `;
-
-}
-
-function siguientePregunta(){
-
-const respuesta = document.querySelector(
-'input[name="respuesta"]:checked'
-);
-
-if(!respuesta){
-
-alert(
-'Debe seleccionar una respuesta.'
-);
-
-return;
-
-}
-
-actual++;
-
-if(actual >= preguntas.length){
-
-document.getElementById("contenido").innerHTML = `
-
-<hr>
-
-<h2>Auditoría Finalizada</h2>
-
-<p>La prueba terminó correctamente.</p>
-
-`;
-
-return;
-
-}
-
-mostrarPregunta();
 
 }
 
