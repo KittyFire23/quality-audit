@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 <meta charset="UTF-8">
 <title>Auditorías AR</title>
@@ -8,34 +7,35 @@
 <style>
 
 body{
-    font-family:Arial,sans-serif;
-    background:#f4f4f4;
-    padding:20px;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    padding: 20px;
 }
 
 .card{
-    background:white;
-    padding:20px;
-    border-radius:10px;
-    max-width:700px;
-    margin:auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 700px;
+    margin: auto;
 }
 
 button{
-    width:100%;
-    padding:12px;
-    background:#0d6efd;
-    color:white;
-    border:none;
-    margin-top:10px;
-    cursor:pointer;
+    width: 100%;
+    padding: 12px;
+    background: #0d6efd;
+    color: white;
+    border: none;
+    margin-top: 10px;
+    cursor: pointer;
 }
 
 select,
-textarea{
-    width:100%;
-    padding:10px;
-    margin-top:10px;
+textarea,
+input[type="file"]{
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
 }
 
 </style>
@@ -100,11 +100,8 @@ const preguntas = [
 let actual = 0;
 
 function comenzarAuditoria(){
-
-actual = 0;
-
-mostrarPregunta();
-
+    actual = 0;
+    mostrarPregunta();
 }
 
 function mostrarPregunta(){
@@ -142,9 +139,7 @@ No Aplica
 
 <br><br>
 
-<label>
-Evidencia fotográfica
-</label>
+<label>Evidencia fotográfica</label>
 
 <input type="file" accept="image/*">
 
@@ -185,5 +180,4 @@ mostrarPregunta();
 </script>
 
 </body>
-
 </html>
