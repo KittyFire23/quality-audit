@@ -133,7 +133,9 @@ const preguntas = [
 ];
 
 let actual = 0;
-
+let cumple = 0;
+let noCumple = 0;
+let noAplica = 0;
 function comenzarAuditoria(){
     actual = 0;
     mostrarPregunta();
@@ -227,8 +229,17 @@ alert(
 return;
 
 }
+if(valor === 'Cumple'){
+    cumple++;
+}
+
 if(valor === 'No Cumple'){
+    noCumple++;
     hallazgos++;
+}
+
+if(valor === 'No Aplica'){
+    noAplica++;
 }
 actual++;
 
