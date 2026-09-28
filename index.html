@@ -225,6 +225,27 @@ return;
 mostrarPregunta();
 
 }
+actual++;
+
+if(actual >= preguntas.length){
+
+document.getElementById("contenido").innerHTML = `
+
+<hr>
+
+<h2>Auditoría Finalizada</h2>
+
+<p>Se completaron las ${preguntas.length} preguntas.</p>
+
+`;
+
+return;
+
+}
+
+mostrarPregunta();
+
+}
 
 mostrarPregunta();
 
