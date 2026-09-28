@@ -115,33 +115,33 @@ document.getElementById("contenido").innerHTML = `
 <p>${preguntas[actual]}</p>
 
 <label>
-<input type="radio" name="respuesta">
+<input type="radio" name="respuesta" value="Cumple">
 Cumple
 </label>
 
 <br><br>
 
 <label>
-<input type="radio" name="respuesta">
+<input type="radio" name="respuesta" value="No Cumple">
 No Cumple
 </label>
 
 <br><br>
 
 <label>
-<input type="radio" name="respuesta">
+<input type="radio" name="respuesta" value="No Aplica">
 No Aplica
 </label>
 
 <br><br>
 
-<textarea placeholder="Observaciones"></textarea>
+<textarea id="observacion" placeholder="Observaciones"></textarea>
 
 <br><br>
 
 <label>Evidencia fotográfica</label>
 
-<input type="file" accept="image/*">
+<input type="file" id="foto" accept="image/*">
 
 <br><br>
 
@@ -155,45 +155,14 @@ Siguiente
 
 function siguientePregunta(){
 
-actual++;
+const respuesta = document.querySelector(
+'input[name="respuesta"]:checked'
+);
 
-if(actual >= preguntas.length){
-
-document.getElementById("contenido").innerHTML = `
-
-<hr>
-
-<h2>Auditoría Finalizada</h2>
-
-<p>La prueba terminó correctamente.</p>
-
-`;
-
-return;
-
-}
-
-mostrarPregunta();
-
-}
-const respuesta = seleccion.parentElement.textContent.trim();
-
-const observacion =
-document.querySelector('textarea').value;
-
-const foto =
-document.querySelector('input[type="file"]').files.length;
-
-if(
-respuesta === 'No Cumple' &&
-(
-observacion.trim() === '' ||
-foto === 0
-)
-){
+if(!respuesta){
 
 alert(
-'Para No Cumple debe cargar observación y foto.'
+'Debe seleccionar una respuesta.'
 );
 
 return;
@@ -215,12 +184,6 @@ document.getElementById("contenido").innerHTML = `
 `;
 
 return;
-
-}
-
-mostrarPregunta();
-
-}
 
 }
 
