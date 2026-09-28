@@ -81,7 +81,7 @@ Comenzar Auditoría
 <div id="contenido"></div>
 
 </div>
-
+let hallazgos = 0;
 <script>
 
 const preguntas = [
@@ -227,7 +227,9 @@ alert(
 return;
 
 }
-
+if(valor === 'No Cumple'){
+    hallazgos++;
+}
 actual++;
 
 if(actual >= preguntas.length){
@@ -239,6 +241,10 @@ document.getElementById("contenido").innerHTML = `
 <h2>Auditoría Finalizada</h2>
 
 <p>Se completaron las ${preguntas.length} preguntas.</p>
+
+<p>
+Hallazgos detectados: ${hallazgos}
+</p>
 
 `;
 
