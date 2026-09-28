@@ -1,3 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Auditorías AR</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f4;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    max-width:800px;
+    margin:auto;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#0d6efd;
+    color:white;
+    border:none;
+    margin-top:10px;
+    cursor:pointer;
+}
+
+select,
+textarea,
+input[type=file]{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+}
+
+h2{
+    color:#0d6efd;
+}
+</style>
+
+</head>
+<body>
+
+<div class="card">
+
+<h1>Auditorías AR</h1>
+
+<label>Auditor</label>
+<select>
+<option>Diego Nuñez</option>
+<option>Sandra Lareu</option>
+<option>Nicolas Llacomotti</option>
+</select>
+
+<br><br>
+
+<label>Sector</label>
+<select>
+<option>Armado de Válvulas</option>
+<option>Prearmado</option>
+<option>Inyección 1</option>
+<option>Inyección 2</option>
+<option>Armado de Kosmos</option>
+<option>Armado de Pulsadores</option>
+<option>Sleeve</option>
+<option>Arandelado</option>
+<option>Extrusión</option>
+<option>Estampado</option>
+</select>
+
+<br><br>
+
+<button onclick="comenzarAuditoria()">
+Comenzar Auditoría
+</button>
+
+<div id="contenido"></div>
+
+</div>
+
 <script>
 
 const preguntas = [
@@ -5,7 +89,46 @@ const preguntas = [
 "¿Están las condiciones de seguridad contempladas?",
 "¿Están cerradas las puertas que dan al exterior?",
 "¿Se encuentran las paredes e instalaciones en estado adecuado?",
-"¿Están las zonas de tránsito libres de obstrucciones?"
+"¿Están las zonas de tránsito libres de obstrucciones?",
+
+"Respecto a los elementos vinculados a la limpieza: ¿están en un lugar designado?",
+"¿Está el área productiva libre de vasos de café, alimentos y pertenencias personales?",
+"Si existen productos químicos en el sector, ¿están correctamente identificados?",
+"¿Se encuentra el botiquín con los elementos indicados?",
+"¿Se evita la presencia de muebles o pallets deteriorados?",
+"¿Los carros de mantenimiento se encuentran en buen estado?",
+
+"¿Se verifican acrílicos o vidrios rotos?",
+"¿Los elementos cortopunzantes están correctamente ubicados?",
+"¿Se evita la acumulación de suciedad y residuos?",
+"¿El sector posee correcta iluminación y ausencia de goteras?",
+
+"¿Las máquinas están libres de elementos sueltos?",
+"¿Las partes mecánicas y eléctricas tienen protección?",
+"¿Las reparaciones temporarias están identificadas?",
+"¿Las máquinas están libres de pérdidas contaminantes?",
+"¿Se evita consumo innecesario de energía?",
+"¿Se evita la caída de materias primas y productos?",
+
+"¿No existen piezas de órdenes previas?",
+"¿El sector se encuentra ordenado?",
+"¿No existen vidrios o acrílicos rotos en máquinas?",
+
+"¿Los productos están correctamente identificados?",
+"¿Se evita la presencia de cajas pre-etiquetadas?",
+"¿No existen documentos de producciones anteriores?",
+"¿Coinciden las OIP cargadas arriba y abajo?",
+"¿Existe coincidencia entre etiquetas y sistema UNIX?",
+"¿Los materiales están en sus lugares designados?",
+"¿Los materiales están protegidos contra contaminación?",
+
+"¿Los materiales retenidos están segregados e identificados?",
+"¿No existen materiales fuera de especificación?",
+"¿Los contenedores están limpios y en buen estado?",
+
+"¿El personal utiliza los EPP requeridos?",
+"¿La ropa de trabajo está en buen estado?",
+"¿El personal evita elementos contaminantes y alimentos en el sector?"
 
 ];
 
@@ -77,7 +200,7 @@ document.getElementById("contenido").innerHTML = `
 
 <h2>Auditoría Finalizada</h2>
 
-<p>Se completaron todas las preguntas.</p>
+<p>Se completaron las ${preguntas.length} preguntas.</p>
 
 `;
 
@@ -85,3 +208,11 @@ return;
 
 }
 
+mostrarPregunta();
+
+}
+
+</script>
+
+</body>
+</html>
