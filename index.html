@@ -190,6 +190,20 @@ Siguiente
 
 function siguientePregunta(){
 
+const respuesta = document.querySelector(
+'input[name="respuesta"]:checked'
+);
+
+if(!respuesta){
+
+alert(
+'Debe seleccionar una respuesta antes de continuar.'
+);
+
+return;
+
+}
+
 actual++;
 
 if(actual >= preguntas.length){
@@ -205,6 +219,10 @@ document.getElementById("contenido").innerHTML = `
 `;
 
 return;
+
+}
+
+mostrarPregunta();
 
 }
 
