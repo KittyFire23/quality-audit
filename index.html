@@ -27,6 +27,7 @@ button{
     color:white;
     border:none;
     margin-top:10px;
+    cursor:pointer;
 }
 
 select,
@@ -76,9 +77,11 @@ Comenzar Auditoría
 <div id="contenido"></div>
 
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+
 const supabaseUrl = 'https://szjoqilrffchvqvjceym.supabase.co';
 
 const supabaseKey = 'sb_publishable_XjenDjK3p7wXqlDqDVyERg_N7PeEdzF';
@@ -87,25 +90,25 @@ const supabase = window.supabase.createClient(
   supabaseUrl,
   supabaseKey
 );
+
 let preguntas = [];
-`
+
 let actual = 0;
 
 async function comenzarAuditoria(){
 
 const { data, error } = await supabase
-.from('questions')
-.select('*')
-.order('position');
+  .from('questions')
+  .select('*')
+  .order('position');
 
 if(error){
 
-alert('Error cargando preguntas');
+  console.log(error);
 
-console.log(error);
+  alert('Error cargando preguntas');
 
-return;
-
+  return;
 }
 
 preguntas = data;
@@ -151,6 +154,8 @@ No Aplica
 
 <textarea placeholder="Observaciones"></textarea>
 
+<br><br>
+
 <button onclick="siguientePregunta()">
 Siguiente
 </button>
@@ -166,9 +171,13 @@ actual++;
 if(actual >= preguntas.length){
 
 document.getElementById("contenido").innerHTML = `
+
 <hr>
+
 <h2>Auditoría Finalizada</h2>
-<p>La prueba terminó correctamente.</p>
+
+<p>Se recorrieron todas las preguntas.</p>
+
 `;
 
 return;
