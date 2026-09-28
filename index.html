@@ -155,6 +155,44 @@ Siguiente
 
 function siguientePregunta(){
 
+const seleccion = document.querySelector(
+'input[name="respuesta"]:checked'
+);
+
+if(!seleccion){
+
+alert(
+'Debe seleccionar Cumple, No Cumple o No Aplica'
+);
+
+return;
+
+}
+
+const respuesta = seleccion.parentElement.textContent.trim();
+
+const observacion =
+document.querySelector('textarea').value;
+
+const foto =
+document.querySelector('input[type="file"]').files.length;
+
+if(
+respuesta === 'No Cumple' &&
+(
+observacion.trim() === '' ||
+foto === 0
+)
+){
+
+alert(
+'Para No Cumple debe cargar observación y foto.'
+);
+
+return;
+
+}
+
 actual++;
 
 if(actual >= preguntas.length){
@@ -170,6 +208,12 @@ document.getElementById("contenido").innerHTML = `
 `;
 
 return;
+
+}
+
+mostrarPregunta();
+
+}
 
 }
 
