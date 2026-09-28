@@ -101,27 +101,6 @@ alert("Botón funcionando");
 
 }
 
-const { data, error } = await supabase
-  .from('questions')
-  .select('*')
-  .order('position');
-
-if(error){
-
-  console.log(error);
-
-  alert('Error cargando preguntas');
-
-  return;
-}
-
-preguntas = data;
-
-actual = 0;
-
-mostrarPregunta();
-
-}
 
 function mostrarPregunta(){
 
