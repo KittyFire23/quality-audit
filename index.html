@@ -1,30 +1,189 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
+
 <head>
-<title>Prueba</title>
+<meta charset="UTF-8">
+<title>Auditorías AR</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f4f4;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    max-width:700px;
+    margin:auto;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#0d6efd;
+    color:white;
+    border:none;
+    margin-top:10px;
+    cursor:pointer;
+}
+
+select,
+textarea{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+}
+
+</style>
+
 </head>
 
 <body>
 
+<div class="card">
+
 <h1>Auditorías AR</h1>
 
-<button onclick=">
+<label>Auditor</label>
+
+<select>
+<option>Diego Nuñez</option>
+<option>Sandra Lareu</option>
+<option>Nicolas Llacomotti</option>
+</select>
+
+<br><br>
+
+<label>Sector</label>
+
+<select>
+<option>Armado de Válvulas</option>
+<option>Prearmado</option>
+<option>Inyección 1</option>
+<option>Inyección 2</option>
+<option>Armado de Kosmos</option>
+<option>Armado de Pulsadores</option>
+<option>Sleeve</option>
+<option>Arandelado</option>
+<option>Extrusión</option>
+<option>Estampado</option>
+</select>
+
+<br><br>
+
+<button onclick="comenzarAuditoria()">
 Comenzar Auditoría
 </button>
 
 <div id="contenido"></div>
 
+</div>
+
 <script>
 
-function prueba(){
+const preguntas = [
+
+"¿Están las condiciones de seguridad contempladas?",
+
+"¿Están cerradas las puertas que dan al exterior?",
+
+"¿Se encuentran las paredes e instalaciones en estado adecuado?",
+
+"¿Están las zonas de tránsito libres de obstrucciones?"
+
+];
+
+let actual = 0;
+
+function comenzarAuditoria(){
+
+actual = 0;
+
+mostrarPregunta();
+
+}
+
+function mostrarPregunta(){
 
 document.getElementById("contenido").innerHTML = `
-<h2>FUNCIONA</h2>
+
+<hr>
+
+<h2>Pregunta ${actual + 1} de ${preguntas.length}</h2>
+
+<p>${preguntas[actual]}</p>
+
+<label>
+<input type="radio" name="respuesta">
+Cumple
+</label>
+
+<br><br>
+
+<label>
+<input type="radio" name="respuesta">
+No Cumple
+</label>
+
+<br><br>
+
+<label>
+<input type="radio" name="respuesta">
+No Aplica
+</label>
+
+<br><br>
+
+<textarea placeholder="Observaciones"></textarea>
+
+<br><br>
+
+<label>
+Evidencia fotográfica
+</label>
+
+<input type="file" accept="image/*">
+
+<br><br>
+
+<button onclick="siguientePregunta()">
+Siguiente
+</button>
+
 `;
+
+}
+
+function siguientePregunta(){
+
+actual++;
+
+if(actual >= preguntas.length){
+
+document.getElementById("contenido").innerHTML = `
+
+<hr>
+
+<h2>Auditoría Finalizada</h2>
+
+<p>La prueba terminó correctamente.</p>
+
+`;
+
+return;
+
+}
+
+mostrarPregunta();
 
 }
 
 </script>
 
 </body>
+
 </html>
