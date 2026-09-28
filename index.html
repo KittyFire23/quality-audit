@@ -251,14 +251,17 @@ document.getElementById("contenido").innerHTML = `
 
 <h2>Auditoría Finalizada</h2>
 
-<p>Se completaron las ${preguntas.length} preguntas.</p>
+<p><b>Total de preguntas:</b> ${preguntas.length}</p>
 
-<p>
-Hallazgos detectados: ${hallazgos}
-</p>
+<p><b>Cumple:</b> ${cumple}</p>
+
+<p><b>No Cumple:</b> ${noCumple}</p>
+
+<p><b>No Aplica:</b> ${noAplica}</p>
+
+<p><b>Hallazgos detectados:</b> ${hallazgos}</p>
 
 `;
-
 return;
 
 }
