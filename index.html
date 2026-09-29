@@ -2276,17 +2276,19 @@ tr:hover td{
                 </div>
 
                 <div
-                    id="resultAuditMeta"
-                    class="audit-meta"
-                    style="margin-top:10px;">
-                </div>
+    id="resultAuditMeta"
+    class="audit-meta"
+    style="margin-top:10px;">
+</div>
 
-            </div>
+<div
+    id="resultExecutiveSummary">
+</div>
 
+<div
+    id="resultStatus">
+</div>
 
-            <div
-                id="resultStatus">
-            </div>
 
         </div>
 
@@ -5620,7 +5622,38 @@ function renderResult(audit){
 
     `;
 
+document.getElementById(
+    "resultExecutiveSummary"
+).innerHTML = `
 
+    <div class="executive-summary">
+
+        <h3>
+            Resumen Ejecutivo
+        </h3>
+
+        <p>
+
+            La auditoría obtuvo un resultado de
+            <strong>
+                ${formatNumber(result.porcentaje)}%
+            </strong>.
+
+            Se detectaron
+            <strong>
+                ${result.hallazgos}
+            </strong>
+            hallazgos sobre un total de
+            <strong>
+                ${result.cumple + result.noCumple}
+            </strong>
+            verificaciones.
+
+        </p>
+
+    </div>
+
+`;
     const percentage =
         result.porcentaje === null
             ? 0
