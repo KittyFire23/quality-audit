@@ -1,117 +1,450 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
 <meta charset="UTF-8">
-<title>Auditorías AR</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sistema de Auditorías AR</title>
 
 <style>
-.kpi{
 
-    background:white;
-    border-radius:15px;
-    padding:25px;
-    margin-top:20px;
-    text-align:center;
-    box-shadow:0 4px 15px rgba(0,0,0,0.1);
-
-}
-
-.kpi-numero{
-
-    font-size:48px;
-    font-weight:bold;
-    color:#0d6efd;
-
-}
-
-.estado-verde{
-
-    color:#198754;
-    font-weight:bold;
-
-}
-
-.estado-amarillo{
-
-    color:#ffc107;
-    font-weight:bold;
-
-}
-
-.estado-rojo{
-
-    color:#dc3545;
-    font-weight:bold;
-
+*{
+    box-sizing:border-box;
 }
 
 body{
-    font-family: 'Segoe UI', sans-serif;
+    font-family:'Segoe UI',Arial,sans-serif;
     background:#eef2f7;
-    padding:20px;
     margin:0;
+    padding:20px;
+    color:#212529;
 }
-
 
 .card{
     background:white;
+    max-width:1000px;
+    margin:auto;
     padding:30px;
     border-radius:20px;
-    max-width:900px;
-    margin:auto;
-    box-shadow:0 8px 25px rgba(0,0,0,0.12);
+    box-shadow:0 8px 25px rgba(0,0,0,.12);
+}
+
+.header{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.header h1{
+    color:#0d6efd;
+    margin-bottom:5px;
+}
+
+.header p{
+    color:#6c757d;
+    margin-top:0;
+}
+
+label{
+    font-weight:600;
+}
+
+select,
+textarea,
+input[type="text"],
+input[type="file"]{
+    width:100%;
+    padding:12px;
+    margin-top:8px;
+    border:1px solid #ced4da;
+    border-radius:10px;
+    font-size:15px;
+}
+
+textarea{
+    min-height:100px;
+    resize:vertical;
 }
 
 button{
     width:100%;
-    padding:15px;
+    padding:14px;
     background:#0d6efd;
     color:white;
     border:none;
-    border-radius:12px;
+    border-radius:10px;
     font-size:16px;
     font-weight:bold;
-    margin-top:10px;
+    margin-top:12px;
     cursor:pointer;
-    transition:0.3s;
+    transition:.2s;
 }
 
 button:hover{
     background:#0b5ed7;
 }
 
-select,
-textarea,
-input[type=file]{
-    width:100%;
-    padding:10px;
-    margin-top:10px;
+button.secondary{
+    background:#6c757d;
 }
 
-h2{
+button.secondary:hover{
+    background:#5c636a;
+}
+
+button.success{
+    background:#198754;
+}
+
+button.success:hover{
+    background:#157347;
+}
+
+button.danger{
+    background:#dc3545;
+}
+
+button.danger:hover{
+    background:#bb2d3b;
+}
+
+button.warning{
+    background:#ffc107;
+    color:#212529;
+}
+
+.config-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+@media(max-width:700px){
+    .config-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+.progress-container{
+    margin:20px 0;
+}
+
+.progress-info{
+    display:flex;
+    justify-content:space-between;
+    font-size:14px;
+    color:#6c757d;
+    margin-bottom:7px;
+}
+
+.progress-bar{
+    width:100%;
+    height:14px;
+    background:#dee2e6;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    background:#0d6efd;
+    transition:.3s;
+}
+
+.question-card{
+    border:1px solid #dee2e6;
+    border-radius:15px;
+    padding:25px;
+    margin-top:20px;
+    background:#fafbfc;
+}
+
+.question-number{
+    color:#0d6efd;
+    font-weight:bold;
+    font-size:14px;
+}
+
+.question-text{
+    font-size:20px;
+    font-weight:600;
+    margin:15px 0 25px;
+}
+
+.respuestas{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+@media(max-width:650px){
+    .respuestas{
+        grid-template-columns:1fr;
+    }
+}
+
+.respuesta{
+    border:2px solid #dee2e6;
+    border-radius:12px;
+    padding:15px;
+    cursor:pointer;
+    background:white;
+    text-align:center;
+    transition:.2s;
+}
+
+.respuesta:hover{
+    border-color:#0d6efd;
+}
+
+.respuesta input{
+    display:none;
+}
+
+.respuesta.seleccionada{
+    border-color:#0d6efd;
+    background:#e7f1ff;
+}
+
+.observacion{
+    margin-top:25px;
+}
+
+.evidencia{
+    margin-top:20px;
+}
+
+.preview{
+    margin-top:10px;
+    max-width:250px;
+    max-height:180px;
+    border-radius:10px;
+    display:none;
+    object-fit:cover;
+    border:1px solid #ced4da;
+}
+
+.acciones{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:20px;
+}
+
+@media(max-width:600px){
+    .acciones{
+        grid-template-columns:1fr;
+    }
+}
+
+.kpis{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-top:25px;
+}
+
+@media(max-width:750px){
+    .kpis{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:450px){
+    .kpis{
+        grid-template-columns:1fr;
+    }
+}
+
+.kpi{
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    text-align:center;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+.kpi-numero{
+    font-size:36px;
+    font-weight:bold;
+    margin-top:5px;
+}
+
+.verde{
+    color:#198754;
+}
+
+.rojo{
+    color:#dc3545;
+}
+
+.amarillo{
+    color:#ffc107;
+}
+
+.azul{
     color:#0d6efd;
 }
+
+.cumplimiento{
+    background:white;
+    border-radius:15px;
+    padding:25px;
+    margin-top:25px;
+    text-align:center;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+.cumplimiento-numero{
+    font-size:60px;
+    font-weight:bold;
+    color:#0d6efd;
+}
+
+.big-progress{
+    width:100%;
+    height:25px;
+    background:#dee2e6;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:15px;
+}
+
+.big-progress-fill{
+    height:100%;
+    transition:.5s;
+}
+
+.estado{
+    display:inline-block;
+    padding:8px 18px;
+    border-radius:20px;
+    font-weight:bold;
+    margin-top:15px;
+}
+
+.estado.aprobada{
+    background:#d1e7dd;
+    color:#0f5132;
+}
+
+.estado.observada{
+    background:#fff3cd;
+    color:#664d03;
+}
+
+.estado.rechazada{
+    background:#f8d7da;
+    color:#842029;
+}
+
+.hallazgo{
+    border-left:5px solid #dc3545;
+    background:#fff5f5;
+    padding:15px;
+    margin-top:12px;
+    border-radius:8px;
+}
+
+.hallazgo h4{
+    margin:0 0 8px;
+    color:#dc3545;
+}
+
+.meta{
+    background:#f8f9fa;
+    border-radius:12px;
+    padding:15px;
+    margin-top:20px;
+}
+
+.meta-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+@media(max-width:600px){
+    .meta-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+.hidden{
+    display:none;
+}
+
+hr{
+    border:none;
+    border-top:1px solid #dee2e6;
+    margin:30px 0;
+}
+
+@media print{
+
+    body{
+        background:white;
+        padding:0;
+    }
+
+    .card{
+        box-shadow:none;
+        max-width:none;
+    }
+
+    button,
+    .acciones{
+        display:none !important;
+    }
+
+}
+
 </style>
 
 </head>
+
 <body>
 
 <div class="card">
 
+<div class="header">
+
 <h1>Auditorías AR</h1>
+
+<p>Sistema de auditorías de calidad y BPM</p>
+
+</div>
+
+
+<!-- CONFIGURACIÓN -->
+
+<div id="configuracion">
+
+<h2>Datos de la auditoría</h2>
+
+<div class="config-grid">
+
+<div>
 
 <label>Auditor</label>
 
 <select id="auditor">
+
 <option>Diego Nuñez</option>
 <option>Sandra Lareu</option>
 <option>Nicolas Llacomotti</option>
+
 </select>
 
-<br><br>
+</div>
+
+
+<div>
 
 <label>Sector</label>
+
 <select id="sector">
+
 <option>Armado de Válvulas</option>
 <option>Prearmado</option>
 <option>Inyección 1</option>
@@ -122,247 +455,1007 @@ h2{
 <option>Arandelado</option>
 <option>Extrusión</option>
 <option>Estampado</option>
+
 </select>
 
-<br><br>
+</div>
+
+</div>
+
+
+<div class="config-grid" style="margin-top:20px;">
+
+<div>
+
+<label>Orden / referencia de auditoría</label>
+
+<input
+type="text"
+id="referencia"
+placeholder="Ej.: AUD-2026-001"
+>
+
+</div>
+
+
+<div>
+
+<label>Tipo de auditoría</label>
+
+<select id="tipoAuditoria">
+
+<option>Auditoría BPM</option>
+<option>Auditoría de Calidad</option>
+<option>Auditoría de Orden y Limpieza</option>
+<option>Auditoría de Seguridad</option>
+<option>Auditoría Interna</option>
+
+</select>
+
+</div>
+
+</div>
+
 
 <button onclick="comenzarAuditoria()">
-Comenzar Auditoría
+▶ Comenzar Auditoría
 </button>
+
+</div>
+
+
+<!-- CONTENIDO -->
 
 <div id="contenido"></div>
 
 </div>
 
+
 <script>
-let hallazgos = 0;
+
+
+/* =========================
+   PREGUNTAS
+========================= */
+
 const preguntas = [
 
 "¿Están las condiciones de seguridad contempladas?",
+
 "¿Están cerradas las puertas que dan al exterior?",
+
 "¿Se encuentran las paredes e instalaciones en estado adecuado?",
+
 "¿Están las zonas de tránsito libres de obstrucciones?",
 
 "Respecto a los elementos vinculados a la limpieza: ¿están en un lugar designado?",
+
 "¿Está el área productiva libre de vasos de café, alimentos y pertenencias personales?",
+
 "Si existen productos químicos en el sector, ¿están correctamente identificados?",
+
 "¿Se encuentra el botiquín con los elementos indicados?",
+
 "¿Se evita la presencia de muebles o pallets deteriorados?",
+
 "¿Los carros de mantenimiento se encuentran en buen estado?",
 
 "¿Se verifican acrílicos o vidrios rotos?",
+
 "¿Los elementos cortopunzantes están correctamente ubicados?",
+
 "¿Se evita la acumulación de suciedad y residuos?",
+
 "¿El sector posee correcta iluminación y ausencia de goteras?",
 
 "¿Las máquinas están libres de elementos sueltos?",
+
 "¿Las partes mecánicas y eléctricas tienen protección?",
+
 "¿Las reparaciones temporarias están identificadas?",
+
 "¿Las máquinas están libres de pérdidas contaminantes?",
+
 "¿Se evita consumo innecesario de energía?",
+
 "¿Se evita la caída de materias primas y productos?",
 
 "¿No existen piezas de órdenes previas?",
+
 "¿El sector se encuentra ordenado?",
+
 "¿No existen vidrios o acrílicos rotos en máquinas?",
 
 "¿Los productos están correctamente identificados?",
+
 "¿Se evita la presencia de cajas pre-etiquetadas?",
+
 "¿No existen documentos de producciones anteriores?",
+
 "¿Coinciden las OIP cargadas arriba y abajo?",
+
 "¿Existe coincidencia entre etiquetas y sistema UNIX?",
+
 "¿Los materiales están en sus lugares designados?",
+
 "¿Los materiales están protegidos contra contaminación?",
 
 "¿Los materiales retenidos están segregados e identificados?",
+
 "¿No existen materiales fuera de especificación?",
+
 "¿Los contenedores están limpios y en buen estado?",
 
 "¿El personal utiliza los EPP requeridos?",
+
 "¿La ropa de trabajo está en buen estado?",
+
 "¿El personal evita elementos contaminantes y alimentos en el sector?"
 
 ];
 
+
+/* =========================
+   VARIABLES
+========================= */
+
 let actual = 0;
-let cumple = 0;
-let noCumple = 0;
-let noAplica = 0;
+
+let respuestas = [];
+
+let auditoria = {};
+
+
+/* =========================
+   COMENZAR
+========================= */
+
 function comenzarAuditoria(){
+
     actual = 0;
+
+    respuestas = [];
+
+    auditoria = {
+
+        id:
+        "AUD-" +
+        Date.now(),
+
+        fecha:
+        new Date().toLocaleDateString("es-AR"),
+
+        hora:
+        new Date().toLocaleTimeString("es-AR"),
+
+        auditor:
+        document.getElementById("auditor").value,
+
+        sector:
+        document.getElementById("sector").value,
+
+        referencia:
+        document.getElementById("referencia").value.trim(),
+
+        tipo:
+        document.getElementById("tipoAuditoria").value
+
+    };
+
+    document.getElementById("configuracion").classList.add("hidden");
+
     mostrarPregunta();
+
 }
+
+
+/* =========================
+   MOSTRAR PREGUNTA
+========================= */
 
 function mostrarPregunta(){
 
-document.getElementById("contenido").innerHTML = `
+    const contenido =
+    document.getElementById("contenido");
 
-<hr>
+    const progreso =
+    Math.round(
+        (actual / preguntas.length) * 100
+    );
 
-<h2>Pregunta ${actual + 1} de ${preguntas.length}</h2>
+    const respuestaAnterior =
+    respuestas[actual] || null;
 
-<p>${preguntas[actual]}</p>
 
-<label>
-<input type="radio" name="respuesta">
-Cumple
-</label>
+    contenido.innerHTML = `
 
-<br><br>
+    <div class="progress-container">
 
-<label>
-<input type="radio" name="respuesta">
-No Cumple
-</label>
+        <div class="progress-info">
 
-<br><br>
+            <span>
+            Pregunta ${actual + 1}
+            de ${preguntas.length}
+            </span>
 
-<label>
-<input type="radio" name="respuesta">
-No Aplica
-</label>
+            <span>
+            ${progreso}%
+            </span>
 
-<br><br>
+        </div>
 
-<textarea placeholder="Observaciones"></textarea>
+        <div class="progress-bar">
 
-<br><br>
+            <div
+            class="progress-fill"
+            style="width:${progreso}%">
+            </div>
 
-<label>Evidencia fotográfica</label>
+        </div>
 
-<input type="file" accept="image/*">
+    </div>
 
-<br><br>
 
-<button onclick="siguientePregunta()">
-Siguiente
-</button>
+    <div class="question-card">
 
-`;
+        <div class="question-number">
+        PREGUNTA ${actual + 1}
+        </div>
+
+        <div class="question-text">
+        ${preguntas[actual]}
+        </div>
+
+
+        <div class="respuestas">
+
+
+            <label
+            class="respuesta ${
+                respuestaAnterior &&
+                respuestaAnterior.valor === "Cumple"
+                ? "seleccionada" : ""
+            }">
+
+                <input
+                type="radio"
+                name="respuesta"
+                value="Cumple"
+                ${
+                    respuestaAnterior &&
+                    respuestaAnterior.valor === "Cumple"
+                    ? "checked" : ""
+                }>
+
+                ✓ Cumple
+
+            </label>
+
+
+            <label
+            class="respuesta ${
+                respuestaAnterior &&
+                respuestaAnterior.valor === "No Cumple"
+                ? "seleccionada" : ""
+            }">
+
+                <input
+                type="radio"
+                name="respuesta"
+                value="No Cumple"
+                ${
+                    respuestaAnterior &&
+                    respuestaAnterior.valor === "No Cumple"
+                    ? "checked" : ""
+                }>
+
+                ✕ No Cumple
+
+            </label>
+
+
+            <label
+            class="respuesta ${
+                respuestaAnterior &&
+                respuestaAnterior.valor === "No Aplica"
+                ? "seleccionada" : ""
+            }">
+
+                <input
+                type="radio"
+                name="respuesta"
+                value="No Aplica"
+                ${
+                    respuestaAnterior &&
+                    respuestaAnterior.valor === "No Aplica"
+                    ? "checked" : ""
+                }>
+
+                — No Aplica
+
+            </label>
+
+        </div>
+
+
+        <div class="observacion">
+
+            <label>
+            Observaciones
+            </label>
+
+            <textarea
+            id="observacion"
+            placeholder="Ingrese observaciones, detalles o acciones requeridas..."
+            >${respuestaAnterior ? respuestaAnterior.observacion : ""}</textarea>
+
+        </div>
+
+
+        <div class="evidencia">
+
+            <label>
+            Evidencia fotográfica
+            </label>
+
+            <input
+            type="file"
+            id="foto"
+            accept="image/*"
+            capture="environment"
+            onchange="previsualizarFoto()"
+            >
+
+            <img
+            id="preview"
+            class="preview"
+            >
+
+        </div>
+
+
+        <div class="acciones">
+
+            ${
+                actual > 0
+                ?
+                `<button
+                class="secondary"
+                onclick="preguntaAnterior()">
+                ← Anterior
+                </button>`
+                :
+                `<div></div>`
+            }
+
+            <button
+            onclick="siguientePregunta()">
+            ${
+                actual === preguntas.length - 1
+                ? "Finalizar Auditoría"
+                : "Siguiente →"
+            }
+            </button>
+
+        </div>
+
+    </div>
+
+    `;
+
+
+    document
+    .querySelectorAll(".respuesta")
+    .forEach(elemento => {
+
+        elemento.addEventListener(
+            "click",
+            function(){
+
+                document
+                .querySelectorAll(".respuesta")
+                .forEach(x =>
+                    x.classList.remove("seleccionada")
+                );
+
+                this.classList.add("seleccionada");
+
+            }
+        );
+
+    });
 
 }
+
+
+/* =========================
+   FOTO
+========================= */
+
+function previsualizarFoto(){
+
+    const archivo =
+    document.getElementById("foto").files[0];
+
+    const preview =
+    document.getElementById("preview");
+
+    if(!archivo){
+
+        preview.style.display="none";
+
+        return;
+
+    }
+
+    const lector =
+    new FileReader();
+
+    lector.onload = function(e){
+
+        preview.src = e.target.result;
+
+        preview.style.display="block";
+
+    };
+
+    lector.readAsDataURL(archivo);
+
+}
+
+
+/* =========================
+   SIGUIENTE
+========================= */
 
 function siguientePregunta(){
 
-const respuesta = document.querySelector(
-'input[name="respuesta"]:checked'
-);
+    const respuesta =
+    document.querySelector(
+        'input[name="respuesta"]:checked'
+    );
 
-if(!respuesta){
 
-alert(
-'Debe seleccionar una respuesta antes de continuar.'
-);
+    if(!respuesta){
 
-return;
+        alert(
+            "Debe seleccionar Cumple, No Cumple o No Aplica."
+        );
 
-}
+        return;
 
-const valor = respuesta.parentElement.textContent.trim();
+    }
 
-const observacion =
-document.querySelector('textarea').value.trim();
 
-const foto =
-document.querySelector('input[type="file"]').files.length;
+    const valor =
+    respuesta.value;
 
-if(
-valor === 'No Cumple' &&
-(
-observacion === '' ||
-foto === 0
-)
-){
 
-alert(
-'Para un No Cumple debe cargar observación y evidencia fotográfica.'
-);
+    const observacion =
+    document
+    .getElementById("observacion")
+    .value
+    .trim();
 
-return;
 
-}
-if(valor === 'Cumple'){
-    cumple++;
-}
+    const archivo =
+    document
+    .getElementById("foto")
+    .files[0];
 
-if(valor === 'No Cumple'){
-    noCumple++;
-    hallazgos++;
-}
 
-if(valor === 'No Aplica'){
-    noAplica++;
-}
-actual++;
+    /*
+    Para NO CUMPLE:
+    observación obligatoria
+    y foto obligatoria
+    */
 
-if(actual >= preguntas.length){
+    if(
+        valor === "No Cumple" &&
+        (
+            observacion === "" ||
+            !archivo
+        )
+    ){
 
-const auditor =
-document.getElementById("auditor").value;
+        alert(
+            "Para un NO CUMPLE debe ingresar una observación y adjuntar evidencia fotográfica."
+        );
 
-const sector =
-document.getElementById("sector").value;
+        return;
 
-const porcentaje =
-(
-(cumple / (cumple + noCumple))
-* 100
-).toFixed(2);
+    }
 
-document.getElementById("contenido").innerHTML = `
 
-<hr>
+    respuestas[actual] = {
 
-<h2>Auditoría Finalizada</h2>
+        pregunta:
+        preguntas[actual],
 
-<p><b>Auditor:</b> ${auditor}</p>
+        valor:
+        valor,
 
-<p><b>Sector:</b> ${sector}</p>
+        observacion:
+        observacion,
 
-<p><b>Total de preguntas:</b> ${preguntas.length}</p>
+        evidencia:
+        archivo ? archivo.name : ""
 
-<p><b>Cumple:</b> ${cumple}</p>
+    };
 
-<p><b>No Cumple:</b> ${noCumple}</p>
 
-<p><b>No Aplica:</b> ${noAplica}</p>
+    actual++;
 
-<p><b>Hallazgos detectados:</b> ${hallazgos}</p>
 
-<div class="kpi">
+    if(actual >= preguntas.length){
 
-<div>CUMPLIMIENTO</div>
+        finalizarAuditoria();
 
-<div class="kpi-numero">
-${porcentaje}%
-</div>
+        return;
 
-</div>
+    }
 
-`;
-<div style="
-background:#dee2e6;
-height:25px;
-border-radius:15px;
-overflow:hidden;
-margin-top:15px;
-">
 
-<div style="
-background:#198754;
-width:${porcentaje}%;
-height:100%;
-">
-</div>
-
-</div>
-return;
+    mostrarPregunta();
 
 }
 
-mostrarPregunta();
+
+/* =========================
+   ANTERIOR
+========================= */
+
+function preguntaAnterior(){
+
+    if(actual > 0){
+
+        actual--;
+
+        mostrarPregunta();
+
+    }
 
 }
+
+
+/* =========================
+   FINALIZAR
+========================= */
+
+function finalizarAuditoria(){
+
+    let cumple = 0;
+    let noCumple = 0;
+    let noAplica = 0;
+
+
+    respuestas.forEach(r => {
+
+        if(r.valor === "Cumple")
+            cumple++;
+
+        if(r.valor === "No Cumple")
+            noCumple++;
+
+        if(r.valor === "No Aplica")
+            noAplica++;
+
+    });
+
+
+    const evaluables =
+    cumple + noCumple;
+
+
+    const porcentaje =
+    evaluables > 0
+    ?
+    ((cumple / evaluables) * 100).toFixed(2)
+    :
+    "0.00";
+
+
+    let estado;
+
+
+    if(noCumple === 0){
+
+        estado = "APROBADA";
+
+    }
+    else if(porcentaje >= 90){
+
+        estado = "OBSERVADA";
+
+    }
+    else{
+
+        estado = "RECHAZADA";
+
+    }
+
+
+    auditoria.cumple = cumple;
+
+    auditoria.noCumple = noCumple;
+
+    auditoria.noAplica = noAplica;
+
+    auditoria.porcentaje = porcentaje;
+
+    auditoria.estado = estado;
+
+    auditoria.respuestas = respuestas;
+
+
+    guardarAuditoria();
+
+
+    mostrarResultado();
+
+}
+
+
+/* =========================
+   GUARDAR
+========================= */
+
+function guardarAuditoria(){
+
+    let auditorias =
+    JSON.parse(
+        localStorage.getItem("auditoriasAR")
+    ) || [];
+
+
+    auditorias.push(auditoria);
+
+
+    localStorage.setItem(
+        "auditoriasAR",
+        JSON.stringify(auditorias)
+    );
+
+}
+
+
+/* =========================
+   RESULTADO
+========================= */
+
+function mostrarResultado(){
+
+    const porcentaje =
+    parseFloat(auditoria.porcentaje);
+
+
+    let claseBarra =
+    "background:#198754";
+
+
+    if(porcentaje < 90){
+
+        claseBarra =
+        "background:#ffc107";
+
+    }
+
+    if(porcentaje < 70){
+
+        claseBarra =
+        "background:#dc3545";
+
+    }
+
+
+    let hallazgosHTML = "";
+
+
+    respuestas.forEach((r,index) => {
+
+        if(r.valor === "No Cumple"){
+
+            hallazgosHTML += `
+
+            <div class="hallazgo">
+
+                <h4>
+                Hallazgo ${index + 1}
+                </h4>
+
+                <strong>
+                Pregunta:
+                </strong>
+
+                ${r.pregunta}
+
+                <br><br>
+
+                <strong>
+                Observación:
+                </strong>
+
+                ${r.observacion}
+
+                <br><br>
+
+                <strong>
+                Evidencia:
+                </strong>
+
+                ${r.evidencia}
+
+            </div>
+
+            `;
+
+        }
+
+    });
+
+
+    document.getElementById("contenido").innerHTML = `
+
+    <hr>
+
+    <h2>
+    Auditoría Finalizada
+    </h2>
+
+
+    <div class="meta">
+
+        <div class="meta-grid">
+
+            <div>
+            <strong>ID:</strong>
+            ${auditoria.id}
+            </div>
+
+            <div>
+            <strong>Referencia:</strong>
+            ${auditoria.referencia || "Sin referencia"}
+            </div>
+
+            <div>
+            <strong>Auditor:</strong>
+            ${auditoria.auditor}
+            </div>
+
+            <div>
+            <strong>Sector:</strong>
+            ${auditoria.sector}
+            </div>
+
+            <div>
+            <strong>Tipo:</strong>
+            ${auditoria.tipo}
+            </div>
+
+            <div>
+            <strong>Fecha:</strong>
+            ${auditoria.fecha}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="kpis">
+
+
+        <div class="kpi">
+
+            <div>
+            Total
+            </div>
+
+            <div class="kpi-numero azul">
+            ${preguntas.length}
+            </div>
+
+        </div>
+
+
+        <div class="kpi">
+
+            <div>
+            Cumple
+            </div>
+
+            <div class="kpi-numero verde">
+            ${auditoria.cumple}
+            </div>
+
+        </div>
+
+
+        <div class="kpi">
+
+            <div>
+            No Cumple
+            </div>
+
+            <div class="kpi-numero rojo">
+            ${auditoria.noCumple}
+            </div>
+
+        </div>
+
+
+        <div class="kpi">
+
+            <div>
+            No Aplica
+            </div>
+
+            <div class="kpi-numero amarillo">
+            ${auditoria.noAplica}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="cumplimiento">
+
+        <div>
+        PORCENTAJE DE CUMPLIMIENTO
+        </div>
+
+        <div class="cumplimiento-numero">
+
+        ${auditoria.porcentaje}%
+
+        </div>
+
+
+        <div class="big-progress">
+
+            <div
+            class="big-progress-fill"
+            style="
+            width:${auditoria.porcentaje}%;
+            ${claseBarra};
+            ">
+            </div>
+
+        </div>
+
+
+        <div class="estado ${
+            auditoria.estado === "APROBADA"
+            ? "aprobada"
+            :
+            auditoria.estado === "OBSERVADA"
+            ? "observada"
+            :
+            "rechazada"
+        }">
+
+        ${auditoria.estado}
+
+        </div>
+
+    </div>
+
+
+    <hr>
+
+
+    <h2>
+    Hallazgos
+    </h2>
+
+
+    ${
+        hallazgosHTML ||
+        `
+        <div class="kpi">
+        ✓ No se detectaron No Cumple.
+        </div>
+        `
+    }
+
+
+    <div class="acciones">
+
+        <button
+        class="success"
+        onclick="window.print()">
+
+        🖨 Imprimir / Guardar PDF
+
+        </button>
+
+
+        <button
+        class="secondary"
+        onclick="nuevaAuditoria()">
+
+        ↻ Nueva Auditoría
+
+        </button>
+
+    </div>
+
+
+    <button
+    class="warning"
+    onclick="exportarJSON()">
+
+    Exportar Auditoría
+
+    </button>
+
+    `;
+
+}
+
+
+/* =========================
+   NUEVA AUDITORÍA
+========================= */
+
+function nuevaAuditoria(){
+
+    document
+    .getElementById("configuracion")
+    .classList.remove("hidden");
+
+    document
+    .getElementById("contenido")
+    .innerHTML = "";
+
+}
+
+
+/* =========================
+   EXPORTAR JSON
+========================= */
+
+function exportarJSON(){
+
+    const datos =
+    JSON.stringify(
+        auditoria,
+        null,
+        2
+    );
+
+
+    const blob =
+    new Blob(
+        [datos],
+        {
+            type:"application/json"
+        }
+    );
+
+
+    const url =
+    URL.createObjectURL(blob);
+
+
+    const a =
+    document.createElement("a");
+
+
+    a.href = url;
+
+    a.download =
+    `${auditoria.id}.json`;
+
+
+    a.click();
+
+
+    URL.revokeObjectURL(url);
+
+}
+
 </script>
 
 </body>
