@@ -9493,6 +9493,54 @@ return data;
     return data.publicUrl;
 
 }
+   async function uploadPhotoToSupabase(
+    base64Photo,
+    auditId,
+    questionId
+){
+
+    if(!base64Photo){
+        return null;
+    }
+
+    const fileName =
+        `${auditId}_${questionId}_${Date.now()}.jpg`;
+
+    const response =
+        await fetch(base64Photo);
+
+    const blob =
+        await response.blob();
+
+    const { error } =
+        await supabaseClient
+            .storage
+            .from("auditorias")
+            .upload(
+                fileName,
+                blob,
+                {
+                    upsert: true
+                }
+            );
+
+    if(error){
+        throw error;
+    }
+
+    const {
+        data
+    } =
+        supabaseClient
+            .storage
+            .from("auditorias")
+            .getPublicUrl(
+                fileName
+            );
+
+    return data.publicUrl;
+
+}
    async function saveFindingsToSupabase(
     auditId,
     respuestas
