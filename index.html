@@ -5,60 +5,291 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Sistema de Auditorías AR</title>
+<title>Auditorías AR</title>
 
 <style>
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root{
+    --azul:#0d6efd;
+    --azul-oscuro:#084298;
+    --azul-claro:#e7f1ff;
+
+    --verde:#198754;
+    --verde-claro:#d1e7dd;
+
+    --amarillo:#ffc107;
+    --amarillo-claro:#fff3cd;
+
+    --rojo:#dc3545;
+    --rojo-claro:#f8d7da;
+
+    --gris:#6c757d;
+    --gris-claro:#f1f3f5;
+    --gris-borde:#dee2e6;
+
+    --fondo:#eef2f7;
+    --blanco:#ffffff;
+
+    --sombra:
+        0 8px 25px rgba(0,0,0,.08);
+
+    --radio:16px;
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
 
 *{
     box-sizing:border-box;
 }
 
+html{
+    scroll-behavior:smooth;
+}
+
 body{
-    font-family:'Segoe UI',Arial,sans-serif;
-    background:#eef2f7;
     margin:0;
-    padding:20px;
+    font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+    background:var(--fondo);
     color:#212529;
 }
 
-.card{
-    background:white;
-    max-width:1000px;
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.topbar{
+    background:#fff;
+    border-bottom:1px solid var(--gris-borde);
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.topbar-inner{
+    max-width:1400px;
     margin:auto;
-    padding:30px;
-    border-radius:20px;
-    box-shadow:0 8px 25px rgba(0,0,0,.12);
+    padding:14px 22px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
 }
 
-.header{
-    text-align:center;
-    margin-bottom:30px;
+.logo-area{
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 
-.header h1{
-    color:#0d6efd;
-    margin-bottom:5px;
+.logo{
+    width:44px;
+    height:44px;
+    border-radius:12px;
+    background:var(--azul);
+    color:#fff;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-weight:bold;
+    font-size:18px;
 }
 
-.header p{
-    color:#6c757d;
-    margin-top:0;
+.logo-text strong{
+    display:block;
+    font-size:18px;
 }
+
+.logo-text span{
+    display:block;
+    font-size:12px;
+    color:var(--gris);
+}
+
+.nav{
+    display:flex;
+    gap:6px;
+}
+
+.nav button{
+    width:auto;
+    margin:0;
+    padding:9px 14px;
+    background:transparent;
+    color:#495057;
+    border-radius:9px;
+}
+
+.nav button:hover{
+    background:var(--gris-claro);
+}
+
+.nav button.active{
+    background:var(--azul-claro);
+    color:var(--azul);
+}
+
+
+/* =========================================================
+   CONTENEDOR
+========================================================= */
+
+.app{
+    max-width:1400px;
+    margin:auto;
+    padding:25px;
+}
+
+.view{
+    display:none;
+}
+
+.view.active{
+    display:block;
+}
+
+
+/* =========================================================
+   TITULOS
+========================================================= */
+
+.page-title{
+    margin-bottom:22px;
+}
+
+.page-title h1{
+    margin:0;
+    font-size:30px;
+}
+
+.page-title p{
+    margin:7px 0 0;
+    color:var(--gris);
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.card{
+    background:#fff;
+    border:1px solid var(--gris-borde);
+    border-radius:var(--radio);
+    box-shadow:var(--sombra);
+    padding:22px;
+}
+
+.card-title{
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:16px;
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.grid{
+    display:grid;
+    gap:18px;
+}
+
+.grid-2{
+    grid-template-columns:repeat(2,1fr);
+}
+
+.grid-3{
+    grid-template-columns:repeat(3,1fr);
+}
+
+.grid-4{
+    grid-template-columns:repeat(4,1fr);
+}
+
+
+/* =========================================================
+   KPI
+========================================================= */
+
+.kpi{
+    background:#fff;
+    border:1px solid var(--gris-borde);
+    border-radius:16px;
+    padding:20px;
+    box-shadow:var(--sombra);
+    position:relative;
+    overflow:hidden;
+}
+
+.kpi::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    bottom:0;
+    width:5px;
+    background:var(--azul);
+}
+
+.kpi.verde::before{
+    background:var(--verde);
+}
+
+.kpi.rojo::before{
+    background:var(--rojo);
+}
+
+.kpi.amarillo::before{
+    background:var(--amarillo);
+}
+
+.kpi-numero{
+    font-size:34px;
+    font-weight:800;
+    margin-top:8px;
+}
+
+.kpi-label{
+    color:var(--gris);
+    font-size:14px;
+}
+
+
+/* =========================================================
+   FORMULARIOS
+========================================================= */
 
 label{
+    display:block;
     font-weight:600;
+    margin-bottom:7px;
 }
 
+input,
 select,
-textarea,
-input[type="text"],
-input[type="file"]{
+textarea{
     width:100%;
-    padding:12px;
-    margin-top:8px;
     border:1px solid #ced4da;
     border-radius:10px;
+    padding:11px 12px;
+    font-family:inherit;
     font-size:15px;
+    background:#fff;
 }
 
 textarea{
@@ -66,335 +297,755 @@ textarea{
     resize:vertical;
 }
 
+input:focus,
+select:focus,
+textarea:focus{
+    outline:none;
+    border-color:var(--azul);
+    box-shadow:
+        0 0 0 3px rgba(13,110,253,.12);
+}
+
+
+/* =========================================================
+   BOTONES
+========================================================= */
+
 button{
-    width:100%;
-    padding:14px;
-    background:#0d6efd;
-    color:white;
-    border:none;
+    border:0;
     border-radius:10px;
-    font-size:16px;
-    font-weight:bold;
-    margin-top:12px;
+    padding:12px 16px;
+    font-family:inherit;
+    font-size:14px;
+    font-weight:700;
     cursor:pointer;
     transition:.2s;
+    background:var(--azul);
+    color:#fff;
 }
 
 button:hover{
-    background:#0b5ed7;
+    filter:brightness(.95);
+    transform:translateY(-1px);
 }
 
-button.secondary{
+.btn-secondary{
     background:#6c757d;
 }
 
-button.secondary:hover{
-    background:#5c636a;
+.btn-success{
+    background:var(--verde);
 }
 
-button.success{
-    background:#198754;
+.btn-danger{
+    background:var(--rojo);
 }
 
-button.success:hover{
-    background:#157347;
-}
-
-button.danger{
-    background:#dc3545;
-}
-
-button.danger:hover{
-    background:#bb2d3b;
-}
-
-button.warning{
-    background:#ffc107;
+.btn-warning{
+    background:var(--amarillo);
     color:#212529;
 }
 
-.config-grid{
+.btn-light{
+    background:#f1f3f5;
+    color:#212529;
+}
+
+.btn-small{
+    padding:7px 10px;
+    font-size:12px;
+}
+
+.btn-full{
+    width:100%;
+}
+
+.button-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+.dashboard-grid{
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:
+        minmax(0,2fr)
+        minmax(300px,1fr);
     gap:20px;
 }
 
-@media(max-width:700px){
-    .config-grid{
-        grid-template-columns:1fr;
-    }
+.chart-card{
+    min-height:300px;
 }
 
-.progress-container{
-    margin:20px 0;
+.bar-row{
+    margin:15px 0;
+}
+
+.bar-header{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:6px;
+    font-size:14px;
+}
+
+.bar-bg{
+    height:16px;
+    background:#e9ecef;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.bar-fill{
+    height:100%;
+    border-radius:20px;
+    background:var(--azul);
+}
+
+.bar-fill.green{
+    background:var(--verde);
+}
+
+.bar-fill.yellow{
+    background:var(--amarillo);
+}
+
+.bar-fill.red{
+    background:var(--rojo);
+}
+
+
+/* =========================================================
+   DONA / CIRCULO
+========================================================= */
+
+.donut{
+    width:190px;
+    height:190px;
+    border-radius:50%;
+    margin:20px auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:
+        conic-gradient(
+            var(--verde) 0deg,
+            var(--verde) 250deg,
+            var(--rojo) 250deg,
+            var(--rojo) 315deg,
+            var(--amarillo) 315deg,
+            var(--amarillo) 360deg
+        );
+
+    position:relative;
+}
+
+.donut::after{
+    content:"";
+    width:125px;
+    height:125px;
+    background:#fff;
+    border-radius:50%;
+    position:absolute;
+}
+
+.donut span{
+    position:relative;
+    z-index:2;
+    font-size:28px;
+    font-weight:800;
+}
+
+
+/* =========================================================
+   AUDITORIA
+========================================================= */
+
+.audit-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:18px;
+}
+
+.audit-id{
+    font-size:13px;
+    color:var(--gris);
 }
 
 .progress-info{
     display:flex;
     justify-content:space-between;
-    font-size:14px;
-    color:#6c757d;
-    margin-bottom:7px;
+    color:var(--gris);
+    font-size:13px;
+    margin-bottom:6px;
 }
 
-.progress-bar{
+.progress-bg{
     width:100%;
-    height:14px;
-    background:#dee2e6;
+    height:12px;
+    background:#e9ecef;
     border-radius:20px;
     overflow:hidden;
 }
 
 .progress-fill{
     height:100%;
-    background:#0d6efd;
+    background:var(--azul);
+    border-radius:20px;
     transition:.3s;
 }
 
 .question-card{
-    border:1px solid #dee2e6;
-    border-radius:15px;
-    padding:25px;
     margin-top:20px;
-    background:#fafbfc;
 }
 
-.question-number{
-    color:#0d6efd;
-    font-weight:bold;
-    font-size:14px;
+.category-badge{
+    display:inline-block;
+    background:var(--azul-claro);
+    color:var(--azul);
+    border-radius:20px;
+    padding:6px 11px;
+    font-size:12px;
+    font-weight:700;
 }
 
-.question-text{
-    font-size:20px;
-    font-weight:600;
-    margin:15px 0 25px;
+.weight-badge{
+    display:inline-block;
+    background:#f1f3f5;
+    color:#495057;
+    border-radius:20px;
+    padding:6px 11px;
+    font-size:12px;
+    font-weight:700;
 }
 
-.respuestas{
+.question-title{
+    font-size:23px;
+    line-height:1.4;
+    margin:20px 0;
+}
+
+
+/* =========================================================
+   RESPUESTAS
+========================================================= */
+
+.answers{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+}
+
+.answer-card{
+    position:relative;
+}
+
+.answer-card input{
+    position:absolute;
+    opacity:0;
+}
+
+.answer-label{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:70px;
+    border:2px solid var(--gris-borde);
+    border-radius:14px;
+    background:#fff;
+    cursor:pointer;
+    font-weight:800;
+    transition:.2s;
+    text-align:center;
+}
+
+.answer-label:hover{
+    border-color:var(--azul);
+}
+
+.answer-card input:checked + .answer-label.cumple{
+    background:var(--verde-claro);
+    border-color:var(--verde);
+    color:#0f5132;
+}
+
+.answer-card input:checked + .answer-label.nocumple{
+    background:var(--rojo-claro);
+    border-color:var(--rojo);
+    color:#842029;
+}
+
+.answer-card input:checked + .answer-label.na{
+    background:var(--amarillo-claro);
+    border-color:var(--amarillo);
+    color:#664d03;
+}
+
+
+/* =========================================================
+   FOTOS
+========================================================= */
+
+.photo-area{
+    margin-top:20px;
+}
+
+.photo-grid{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fill,minmax(130px,1fr));
+    gap:12px;
+    margin-top:12px;
+}
+
+.photo-item{
+    position:relative;
+    border-radius:12px;
+    overflow:hidden;
+    background:#f1f3f5;
+    aspect-ratio:1/1;
+}
+
+.photo-item img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.photo-remove{
+    position:absolute;
+    top:6px;
+    right:6px;
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    padding:0;
+    background:rgba(220,53,69,.95);
+    color:#fff;
+}
+
+.photo-empty{
+    padding:18px;
+    border:2px dashed #ced4da;
+    border-radius:12px;
+    text-align:center;
+    color:var(--gris);
+}
+
+
+/* =========================================================
+   NAVEGACION AUDITORIA
+========================================================= */
+
+.audit-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:25px;
+}
+
+
+/* =========================================================
+   ESTADOS
+========================================================= */
+
+.status{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    border-radius:30px;
+    padding:8px 15px;
+    font-weight:800;
+}
+
+.status.aprobada{
+    background:var(--verde-claro);
+    color:#0f5132;
+}
+
+.status.mejorar{
+    background:var(--amarillo-claro);
+    color:#664d03;
+}
+
+.status.rechazada{
+    background:var(--rojo-claro);
+    color:#842029;
+}
+
+
+/* =========================================================
+   RESULTADO
+========================================================= */
+
+.result-score{
+    text-align:center;
+    padding:30px;
+}
+
+.score{
+    font-size:72px;
+    font-weight:900;
+    color:var(--azul);
+}
+
+.score-label{
+    color:var(--gris);
+}
+
+.score-progress{
+    height:25px;
+    border-radius:30px;
+    background:#e9ecef;
+    overflow:hidden;
+    margin:20px 0;
+}
+
+.score-progress-fill{
+    height:100%;
+    border-radius:30px;
+}
+
+.result-meta{
+    background:#f8f9fa;
+    border-radius:12px;
+    padding:15px;
+}
+
+.meta-grid{
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:12px;
 }
 
-@media(max-width:650px){
-    .respuestas{
-        grid-template-columns:1fr;
-    }
+.meta-item strong{
+    display:block;
+    font-size:12px;
+    color:var(--gris);
+    margin-bottom:3px;
 }
 
-.respuesta{
-    border:2px solid #dee2e6;
+
+/* =========================================================
+   HALLAZGOS
+========================================================= */
+
+.finding{
+    border:1px solid #f1b0b7;
+    border-left:6px solid var(--rojo);
     border-radius:12px;
-    padding:15px;
+    padding:17px;
+    margin-top:12px;
+    background:#fff8f8;
+}
+
+.finding-title{
+    font-weight:800;
+    color:var(--rojo);
+}
+
+.finding-photo-grid{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fill,minmax(150px,1fr));
+    gap:10px;
+    margin-top:12px;
+}
+
+.finding-photo-grid img{
+    width:100%;
+    aspect-ratio:4/3;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+
+/* =========================================================
+   TABLAS
+========================================================= */
+
+.table-wrapper{
+    overflow:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:700px;
+}
+
+th,
+td{
+    border-bottom:1px solid var(--gris-borde);
+    padding:12px;
+    text-align:left;
+    vertical-align:middle;
+}
+
+th{
+    background:#f8f9fa;
+    font-size:13px;
+}
+
+tr:hover td{
+    background:#fafbfc;
+}
+
+
+/* =========================================================
+   FILTROS
+========================================================= */
+
+.filters{
+    display:grid;
+    grid-template-columns:
+        2fr 1fr 1fr 1fr;
+    gap:12px;
+    margin-bottom:20px;
+}
+
+
+/* =========================================================
+   PARETO
+========================================================= */
+
+.pareto-item{
+    margin-bottom:15px;
+}
+
+.pareto-header{
+    display:flex;
+    justify-content:space-between;
+    font-size:14px;
+    margin-bottom:5px;
+}
+
+.pareto-bar{
+    height:22px;
+    background:#e9ecef;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.pareto-fill{
+    height:100%;
+    background:var(--azul);
+    border-radius:20px;
+}
+
+.cumulative{
+    font-size:12px;
+    color:var(--gris);
+    margin-top:3px;
+}
+
+
+/* =========================================================
+   ADMIN
+========================================================= */
+
+.admin-row{
+    display:grid;
+    grid-template-columns:
+        80px 1fr 160px 100px 100px;
+    gap:10px;
+    align-items:center;
+
+    padding:12px 0;
+    border-bottom:1px solid var(--gris-borde);
+}
+
+.toggle{
+    width:44px;
+    height:24px;
+    border-radius:20px;
+    background:#adb5bd;
+    position:relative;
     cursor:pointer;
-    background:white;
-    text-align:center;
+}
+
+.toggle.active{
+    background:var(--verde);
+}
+
+.toggle::after{
+    content:"";
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    background:#fff;
+    position:absolute;
+    top:3px;
+    left:3px;
     transition:.2s;
 }
 
-.respuesta:hover{
-    border-color:#0d6efd;
+.toggle.active::after{
+    left:23px;
 }
 
-.respuesta input{
-    display:none;
+
+/* =========================================================
+   ALERTAS
+========================================================= */
+
+.alert{
+    border-radius:12px;
+    padding:14px 16px;
+    margin-bottom:15px;
 }
 
-.respuesta.seleccionada{
-    border-color:#0d6efd;
-    background:#e7f1ff;
+.alert-info{
+    background:var(--azul-claro);
+    color:#084298;
 }
 
-.observacion{
-    margin-top:25px;
-}
-
-.evidencia{
-    margin-top:20px;
-}
-
-.preview{
-    margin-top:10px;
-    max-width:250px;
-    max-height:180px;
-    border-radius:10px;
-    display:none;
-    object-fit:cover;
-    border:1px solid #ced4da;
-}
-
-.acciones{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-    margin-top:20px;
-}
-
-@media(max-width:600px){
-    .acciones{
-        grid-template-columns:1fr;
-    }
-}
-
-.kpis{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
-    margin-top:25px;
-}
-
-@media(max-width:750px){
-    .kpis{
-        grid-template-columns:repeat(2,1fr);
-    }
-}
-
-@media(max-width:450px){
-    .kpis{
-        grid-template-columns:1fr;
-    }
-}
-
-.kpi{
-    background:white;
-    border-radius:15px;
-    padding:20px;
-    text-align:center;
-    box-shadow:0 3px 12px rgba(0,0,0,.08);
-}
-
-.kpi-numero{
-    font-size:36px;
-    font-weight:bold;
-    margin-top:5px;
-}
-
-.verde{
-    color:#198754;
-}
-
-.rojo{
-    color:#dc3545;
-}
-
-.amarillo{
-    color:#ffc107;
-}
-
-.azul{
-    color:#0d6efd;
-}
-
-.cumplimiento{
-    background:white;
-    border-radius:15px;
-    padding:25px;
-    margin-top:25px;
-    text-align:center;
-    box-shadow:0 3px 12px rgba(0,0,0,.08);
-}
-
-.cumplimiento-numero{
-    font-size:60px;
-    font-weight:bold;
-    color:#0d6efd;
-}
-
-.big-progress{
-    width:100%;
-    height:25px;
-    background:#dee2e6;
-    border-radius:20px;
-    overflow:hidden;
-    margin-top:15px;
-}
-
-.big-progress-fill{
-    height:100%;
-    transition:.5s;
-}
-
-.estado{
-    display:inline-block;
-    padding:8px 18px;
-    border-radius:20px;
-    font-weight:bold;
-    margin-top:15px;
-}
-
-.estado.aprobada{
-    background:#d1e7dd;
-    color:#0f5132;
-}
-
-.estado.observada{
-    background:#fff3cd;
+.alert-warning{
+    background:var(--amarillo-claro);
     color:#664d03;
 }
 
-.estado.rechazada{
-    background:#f8d7da;
-    color:#842029;
+
+/* =========================================================
+   UTILIDADES
+========================================================= */
+
+.hidden{
+    display:none !important;
 }
 
-.hallazgo{
-    border-left:5px solid #dc3545;
-    background:#fff5f5;
-    padding:15px;
-    margin-top:12px;
-    border-radius:8px;
+.muted{
+    color:var(--gris);
 }
 
-.hallazgo h4{
-    margin:0 0 8px;
-    color:#dc3545;
+.text-center{
+    text-align:center;
 }
 
-.meta{
-    background:#f8f9fa;
-    border-radius:12px;
-    padding:15px;
+.mt-20{
     margin-top:20px;
 }
 
-.meta-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
+.mb-20{
+    margin-bottom:20px;
 }
 
-@media(max-width:600px){
+.empty{
+    padding:40px;
+    text-align:center;
+    color:var(--gris);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1000px){
+
+    .grid-4{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:750px){
+
+    .topbar-inner{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .nav{
+        overflow:auto;
+    }
+
+    .nav button{
+        white-space:nowrap;
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4{
+        grid-template-columns:1fr;
+    }
+
+    .answers{
+        grid-template-columns:1fr;
+    }
+
     .meta-grid{
         grid-template-columns:1fr;
     }
+
+    .filters{
+        grid-template-columns:1fr;
+    }
+
+    .admin-row{
+        grid-template-columns:1fr;
+    }
+
+    .score{
+        font-size:55px;
+    }
+
 }
 
-.hidden{
-    display:none;
-}
 
-hr{
-    border:none;
-    border-top:1px solid #dee2e6;
-    margin:30px 0;
-}
+/* =========================================================
+   IMPRESION
+========================================================= */
 
 @media print{
 
     body{
-        background:white;
+        background:#fff;
+    }
+
+    .topbar,
+    .no-print,
+    button{
+        display:none !important;
+    }
+
+    .app{
+        max-width:none;
         padding:0;
     }
 
-    .card{
-        box-shadow:none;
-        max-width:none;
+    .view{
+        display:none !important;
     }
 
-    button,
-    .acciones{
-        display:none !important;
+    #viewResultado{
+        display:block !important;
+    }
+
+    .card,
+    .kpi{
+        box-shadow:none;
+    }
+
+    .finding{
+        break-inside:avoid;
+    }
+
+    .finding-photo-grid{
+        grid-template-columns:repeat(3,1fr);
     }
 
 }
@@ -403,36 +1054,248 @@ hr{
 
 </head>
 
+
 <body>
+
+
+<!-- =======================================================
+     BARRA SUPERIOR
+======================================================= -->
+
+<header class="topbar">
+
+<div class="topbar-inner">
+
+<div class="logo-area">
+
+<div class="logo">
+AR
+</div>
+
+<div class="logo-text">
+
+<strong>Auditorías AR</strong>
+
+<span>Calidad y BPM</span>
+
+</div>
+
+</div>
+
+
+<nav class="nav">
+
+<button
+id="navDashboard"
+class="active"
+onclick="mostrarVista('dashboard')">
+
+Dashboard
+
+</button>
+
+
+<button
+id="navNueva"
+onclick="mostrarVista('nueva')">
+
+Nueva auditoría
+
+</button>
+
+
+<button
+id="navHistorial"
+onclick="mostrarVista('historial')">
+
+Historial
+
+</button>
+
+
+<button
+id="navPareto"
+onclick="mostrarVista('pareto')">
+
+Pareto
+
+</button>
+
+
+<button
+id="navAdmin"
+onclick="mostrarVista('admin')">
+
+Configuración
+
+</button>
+
+</nav>
+
+</div>
+
+</header>
+
+
+<!-- =======================================================
+     APP
+======================================================= -->
+
+<main class="app">
+
+
+<!-- =======================================================
+     DASHBOARD
+======================================================= -->
+
+<section
+id="viewDashboard"
+class="view active">
+
+<div class="page-title">
+
+<h1>Dashboard</h1>
+
+<p>
+Resumen general del sistema de auditorías
+</p>
+
+</div>
+
+
+<div
+id="dashboardKpis"
+class="grid grid-4">
+
+</div>
+
+
+<div class="dashboard-grid mt-20">
+
+
+<div class="card chart-card">
+
+<div class="card-title">
+Cumplimiento por sector
+</div>
+
+<div id="sectorBars"></div>
+
+</div>
+
+
+<div class="card chart-card">
+
+<div class="card-title">
+Distribución de resultados
+</div>
+
+<div id="statusChart"></div>
+
+</div>
+
+
+</div>
+
+
+<div class="grid grid-2 mt-20">
+
 
 <div class="card">
 
-<div class="header">
+<div class="card-title">
+Hallazgos por categoría
+</div>
 
-<h1>Auditorías AR</h1>
-
-<p>Sistema de auditorías de calidad y BPM</p>
+<div id="categoryBars"></div>
 
 </div>
 
 
-<!-- CONFIGURACIÓN -->
+<div class="card">
 
-<div id="configuracion">
+<div class="card-title">
+Últimas auditorías
+</div>
 
-<h2>Datos de la auditoría</h2>
+<div id="latestAudits"></div>
 
-<div class="config-grid">
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- =======================================================
+     NUEVA AUDITORIA
+======================================================= -->
+
+<section
+id="viewNueva"
+class="view">
+
+<div class="page-title">
+
+<h1>Nueva auditoría</h1>
+
+<p>
+Complete los datos para iniciar una nueva auditoría
+</p>
+
+</div>
+
+
+<div id="configAuditCard" class="card">
+
+<div class="card-title">
+Datos de la auditoría
+</div>
+
+
+<div class="grid grid-2">
+
 
 <div>
 
-<label>Auditor</label>
+<label>
+Auditor
+</label>
 
-<select id="auditor">
+<select id="auditAuditor">
+</select>
 
-<option>Diego Nuñez</option>
-<option>Sandra Lareu</option>
-<option>Nicolas Llacomotti</option>
+</div>
+
+
+<div>
+
+<label>
+Sector
+</label>
+
+<select id="auditSector">
+</select>
+
+</div>
+
+
+<div>
+
+<label>
+Tipo de auditoría
+</label>
+
+<select id="auditTipo">
+
+<option value="BRC/GMP">
+BRC/GMP
+</option>
+
+<option value="Auditoría QR">
+Auditoría QR
+</option>
 
 </select>
 
@@ -441,38 +1304,14 @@ hr{
 
 <div>
 
-<label>Sector</label>
-
-<select id="sector">
-
-<option>Armado de Válvulas</option>
-<option>Prearmado</option>
-<option>Inyección 1</option>
-<option>Inyección 2</option>
-<option>Armado de Kosmos</option>
-<option>Armado de Pulsadores</option>
-<option>Sleeve</option>
-<option>Arandelado</option>
-<option>Extrusión</option>
-<option>Estampado</option>
-
-</select>
-
-</div>
-
-</div>
-
-
-<div class="config-grid" style="margin-top:20px;">
-
-<div>
-
-<label>Orden / referencia de auditoría</label>
+<label>
+Fecha
+</label>
 
 <input
+id="auditFecha"
 type="text"
-id="referencia"
-placeholder="Ej.: AUD-2026-001"
+readonly
 >
 
 </div>
@@ -480,514 +1319,1345 @@ placeholder="Ej.: AUD-2026-001"
 
 <div>
 
-<label>Tipo de auditoría</label>
+<label>
+Hora
+</label>
 
-<select id="tipoAuditoria">
-
-<option>Auditoría BPM</option>
-<option>Auditoría de Calidad</option>
-<option>Auditoría de Orden y Limpieza</option>
-<option>Auditoría de Seguridad</option>
-<option>Auditoría Interna</option>
-
-</select>
-
-</div>
+<input
+id="auditHora"
+type="text"
+readonly
+>
 
 </div>
 
 
-<button onclick="comenzarAuditoria()">
-▶ Comenzar Auditoría
+<div>
+
+<label>
+ID de auditoría
+</label>
+
+<input
+id="auditId"
+type="text"
+readonly
+>
+
+</div>
+
+
+</div>
+
+
+<div class="alert alert-info mt-20">
+
+El ID, fecha y hora se generan automáticamente.
+Las preguntas y sus ponderaciones se toman de la configuración actual.
+
+</div>
+
+
+<button
+class="btn-full mt-20"
+onclick="iniciarAuditoria()">
+
+▶ Iniciar auditoría
+
 </button>
 
 </div>
 
 
-<!-- CONTENIDO -->
+<!-- PREGUNTA -->
 
-<div id="contenido"></div>
+<div
+id="auditQuestionArea"
+class="hidden">
+
+<div class="card">
+
+<div class="audit-header">
+
+<div>
+
+<strong id="auditSectorTitulo">
+</strong>
+
+<div
+id="auditIdTitulo"
+class="audit-id">
+</div>
+
+</div>
+
+<button
+class="btn-light"
+onclick="cancelarAuditoria()">
+
+Cancelar
+
+</button>
 
 </div>
 
 
+<div class="progress-info">
+
+<span id="progressText">
+Pregunta 1 de 36
+</span>
+
+<span id="progressPercent">
+0%
+</span>
+
+</div>
+
+
+<div class="progress-bg">
+
+<div
+id="progressBar"
+class="progress-fill"
+style="width:0%">
+</div>
+
+</div>
+
+
+<div
+id="questionCard"
+class="question-card">
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =======================================================
+     RESULTADO
+======================================================= -->
+
+<section
+id="viewResultado"
+class="view">
+
+<div class="page-title">
+
+<h1>Resultado de auditoría</h1>
+
+<p>
+Informe generado automáticamente
+</p>
+
+</div>
+
+
+<div id="resultadoContenido"></div>
+
+</section>
+
+
+<!-- =======================================================
+     HISTORIAL
+======================================================= -->
+
+<section
+id="viewHistorial"
+class="view">
+
+<div class="page-title">
+
+<h1>Historial de auditorías</h1>
+
+<p>
+Consulte y filtre las auditorías realizadas
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="filters">
+
+<input
+id="filtroTexto"
+placeholder="Buscar por ID, auditor o sector..."
+oninput="renderHistorial()"
+>
+
+
+<select
+id="filtroSector"
+onchange="renderHistorial()">
+
+<option value="">
+Todos los sectores
+</option>
+
+</select>
+
+
+<select
+id="filtroTipo"
+onchange="renderHistorial()">
+
+<option value="">
+Todos los tipos
+</option>
+
+<option>
+BRC/GMP
+</option>
+
+<option>
+Auditoría QR
+</option>
+
+</select>
+
+
+<select
+id="filtroEstado"
+onchange="renderHistorial()">
+
+<option value="">
+Todos los estados
+</option>
+
+<option>
+APROBADA
+</option>
+
+<option>
+NECESITA MEJORAR
+</option>
+
+<option>
+RECHAZADA
+</option>
+
+</select>
+
+</div>
+
+
+<div
+id="historialTabla"
+class="table-wrapper">
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =======================================================
+     PARETO
+======================================================= -->
+
+<section
+id="viewPareto"
+class="view">
+
+<div class="page-title">
+
+<h1>Pareto de hallazgos</h1>
+
+<p>
+Análisis acumulado de los incumplimientos detectados
+</p>
+
+</div>
+
+
+<div class="grid grid-2">
+
+<div class="card">
+
+<div class="card-title">
+Pareto por pregunta
+</div>
+
+<div id="paretoPreguntas"></div>
+
+</div>
+
+
+<div class="card">
+
+<div class="card-title">
+Pareto por sector
+</div>
+
+<div id="paretoSectores"></div>
+
+</div>
+
+</div>
+
+
+<div class="card mt-20">
+
+<div class="card-title">
+Pareto por categoría
+</div>
+
+<div id="paretoCategorias"></div>
+
+</div>
+
+</section>
+
+
+<!-- =======================================================
+     ADMINISTRACION
+======================================================= -->
+
+<section
+id="viewAdmin"
+class="view">
+
+<div class="page-title">
+
+<h1>Configuración</h1>
+
+<p>
+Administración de preguntas, pesos y sectores
+</p>
+
+</div>
+
+
+<!-- SECTORES -->
+
+<div class="card mb-20">
+
+<div class="card-title">
+Sectores
+</div>
+
+
+<div class="grid grid-2">
+
+<div>
+
+<label>
+Nuevo sector
+</label>
+
+<input
+id="nuevoSector"
+placeholder="Ej.: Laboratorio"
+>
+
+</div>
+
+
+<div style="align-self:end">
+
+<button
+onclick="agregarSector()">
+
++ Agregar sector
+
+</button>
+
+</div>
+
+</div>
+
+
+<div
+id="listaSectores"
+class="mt-20">
+
+</div>
+
+</div>
+
+
+<!-- PREGUNTAS -->
+
+<div class="card">
+
+<div class="card-title">
+Preguntas de auditoría
+</div>
+
+
+<div class="alert alert-warning">
+
+Cada pregunta tiene una ponderación.
+El sistema calcula el cumplimiento utilizando los puntos posibles, no solamente la cantidad de preguntas.
+
+</div>
+
+
+<div class="grid grid-2 mb-20">
+
+
+<div>
+
+<label>
+Nueva pregunta
+</label>
+
+<textarea
+id="nuevaPregunta"
+placeholder="Ingrese la pregunta..."
+></textarea>
+
+</div>
+
+
+<div>
+
+<label>
+Categoría
+</label>
+
+<input
+id="nuevaCategoria"
+placeholder="Ej.: Seguridad"
+>
+
+
+<label class="mt-20">
+Peso
+</label>
+
+<input
+id="nuevoPeso"
+type="number"
+min="1"
+value="1"
+>
+
+</div>
+
+</div>
+
+
+<button
+onclick="agregarPregunta()">
+
++ Agregar pregunta
+
+</button>
+
+
+<div
+id="listaPreguntas"
+class="mt-20">
+
+</div>
+
+</div>
+
+
+<div class="card mt-20">
+
+<div class="card-title">
+Datos locales
+</div>
+
+<p class="muted">
+
+Los datos actuales se almacenan en este navegador.
+Antes de limpiar los datos, utilice Exportar datos.
+
+</p>
+
+
+<div class="button-row">
+
+<button
+class="btn-warning"
+onclick="exportarDatos()">
+
+Exportar datos JSON
+
+</button>
+
+
+<button
+class="btn-danger"
+onclick="confirmarBorrado()">
+
+Borrar auditorías
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+</main>
+
+
 <script>
 
+/* =========================================================
+   CONFIGURACION INICIAL
+========================================================= */
 
-/* =========================
-   PREGUNTAS
-========================= */
 
-const preguntas = [
+/*
+   AUDITORES
+*/
 
-"¿Están las condiciones de seguridad contempladas?",
+const auditoresIniciales = [
 
-"¿Están cerradas las puertas que dan al exterior?",
+    "Diego Nuñez",
 
-"¿Se encuentran las paredes e instalaciones en estado adecuado?",
+    "Sandra Lareu",
 
-"¿Están las zonas de tránsito libres de obstrucciones?",
-
-"Respecto a los elementos vinculados a la limpieza: ¿están en un lugar designado?",
-
-"¿Está el área productiva libre de vasos de café, alimentos y pertenencias personales?",
-
-"Si existen productos químicos en el sector, ¿están correctamente identificados?",
-
-"¿Se encuentra el botiquín con los elementos indicados?",
-
-"¿Se evita la presencia de muebles o pallets deteriorados?",
-
-"¿Los carros de mantenimiento se encuentran en buen estado?",
-
-"¿Se verifican acrílicos o vidrios rotos?",
-
-"¿Los elementos cortopunzantes están correctamente ubicados?",
-
-"¿Se evita la acumulación de suciedad y residuos?",
-
-"¿El sector posee correcta iluminación y ausencia de goteras?",
-
-"¿Las máquinas están libres de elementos sueltos?",
-
-"¿Las partes mecánicas y eléctricas tienen protección?",
-
-"¿Las reparaciones temporarias están identificadas?",
-
-"¿Las máquinas están libres de pérdidas contaminantes?",
-
-"¿Se evita consumo innecesario de energía?",
-
-"¿Se evita la caída de materias primas y productos?",
-
-"¿No existen piezas de órdenes previas?",
-
-"¿El sector se encuentra ordenado?",
-
-"¿No existen vidrios o acrílicos rotos en máquinas?",
-
-"¿Los productos están correctamente identificados?",
-
-"¿Se evita la presencia de cajas pre-etiquetadas?",
-
-"¿No existen documentos de producciones anteriores?",
-
-"¿Coinciden las OIP cargadas arriba y abajo?",
-
-"¿Existe coincidencia entre etiquetas y sistema UNIX?",
-
-"¿Los materiales están en sus lugares designados?",
-
-"¿Los materiales están protegidos contra contaminación?",
-
-"¿Los materiales retenidos están segregados e identificados?",
-
-"¿No existen materiales fuera de especificación?",
-
-"¿Los contenedores están limpios y en buen estado?",
-
-"¿El personal utiliza los EPP requeridos?",
-
-"¿La ropa de trabajo está en buen estado?",
-
-"¿El personal evita elementos contaminantes y alimentos en el sector?"
+    "Nicolas Llacomotti"
 
 ];
 
 
-/* =========================
-   VARIABLES
-========================= */
+/*
+   SECTORES
+*/
 
-let actual = 0;
+const sectoresIniciales = [
 
-let respuestas = [];
+    "Armado de Válvulas",
 
-let auditoria = {};
+    "Prearmado",
+
+    "Inyección 1",
+
+    "Inyección 2",
+
+    "Armado de Kosmos",
+
+    "Armado de Pulsadores",
+
+    "Sleeve",
+
+    "Arandelado",
+
+    "Extrusión",
+
+    "Estampado"
+
+];
 
 
-/* =========================
-   COMENZAR
-========================= */
+/*
+   PREGUNTAS
 
-function comenzarAuditoria(){
+   IMPORTANTE:
 
-    actual = 0;
+   Cada pregunta tiene:
 
-    respuestas = [];
+   id
+   categoria
+   texto
+   peso
+   activa
 
-    auditoria = {
+*/
+
+const preguntasIniciales = [
+
+{
+    id:"P001",
+    categoria:"Seguridad",
+    texto:"¿Están las condiciones de seguridad contempladas?",
+    peso:2,
+    activa:true
+},
+
+{
+    id:"P002",
+    categoria:"Instalaciones",
+    texto:"¿Están cerradas las puertas que dan al exterior?",
+    peso:1,
+    activa:true
+},
+
+{
+    id:"P003",
+    categoria:"Instalaciones",
+    texto:"¿Se encuentran las paredes e instalaciones en estado adecuado?",
+    peso:2,
+    activa:true
+},
+
+{
+    id:"P004",
+    categoria:"Orden y limpieza",
+    texto:"¿Están las zonas de tránsito libres de obstrucciones?",
+    peso:1,
+    activa:true
+},
+
+{
+    id:"P005",
+    categoria:"Orden y limpieza",
+    texto:"Respecto a los elementos vinculados a la limpieza: ¿están en un lugar designado?",
+    peso:1,
+    activa:true
+},
+
+{
+    id:"P006",
+    categoria:"Orden y limpieza",
+    texto:"¿Está el área productiva libre de vasos de café, alimentos y pertenencias personales?",
+    peso:1,
+    activa:true
+},
+
+{
+    id:"P007",
+    categoria:"Químicos",
+    texto:"Si existen productos químicos en el sector, ¿están correctamente identificados?",
+    peso:2,
+    activa:true
+},
+
+{
+    id:"P008",
+    categoria:"Seguridad",
+    texto:"¿Se encuentra el botiquín con los elementos indicados?",
+    peso:2,
+    activa:true
+},
+
+{
+    id:"P009",
+    categoria:"Orden y limpieza",
+    texto:"¿Se evita la presencia de muebles o pallets deteriorados?",
+    peso:1,
+    activa:true
+},
+
+{
+    id:"P010",
+    categoria:"Mantenimiento",
+    texto:"¿Los carros de mantenimiento se encuentran en buen estado?",
+    peso:1,
+    activa:true
+},
+
+{
+    id:"P011",
+    categoria:"Instalaciones",
+    texto:"¿Se verifican acrílicos o vidrios rotos?",
+    peso:2,
+    activa:true
+},
+
+{
+    id:"P012",
+    categoria:"Seguridad",
+    texto:"¿Los elementos cortopunzantes están correctamente ubicados?",
+    peso:2,
+    activa:true
+},
+
+{
+    id:"P013",
+    categoria:"Orden y limpieza",
+    texto:"¿Se evita la acumulación de suciedad y residuos?",
+    peso:1,
+    activa:true
+},
+
+{
+    id:"P014",
+    categoria:"Instalaciones",
+    texto:"¿El sector posee correcta iluminación y ausencia de goteras?",
+    peso:1,
+    activa:true
+},
+
+{
+    id:"P015",
+    categoria:"Máquinas",
+    texto:"¿Las máquinas están libres de elementos sueltos?",
+    peso:1,
+    activa:true
+},
+
+{
+    id:"P016",
+    categoria:"Máquinas",
+    texto:"¿Las partes mecánicas y eléctricas tienen protección?",
+    peso:3,
+    activa:true
+},
+
+{
+    id:"P017",
+    categoria:"Mantenimiento",
+    texto:"¿Las reparaciones temporarias están identificadas?",
+    peso:2,
+    activa:true
+},
+
+{
+    id:"P018",
+    categoria:"Máquinas",
+    texto:"¿Las máquinas están libres de pérdidas contaminantes?",
+    peso:2,
+    activa:true
+},
+
+{
+    id:"P019",
+    categoria:"Energía",
+    texto:"¿Se evita consumo innecesario de energía?",
+    peso:1,
+    activa:true
+},
+
+{
+    id:"P020",
+    categoria:"Materiales",
+    texto:"¿Se evita la caída de materias primas y productos?",
+    peso:1,
+    activa:true
+},
+
+{
+    id:"P021",
+    categoria:"Trazabilidad",
+    texto:"¿No existen piezas de órdenes previas?",
+    peso:2,
+    activa:true
+},
+
+{
+    id:"P022",
+    categoria:"Orden y limpieza",
+    texto:"¿El sector se encuentra ordenado?",
+    peso:1,
+    activa:true
+},
+
+{
+    id:"P023",
+    categoria:"Instalaciones",
+    texto:"¿No existen vidrios o acrílicos rotos en máquinas?",
+    peso:2,
+    activa:true
+},
+
+{
+    id:"P024",
+    categoria:"Identificación",
+    texto:"¿Los productos están correctamente identificados?",
+    peso:2,
+    activa:true
+},
+
+{
+    id:"P025",
+    categoria:"Identificación",
+    texto:"¿Se evita la presencia de cajas pre-etiquetadas?",
+    peso:2,
+    activa:true
+},
+
+{
+    id:"P026",
+    categoria:"Documentación",
+    texto:"¿No existen documentos de producciones anteriores?",
+    peso:2,
+    activa:true
+},
+
+{
+    id:"P027",
+    categoria:"Trazabilidad",
+    texto:"¿Coinciden las OIP cargadas arriba y abajo?",
+    peso:3,
+    activa:true
+},
+
+{
+    id:"P028",
+    categoria:"Trazabilidad",
+    texto:"¿Existe coincidencia entre etiquetas y sistema UNIX?",
+    peso:3,
+    activa:true
+},
+
+{
+    id:"P029",
+    categoria:"Materiales",
+    texto:"¿Los materiales están en sus lugares designados?",
+    peso:1,
+    activa:true
+},
+
+{
+    id:"P030",
+    categoria:"Materiales",
+    texto:"¿Los materiales están protegidos contra contaminación?",
+    peso:2,
+    activa:true
+},
+
+{
+    id:"P031",
+    categoria:"Materiales",
+    texto:"¿Los materiales retenidos están segregados e identificados?",
+    peso:3,
+    activa:true
+},
+
+{
+    id:"P032",
+    categoria:"Calidad",
+    texto:"¿No existen materiales fuera de especificación?",
+    peso:3,
+    activa:true
+},
+
+{
+    id:"P033",
+    categoria:"Orden y limpieza",
+    texto:"¿Los contenedores están limpios y en buen estado?",
+    peso:1,
+    activa:true
+},
+
+{
+    id:"P034",
+    categoria:"EPP",
+    texto:"¿El personal utiliza los EPP requeridos?",
+    peso:3,
+    activa:true
+},
+
+{
+    id:"P035",
+    categoria:"Personal",
+    texto:"¿La ropa de trabajo está en buen estado?",
+    peso:1,
+    activa:true
+},
+
+{
+    id:"P036",
+    categoria:"Personal",
+    texto:"¿El personal evita elementos contaminantes y alimentos en el sector?",
+    peso:2,
+    activa:true
+}
+
+];
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+const STORAGE = {
+
+    auditorias:"AR_auditorias",
+
+    sectores:"AR_sectores",
+
+    preguntas:"AR_preguntas",
+
+    auditores:"AR_auditores"
+
+};
+
+
+/* =========================================================
+   DATOS
+========================================================= */
+
+let auditores =
+    cargarStorage(
+        STORAGE.auditores,
+        auditoresIniciales
+    );
+
+
+let sectores =
+    cargarStorage(
+        STORAGE.sectores,
+        sectoresIniciales
+    );
+
+
+let preguntas =
+    cargarStorage(
+        STORAGE.preguntas,
+        preguntasIniciales
+    );
+
+
+let auditorias =
+    cargarStorage(
+        STORAGE.auditorias,
+        []
+    );
+
+
+/* =========================================================
+   ESTADO DE AUDITORIA ACTUAL
+========================================================= */
+
+let auditoriaActual = null;
+
+let indicePregunta = 0;
+
+
+/*
+   Respuestas temporales:
+
+   {
+       preguntaId,
+       valor,
+       observacion,
+       fotos:[base64,...]
+   }
+*/
+
+let respuestasActuales = [];
+
+
+/* =========================================================
+   FUNCIONES STORAGE
+========================================================= */
+
+function cargarStorage(clave, defecto){
+
+    try{
+
+        const dato =
+            localStorage.getItem(clave);
+
+        if(dato){
+
+            return JSON.parse(dato);
+
+        }
+
+    }
+    catch(error){
+
+        console.error(error);
+
+    }
+
+    localStorage.setItem(
+        clave,
+        JSON.stringify(defecto)
+    );
+
+    return JSON.parse(
+        JSON.stringify(defecto)
+    );
+
+}
+
+
+function guardarStorage(clave, dato){
+
+    localStorage.setItem(
+        clave,
+        JSON.stringify(dato)
+    );
+
+}
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        cargarSelectores();
+
+        prepararNuevaAuditoria();
+
+        renderDashboard();
+
+        renderHistorial();
+
+        renderPareto();
+
+        renderAdmin();
+
+    }
+);
+
+
+/* =========================================================
+   NAVEGACION
+========================================================= */
+
+function mostrarVista(vista){
+
+    document
+        .querySelectorAll(".view")
+        .forEach(v => v.classList.remove("active"));
+
+
+    const elemento =
+        document.getElementById(
+            "view" +
+            vista.charAt(0).toUpperCase() +
+            vista.slice(1)
+        );
+
+
+    if(elemento){
+
+        elemento.classList.add("active");
+
+    }
+
+
+    document
+        .querySelectorAll(".nav button")
+        .forEach(b => b.classList.remove("active"));
+
+
+    const boton =
+        document.getElementById(
+            "nav" +
+            vista.charAt(0).toUpperCase() +
+            vista.slice(1)
+        );
+
+
+    if(boton){
+
+        boton.classList.add("active");
+
+    }
+
+
+    if(vista === "dashboard"){
+
+        renderDashboard();
+
+    }
+
+
+    if(vista === "historial"){
+
+        renderHistorial();
+
+    }
+
+
+    if(vista === "pareto"){
+
+        renderPareto();
+
+    }
+
+
+    if(vista === "admin"){
+
+        renderAdmin();
+
+    }
+
+
+    if(vista === "nueva"){
+
+        prepararNuevaAuditoria();
+
+    }
+
+}
+
+
+/* =========================================================
+   SELECTORES
+========================================================= */
+
+function cargarSelectores(){
+
+    const auditorSelect =
+        document.getElementById(
+            "auditAuditor"
+        );
+
+    auditorSelect.innerHTML =
+        auditores
+        .map(
+            a =>
+            `<option>${esc(a)}</option>`
+        )
+        .join("");
+
+
+    const sectorSelect =
+        document.getElementById(
+            "auditSector"
+        );
+
+    sectorSelect.innerHTML =
+        sectores
+        .map(
+            s =>
+            `<option>${esc(s)}</option>`
+        )
+        .join("");
+
+
+    const filtroSector =
+        document.getElementById(
+            "filtroSector"
+        );
+
+
+    filtroSector.innerHTML =
+        `<option value="">Todos los sectores</option>` +
+        sectores
+        .map(
+            s =>
+            `<option>${esc(s)}</option>`
+        )
+        .join("");
+
+}
+
+
+/* =========================================================
+   PREPARAR AUDITORIA
+========================================================= */
+
+function prepararNuevaAuditoria(){
+
+    document
+        .getElementById("configAuditCard")
+        .classList.remove("hidden");
+
+
+    document
+        .getElementById("auditQuestionArea")
+        .classList.add("hidden");
+
+
+    const ahora =
+        new Date();
+
+
+    document
+        .getElementById("auditFecha")
+        .value =
+        ahora.toLocaleDateString(
+            "es-AR"
+        );
+
+
+    document
+        .getElementById("auditHora")
+        .value =
+        ahora.toLocaleTimeString(
+            "es-AR"
+        );
+
+
+    document
+        .getElementById("auditId")
+        .value =
+        generarId();
+
+
+}
+
+
+/* =========================================================
+   ID AUTOMATICO
+========================================================= */
+
+function generarId(){
+
+    const ahora =
+        new Date();
+
+
+    const fecha =
+        ahora.getFullYear() +
+        String(
+            ahora.getMonth()+1
+        ).padStart(2,"0") +
+        String(
+            ahora.getDate()
+        ).padStart(2,"0");
+
+
+    const prefijo =
+        "AUD-" + fecha;
+
+
+    const delDia =
+        auditorias.filter(
+            a =>
+            a.id &&
+            a.id.startsWith(prefijo)
+        );
+
+
+    const numero =
+        String(
+            delDia.length + 1
+        ).padStart(3,"0");
+
+
+    return `${prefijo}-${numero}`;
+
+}
+
+
+/* =========================================================
+   INICIAR AUDITORIA
+========================================================= */
+
+function iniciarAuditoria(){
+
+    const activas =
+        preguntas.filter(
+            p => p.activa
+        );
+
+
+    if(!activas.length){
+
+        alert(
+            "No existen preguntas activas."
+        );
+
+        return;
+
+    }
+
+
+    const ahora =
+        new Date();
+
+
+    auditoriaActual = {
 
         id:
-        "AUD-" +
-        Date.now(),
+            document
+                .getElementById("auditId")
+                .value,
 
         fecha:
-        new Date().toLocaleDateString("es-AR"),
+            document
+                .getElementById("auditFecha")
+                .value,
 
         hora:
-        new Date().toLocaleTimeString("es-AR"),
+            document
+                .getElementById("auditHora")
+                .value,
 
         auditor:
-        document.getElementById("auditor").value,
+            document
+                .getElementById("auditAuditor")
+                .value,
 
         sector:
-        document.getElementById("sector").value,
-
-        referencia:
-        document.getElementById("referencia").value.trim(),
+            document
+                .getElementById("auditSector")
+                .value,
 
         tipo:
-        document.getElementById("tipoAuditoria").value
+            document
+                .getElementById("auditTipo")
+                .value
 
     };
 
-    document.getElementById("configuracion").classList.add("hidden");
+
+    indicePregunta = 0;
+
+    respuestasActuales = [];
+
+
+    document
+        .getElementById("configAuditCard")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("auditQuestionArea")
+        .classList.remove("hidden");
+
 
     mostrarPregunta();
 
 }
 
 
-/* =========================
+/* =========================================================
+   PREGUNTA ACTUAL
+========================================================= */
+
+function obtenerPreguntasActivas(){
+
+    return preguntas.filter(
+        p => p.activa
+    );
+
+}
+
+
+function obtenerRespuestaActual(){
+
+    const preguntasActivas =
+        obtenerPreguntasActivas();
+
+
+    const pregunta =
+        preguntasActivas[indicePregunta];
+
+
+    return respuestasActuales.find(
+        r =>
+        r.preguntaId === pregunta.id
+    );
+
+}
+
+
+/* =========================================================
    MOSTRAR PREGUNTA
-========================= */
+========================================================= */
 
 function mostrarPregunta(){
 
-    const contenido =
-    document.getElementById("contenido");
+    const preguntasActivas =
+        obtenerPreguntasActivas();
 
-    const progreso =
-    Math.round(
-        (actual / preguntas.length) * 100
-    );
 
-    const respuestaAnterior =
-    respuestas[actual] || null;
+    const pregunta =
+        preguntasActivas[indicePregunta];
 
 
-    contenido.innerHTML = `
-
-    <div class="progress-container">
-
-        <div class="progress-info">
-
-            <span>
-            Pregunta ${actual + 1}
-            de ${preguntas.length}
-            </span>
-
-            <span>
-            ${progreso}%
-            </span>
-
-        </div>
-
-        <div class="progress-bar">
-
-            <div
-            class="progress-fill"
-            style="width:${progreso}%">
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="question-card">
-
-        <div class="question-number">
-        PREGUNTA ${actual + 1}
-        </div>
-
-        <div class="question-text">
-        ${preguntas[actual]}
-        </div>
-
-
-        <div class="respuestas">
-
-
-            <label
-            class="respuesta ${
-                respuestaAnterior &&
-                respuestaAnterior.valor === "Cumple"
-                ? "seleccionada" : ""
-            }">
-
-                <input
-                type="radio"
-                name="respuesta"
-                value="Cumple"
-                ${
-                    respuestaAnterior &&
-                    respuestaAnterior.valor === "Cumple"
-                    ? "checked" : ""
-                }>
-
-                ✓ Cumple
-
-            </label>
-
-
-            <label
-            class="respuesta ${
-                respuestaAnterior &&
-                respuestaAnterior.valor === "No Cumple"
-                ? "seleccionada" : ""
-            }">
-
-                <input
-                type="radio"
-                name="respuesta"
-                value="No Cumple"
-                ${
-                    respuestaAnterior &&
-                    respuestaAnterior.valor === "No Cumple"
-                    ? "checked" : ""
-                }>
-
-                ✕ No Cumple
-
-            </label>
-
-
-            <label
-            class="respuesta ${
-                respuestaAnterior &&
-                respuestaAnterior.valor === "No Aplica"
-                ? "seleccionada" : ""
-            }">
-
-                <input
-                type="radio"
-                name="respuesta"
-                value="No Aplica"
-                ${
-                    respuestaAnterior &&
-                    respuestaAnterior.valor === "No Aplica"
-                    ? "checked" : ""
-                }>
-
-                — No Aplica
-
-            </label>
-
-        </div>
-
-
-        <div class="observacion">
-
-            <label>
-            Observaciones
-            </label>
-
-            <textarea
-            id="observacion"
-            placeholder="Ingrese observaciones, detalles o acciones requeridas..."
-            >${respuestaAnterior ? respuestaAnterior.observacion : ""}</textarea>
-
-        </div>
-
-
-        <div class="evidencia">
-
-            <label>
-            Evidencia fotográfica
-            </label>
-
-            <input
-            type="file"
-            id="foto"
-            accept="image/*"
-            capture="environment"
-            onchange="previsualizarFoto()"
-            >
-
-            <img
-            id="preview"
-            class="preview"
-            >
-
-        </div>
-
-
-        <div class="acciones">
-
-            ${
-                actual > 0
-                ?
-                `<button
-                class="secondary"
-                onclick="preguntaAnterior()">
-                ← Anterior
-                </button>`
-                :
-                `<div></div>`
-            }
-
-            <button
-            onclick="siguientePregunta()">
-            ${
-                actual === preguntas.length - 1
-                ? "Finalizar Auditoría"
-                : "Siguiente →"
-            }
-            </button>
-
-        </div>
-
-    </div>
-
-    `;
-
-
-    document
-    .querySelectorAll(".respuesta")
-    .forEach(elemento => {
-
-        elemento.addEventListener(
-            "click",
-            function(){
-
-                document
-                .querySelectorAll(".respuesta")
-                .forEach(x =>
-                    x.classList.remove("seleccionada")
-                );
-
-                this.classList.add("seleccionada");
-
-            }
-        );
-
-    });
-
-}
-
-
-/* =========================
-   FOTO
-========================= */
-
-function previsualizarFoto(){
-
-    const archivo =
-    document.getElementById("foto").files[0];
-
-    const preview =
-    document.getElementById("preview");
-
-    if(!archivo){
-
-        preview.style.display="none";
-
-        return;
-
-    }
-
-    const lector =
-    new FileReader();
-
-    lector.onload = function(e){
-
-        preview.src = e.target.result;
-
-        preview.style.display="block";
-
-    };
-
-    lector.readAsDataURL(archivo);
-
-}
-
-
-/* =========================
-   SIGUIENTE
-========================= */
-
-function siguientePregunta(){
-
-    const respuesta =
-    document.querySelector(
-        'input[name="respuesta"]:checked'
-    );
-
-
-    if(!respuesta){
-
-        alert(
-            "Debe seleccionar Cumple, No Cumple o No Aplica."
-        );
-
-        return;
-
-    }
-
-
-    const valor =
-    respuesta.value;
-
-
-    const observacion =
-    document
-    .getElementById("observacion")
-    .value
-    .trim();
-
-
-    const archivo =
-    document
-    .getElementById("foto")
-    .files[0];
-
-
-    /*
-    Para NO CUMPLE:
-    observación obligatoria
-    y foto obligatoria
-    */
-
-    if(
-        valor === "No Cumple" &&
-        (
-            observacion === "" ||
-            !archivo
-        )
-    ){
-
-        alert(
-            "Para un NO CUMPLE debe ingresar una observación y adjuntar evidencia fotográfica."
-        );
-
-        return;
-
-    }
-
-
-    respuestas[actual] = {
-
-        pregunta:
-        preguntas[actual],
-
-        valor:
-        valor,
-
-        observacion:
-        observacion,
-
-        evidencia:
-        archivo ? archivo.name : ""
-
-    };
-
-
-    actual++;
-
-
-    if(actual >= preguntas.length){
+    if(!pregunta){
 
         finalizarAuditoria();
 
@@ -996,20 +2666,537 @@ function siguientePregunta(){
     }
 
 
+    const respuesta =
+        obtenerRespuestaActual();
+
+
+    const porcentaje =
+        Math.round(
+            (
+                indicePregunta /
+                preguntasActivas.length
+            ) * 100
+        );
+
+
+    document
+        .getElementById("auditSectorTitulo")
+        .textContent =
+        auditoriaActual.sector;
+
+
+    document
+        .getElementById("auditIdTitulo")
+        .textContent =
+        auditoriaActual.id +
+        " · " +
+        auditoriaActual.tipo;
+
+
+    document
+        .getElementById("progressText")
+        .textContent =
+        `Pregunta ${indicePregunta+1} de ${preguntasActivas.length}`;
+
+
+    document
+        .getElementById("progressPercent")
+        .textContent =
+        `${porcentaje}%`;
+
+
+    document
+        .getElementById("progressBar")
+        .style.width =
+        `${porcentaje}%`;
+
+
+    let fotosHTML = "";
+
+
+    if(
+        respuesta &&
+        respuesta.fotos &&
+        respuesta.fotos.length
+    ){
+
+        fotosHTML =
+            respuesta.fotos
+            .map(
+                (foto,index) => `
+
+                <div class="photo-item">
+
+                    <img src="${foto}">
+
+                    <button
+                    class="photo-remove"
+                    onclick="eliminarFoto(${index})">
+
+                    ×
+
+                    </button>
+
+                </div>
+
+                `
+            )
+            .join("");
+
+    }
+
+
+    if(!fotosHTML){
+
+        fotosHTML = `
+        <div class="photo-empty">
+        No hay fotografías adjuntas.
+        </div>
+        `;
+
+    }
+
+
+    const valor =
+        respuesta
+        ? respuesta.valor
+        : "";
+
+
+    document
+        .getElementById("questionCard")
+        .innerHTML = `
+
+        <div class="button-row">
+
+            <span class="category-badge">
+
+            ${esc(pregunta.categoria)}
+
+            </span>
+
+            <span class="weight-badge">
+
+            Peso: ${pregunta.peso}
+
+            </span>
+
+        </div>
+
+
+        <div class="question-title">
+
+        ${esc(pregunta.texto)}
+
+        </div>
+
+
+        <div class="answers">
+
+
+            <div class="answer-card">
+
+                <input
+                type="radio"
+                id="ansCumple"
+                name="respuesta"
+                value="Cumple"
+                ${valor==="Cumple" ? "checked" : ""}>
+
+                <label
+                for="ansCumple"
+                class="answer-label cumple">
+
+                🟢 Cumple
+
+                </label>
+
+            </div>
+
+
+            <div class="answer-card">
+
+                <input
+                type="radio"
+                id="ansNoCumple"
+                name="respuesta"
+                value="No Cumple"
+                ${valor==="No Cumple" ? "checked" : ""}>
+
+                <label
+                for="ansNoCumple"
+                class="answer-label nocumple">
+
+                🔴 No Cumple
+
+                </label>
+
+            </div>
+
+
+            <div class="answer-card">
+
+                <input
+                type="radio"
+                id="ansNA"
+                name="respuesta"
+                value="No Aplica"
+                ${valor==="No Aplica" ? "checked" : ""}>
+
+                <label
+                for="ansNA"
+                class="answer-label na">
+
+                🟡 No Aplica
+
+                </label>
+
+            </div>
+
+        </div>
+
+
+        <div class="mt-20">
+
+            <label>
+            Observaciones
+            </label>
+
+            <textarea
+            id="observacion"
+            placeholder="Ingrese la observación o detalle del hallazgo..."
+            >${respuesta ? esc(respuesta.observacion) : ""}</textarea>
+
+        </div>
+
+
+        <div class="photo-area">
+
+            <label>
+            Evidencia fotográfica
+            </label>
+
+            <input
+            id="inputFotos"
+            type="file"
+            accept="image/*"
+            multiple
+            capture="environment"
+            onchange="agregarFotos(event)"
+            >
+
+            <div class="muted mt-20">
+
+            Puede adjuntar varias fotografías a esta pregunta.
+
+            </div>
+
+
+            <div
+            id="photoGrid"
+            class="photo-grid">
+
+            ${fotosHTML}
+
+            </div>
+
+        </div>
+
+
+        <div class="audit-actions">
+
+
+            ${
+                indicePregunta > 0
+                ?
+                `
+                <button
+                class="btn-secondary"
+                onclick="preguntaAnterior()">
+
+                ← Anterior
+
+                </button>
+                `
+                :
+                `
+                <button
+                class="btn-light"
+                disabled>
+
+                ← Anterior
+
+                </button>
+                `
+            }
+
+
+            <button
+            onclick="guardarYContinuar()">
+
+            ${
+                indicePregunta ===
+                preguntasActivas.length-1
+                ?
+                "Finalizar auditoría"
+                :
+                "Siguiente →"
+            }
+
+            </button>
+
+        </div>
+
+        `;
+
+}
+
+
+/* =========================================================
+   AGREGAR FOTOS
+========================================================= */
+
+function agregarFotos(event){
+
+    const archivos =
+        Array.from(
+            event.target.files
+        );
+
+
+    if(!archivos.length)
+        return;
+
+
+    let respuesta =
+        obtenerRespuestaActual();
+
+
+    const preguntasActivas =
+        obtenerPreguntasActivas();
+
+
+    const pregunta =
+        preguntasActivas[indicePregunta];
+
+
+    if(!respuesta){
+
+        respuesta = {
+
+            preguntaId:
+                pregunta.id,
+
+            valor:"",
+            observacion:"",
+            fotos:[]
+
+        };
+
+        respuestasActuales.push(
+            respuesta
+        );
+
+    }
+
+
+    let pendientes =
+        archivos.length;
+
+
+    archivos.forEach(
+        archivo => {
+
+            const lector =
+                new FileReader();
+
+
+            lector.onload =
+                function(e){
+
+                    respuesta.fotos.push(
+                        e.target.result
+                    );
+
+
+                    pendientes--;
+
+
+                    if(pendientes === 0){
+
+                        mostrarPregunta();
+
+                    }
+
+                };
+
+
+            lector.readAsDataURL(
+                archivo
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   ELIMINAR FOTO
+========================================================= */
+
+function eliminarFoto(index){
+
+    const respuesta =
+        obtenerRespuestaActual();
+
+
+    if(!respuesta)
+        return;
+
+
+    respuesta.fotos.splice(
+        index,
+        1
+    );
+
+
     mostrarPregunta();
 
 }
 
 
-/* =========================
-   ANTERIOR
-========================= */
+/* =========================================================
+   GUARDAR RESPUESTA
+========================================================= */
+
+function guardarYContinuar(){
+
+    const seleccionado =
+        document.querySelector(
+            'input[name="respuesta"]:checked'
+        );
+
+
+    if(!seleccionado){
+
+        alert(
+            "Debe seleccionar una respuesta."
+        );
+
+        return;
+
+    }
+
+
+    const valor =
+        seleccionado.value;
+
+
+    const observacion =
+        document
+            .getElementById("observacion")
+            .value
+            .trim();
+
+
+    const fotos =
+        obtenerRespuestaActual()
+        ?.fotos || [];
+
+
+    if(valor === "No Cumple"){
+
+        if(!observacion){
+
+            alert(
+                "Para un No Cumple debe ingresar una observación."
+            );
+
+            return;
+
+        }
+
+
+        if(!fotos.length){
+
+            alert(
+                "Para un No Cumple debe adjuntar al menos una fotografía."
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    const preguntasActivas =
+        obtenerPreguntasActivas();
+
+
+    const pregunta =
+        preguntasActivas[indicePregunta];
+
+
+    let respuesta =
+        obtenerRespuestaActual();
+
+
+    if(!respuesta){
+
+        respuesta = {
+
+            preguntaId:
+                pregunta.id,
+
+            valor:"",
+            observacion:"",
+            fotos:[]
+
+        };
+
+        respuestasActuales.push(
+            respuesta
+        );
+
+    }
+
+
+    respuesta.valor =
+        valor;
+
+
+    respuesta.observacion =
+        observacion;
+
+
+    if(indicePregunta ===
+        preguntasActivas.length-1){
+
+        finalizarAuditoria();
+
+        return;
+
+    }
+
+
+    indicePregunta++;
+
+    mostrarPregunta();
+
+}
+
+
+/* =========================================================
+   PREGUNTA ANTERIOR
+========================================================= */
 
 function preguntaAnterior(){
 
-    if(actual > 0){
+    if(indicePregunta > 0){
 
-        actual--;
+        indicePregunta--;
 
         mostrarPregunta();
 
@@ -1018,441 +3205,2490 @@ function preguntaAnterior(){
 }
 
 
-/* =========================
+/* =========================================================
+   CANCELAR
+========================================================= */
+
+function cancelarAuditoria(){
+
+    const confirmar =
+        confirm(
+            "¿Desea cancelar la auditoría actual? Se perderá el progreso no guardado."
+        );
+
+
+    if(!confirmar)
+        return;
+
+
+    auditoriaActual = null;
+
+    respuestasActuales = [];
+
+    indicePregunta = 0;
+
+    mostrarVista("nueva");
+
+}
+
+
+/* =========================================================
    FINALIZAR
-========================= */
+========================================================= */
 
 function finalizarAuditoria(){
 
+    const preguntasActivas =
+        obtenerPreguntasActivas();
+
+
+    let puntosObtenidos = 0;
+
+    let puntosPosibles = 0;
+
     let cumple = 0;
+
     let noCumple = 0;
+
     let noAplica = 0;
 
-
-    respuestas.forEach(r => {
-
-        if(r.valor === "Cumple")
-            cumple++;
-
-        if(r.valor === "No Cumple")
-            noCumple++;
-
-        if(r.valor === "No Aplica")
-            noAplica++;
-
-    });
+    let hallazgos = [];
 
 
-    const evaluables =
-    cumple + noCumple;
+    const respuestasCompletas =
+        preguntasActivas.map(
+            pregunta => {
+
+                const r =
+                    respuestasActuales.find(
+                        x =>
+                        x.preguntaId ===
+                        pregunta.id
+                    );
 
 
-    const porcentaje =
-    evaluables > 0
-    ?
-    ((cumple / evaluables) * 100).toFixed(2)
-    :
-    "0.00";
+                const valor =
+                    r
+                    ? r.valor
+                    : null;
+
+
+                if(valor === "Cumple"){
+
+                    cumple++;
+
+                    puntosObtenidos +=
+                        Number(
+                            pregunta.peso
+                        );
+
+                    puntosPosibles +=
+                        Number(
+                            pregunta.peso
+                        );
+
+                }
+
+
+                else if(
+                    valor === "No Cumple"
+                ){
+
+                    noCumple++;
+
+                    puntosPosibles +=
+                        Number(
+                            pregunta.peso
+                        );
+
+
+                    hallazgos.push({
+
+                        preguntaId:
+                            pregunta.id,
+
+                        pregunta:
+                            pregunta.texto,
+
+                        categoria:
+                            pregunta.categoria,
+
+                        peso:
+                            pregunta.peso,
+
+                        observacion:
+                            r
+                            ? r.observacion
+                            : "",
+
+                        fotos:
+                            r
+                            ? r.fotos
+                            : []
+
+                    });
+
+                }
+
+
+                else if(
+                    valor === "No Aplica"
+                ){
+
+                    noAplica++;
+
+                }
+
+
+                return {
+
+                    preguntaId:
+                        pregunta.id,
+
+                    pregunta:
+                        pregunta.texto,
+
+                    categoria:
+                        pregunta.categoria,
+
+                    peso:
+                        pregunta.peso,
+
+                    respuesta:
+                        valor || "Sin respuesta",
+
+                    observacion:
+                        r
+                        ? r.observacion
+                        : "",
+
+                    fotos:
+                        r
+                        ? r.fotos
+                        : []
+
+                };
+
+            }
+        );
+
+
+    const cumplimiento =
+        puntosPosibles > 0
+        ?
+        (
+            puntosObtenidos /
+            puntosPosibles
+        ) * 100
+        :
+        0;
 
 
     let estado;
 
 
-    if(noCumple === 0){
+    if(cumplimiento >= 70){
 
-        estado = "APROBADA";
-
-    }
-    else if(porcentaje >= 90){
-
-        estado = "OBSERVADA";
+        estado =
+            "APROBADA";
 
     }
+
+    else if(cumplimiento >= 40){
+
+        estado =
+            "NECESITA MEJORAR";
+
+    }
+
     else{
 
-        estado = "RECHAZADA";
+        estado =
+            "RECHAZADA";
 
     }
 
 
-    auditoria.cumple = cumple;
-
-    auditoria.noCumple = noCumple;
-
-    auditoria.noAplica = noAplica;
-
-    auditoria.porcentaje = porcentaje;
-
-    auditoria.estado = estado;
-
-    auditoria.respuestas = respuestas;
+    auditoriaActual.cumple =
+        cumple;
 
 
-    guardarAuditoria();
+    auditoriaActual.noCumple =
+        noCumple;
 
 
-    mostrarResultado();
-
-}
-
-
-/* =========================
-   GUARDAR
-========================= */
-
-function guardarAuditoria(){
-
-    let auditorias =
-    JSON.parse(
-        localStorage.getItem("auditoriasAR")
-    ) || [];
+    auditoriaActual.noAplica =
+        noAplica;
 
 
-    auditorias.push(auditoria);
+    auditoriaActual.hallazgos =
+        hallazgos.length;
 
 
-    localStorage.setItem(
-        "auditoriasAR",
-        JSON.stringify(auditorias)
+    auditoriaActual.puntosObtenidos =
+        puntosObtenidos;
+
+
+    auditoriaActual.puntosPosibles =
+        puntosPosibles;
+
+
+    auditoriaActual.cumplimiento =
+        Number(
+            cumplimiento.toFixed(2)
+        );
+
+
+    auditoriaActual.estado =
+        estado;
+
+
+    auditoriaActual.respuestas =
+        respuestasCompletas;
+
+
+    auditoriaActual.fechaISO =
+        new Date().toISOString();
+
+
+    /*
+       Guardamos la auditoría.
+    */
+
+    auditorias.push(
+        JSON.parse(
+            JSON.stringify(
+                auditoriaActual
+            )
+        )
     );
 
+
+    try{
+
+        guardarStorage(
+            STORAGE.auditorias,
+            auditorias
+        );
+
+    }
+    catch(error){
+
+        /*
+           Si las fotos hacen que localStorage
+           se quede sin espacio, informamos.
+        */
+
+        console.error(error);
+
+        alert(
+            "La auditoría no pudo guardarse completamente en el navegador. Las fotografías pueden haber superado la capacidad de almacenamiento local. Para producción debemos migrar las fotos a Supabase Storage."
+        );
+
+        return;
+
+    }
+
+
+    mostrarResultado(
+        auditoriaActual
+    );
+
+
+    auditoriaActual = null;
+
+    respuestasActuales = [];
+
+    indicePregunta = 0;
+
 }
 
 
-/* =========================
-   RESULTADO
-========================= */
+/* =========================================================
+   MOSTRAR RESULTADO
+========================================================= */
 
-function mostrarResultado(){
+function mostrarResultado(auditoria){
+
+    mostrarVista("resultado");
+
 
     const porcentaje =
-    parseFloat(auditoria.porcentaje);
+        auditoria.cumplimiento;
 
 
-    let claseBarra =
-    "background:#198754";
+    let clase =
+        "aprobada";
 
 
-    if(porcentaje < 90){
+    let color =
+        "#198754";
 
-        claseBarra =
-        "background:#ffc107";
+
+    if(auditoria.estado ===
+        "NECESITA MEJORAR"){
+
+        clase =
+            "mejorar";
+
+        color =
+            "#ffc107";
 
     }
 
-    if(porcentaje < 70){
 
-        claseBarra =
-        "background:#dc3545";
+    if(auditoria.estado ===
+        "RECHAZADA"){
+
+        clase =
+            "rechazada";
+
+        color =
+            "#dc3545";
 
     }
 
 
-    let hallazgosHTML = "";
+    const categorias =
+        calcularCategorias(
+            auditoria
+        );
 
 
-    respuestas.forEach((r,index) => {
+    let categoriasHTML =
+        Object
+        .entries(categorias)
+        .map(
+            ([nombre,datos]) => {
 
-        if(r.valor === "No Cumple"){
+                const p =
+                    datos.posibles > 0
+                    ?
+                    (
+                        datos.obtenidos /
+                        datos.posibles
+                    ) * 100
+                    :
+                    0;
 
-            hallazgosHTML += `
 
-            <div class="hallazgo">
+                return `
 
-                <h4>
-                Hallazgo ${index + 1}
-                </h4>
+                <div class="bar-row">
+
+                    <div class="bar-header">
+
+                        <span>
+                        ${esc(nombre)}
+                        </span>
+
+                        <strong>
+                        ${p.toFixed(1)}%
+                        </strong>
+
+                    </div>
+
+                    <div class="bar-bg">
+
+                        <div
+                        class="bar-fill ${
+                            p >= 70
+                            ? "green"
+                            :
+                            p >= 40
+                            ? "yellow"
+                            :
+                            "red"
+                        }"
+                        style="width:${p}%">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+
+    let hallazgosHTML =
+        auditoria.respuestas
+        .filter(
+            r =>
+            r.respuesta ===
+            "No Cumple"
+        )
+        .map(
+            (h,index) => `
+
+            <div class="finding">
+
+                <div class="finding-title">
+
+                Hallazgo #${index+1}
+
+                </div>
+
+                <div class="mt-20">
+
+                <strong>
+                Categoría:
+                </strong>
+
+                ${esc(h.categoria)}
+
+                </div>
+
+
+                <div class="mt-20">
 
                 <strong>
                 Pregunta:
                 </strong>
 
-                ${r.pregunta}
+                ${esc(h.pregunta)}
 
-                <br><br>
+                </div>
+
+
+                <div class="mt-20">
+
+                <strong>
+                Peso:
+                </strong>
+
+                ${h.peso}
+
+                </div>
+
+
+                <div class="mt-20">
 
                 <strong>
                 Observación:
                 </strong>
 
-                ${r.observacion}
+                ${esc(
+                    h.observacion ||
+                    "Sin observación"
+                )}
 
-                <br><br>
+                </div>
 
-                <strong>
-                Evidencia:
-                </strong>
 
-                ${r.evidencia}
+                ${
+                    h.fotos &&
+                    h.fotos.length
+                    ?
+                    `
+
+                    <div class="finding-photo-grid">
+
+                    ${
+                        h.fotos
+                        .map(
+                            foto =>
+                            `<img src="${foto}">`
+                        )
+                        .join("")
+                    }
+
+                    </div>
+
+                    `
+                    :
+                    ""
+                }
 
             </div>
 
+            `
+        )
+        .join("");
+
+
+    if(!hallazgosHTML){
+
+        hallazgosHTML =
+            `
+            <div class="alert alert-info">
+            No se detectaron hallazgos.
+            </div>
             `;
 
-        }
-
-    });
-
-
-    document.getElementById("contenido").innerHTML = `
-
-    <hr>
-
-    <h2>
-    Auditoría Finalizada
-    </h2>
-
-
-    <div class="meta">
-
-        <div class="meta-grid">
-
-            <div>
-            <strong>ID:</strong>
-            ${auditoria.id}
-            </div>
-
-            <div>
-            <strong>Referencia:</strong>
-            ${auditoria.referencia || "Sin referencia"}
-            </div>
-
-            <div>
-            <strong>Auditor:</strong>
-            ${auditoria.auditor}
-            </div>
-
-            <div>
-            <strong>Sector:</strong>
-            ${auditoria.sector}
-            </div>
-
-            <div>
-            <strong>Tipo:</strong>
-            ${auditoria.tipo}
-            </div>
-
-            <div>
-            <strong>Fecha:</strong>
-            ${auditoria.fecha}
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="kpis">
-
-
-        <div class="kpi">
-
-            <div>
-            Total
-            </div>
-
-            <div class="kpi-numero azul">
-            ${preguntas.length}
-            </div>
-
-        </div>
-
-
-        <div class="kpi">
-
-            <div>
-            Cumple
-            </div>
-
-            <div class="kpi-numero verde">
-            ${auditoria.cumple}
-            </div>
-
-        </div>
-
-
-        <div class="kpi">
-
-            <div>
-            No Cumple
-            </div>
-
-            <div class="kpi-numero rojo">
-            ${auditoria.noCumple}
-            </div>
-
-        </div>
-
-
-        <div class="kpi">
-
-            <div>
-            No Aplica
-            </div>
-
-            <div class="kpi-numero amarillo">
-            ${auditoria.noAplica}
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="cumplimiento">
-
-        <div>
-        PORCENTAJE DE CUMPLIMIENTO
-        </div>
-
-        <div class="cumplimiento-numero">
-
-        ${auditoria.porcentaje}%
-
-        </div>
-
-
-        <div class="big-progress">
-
-            <div
-            class="big-progress-fill"
-            style="
-            width:${auditoria.porcentaje}%;
-            ${claseBarra};
-            ">
-            </div>
-
-        </div>
-
-
-        <div class="estado ${
-            auditoria.estado === "APROBADA"
-            ? "aprobada"
-            :
-            auditoria.estado === "OBSERVADA"
-            ? "observada"
-            :
-            "rechazada"
-        }">
-
-        ${auditoria.estado}
-
-        </div>
-
-    </div>
-
-
-    <hr>
-
-
-    <h2>
-    Hallazgos
-    </h2>
-
-
-    ${
-        hallazgosHTML ||
-        `
-        <div class="kpi">
-        ✓ No se detectaron No Cumple.
-        </div>
-        `
     }
 
 
-    <div class="acciones">
+    document
+        .getElementById(
+            "resultadoContenido"
+        )
+        .innerHTML = `
 
-        <button
-        class="success"
-        onclick="window.print()">
+        <div class="card">
 
-        🖨 Imprimir / Guardar PDF
+            <div class="result-meta">
 
-        </button>
+                <div class="meta-grid">
+
+                    <div class="meta-item">
+
+                        <strong>ID</strong>
+
+                        ${esc(auditoria.id)}
+
+                    </div>
 
 
-        <button
-        class="secondary"
-        onclick="nuevaAuditoria()">
+                    <div class="meta-item">
 
-        ↻ Nueva Auditoría
+                        <strong>Fecha</strong>
 
-        </button>
+                        ${esc(auditoria.fecha)}
+
+                    </div>
+
+
+                    <div class="meta-item">
+
+                        <strong>Hora</strong>
+
+                        ${esc(auditoria.hora)}
+
+                    </div>
+
+
+                    <div class="meta-item">
+
+                        <strong>Auditor</strong>
+
+                        ${esc(auditoria.auditor)}
+
+                    </div>
+
+
+                    <div class="meta-item">
+
+                        <strong>Sector</strong>
+
+                        ${esc(auditoria.sector)}
+
+                    </div>
+
+
+                    <div class="meta-item">
+
+                        <strong>Tipo</strong>
+
+                        ${esc(auditoria.tipo)}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="result-score">
+
+                <div class="score">
+
+                ${porcentaje.toFixed(2)}%
+
+                </div>
+
+                <div class="score-label">
+
+                Cumplimiento ponderado
+
+                </div>
+
+
+                <div
+                class="score-progress">
+
+                    <div
+                    class="score-progress-fill"
+                    style="
+                    width:${porcentaje}%;
+                    background:${color};
+                    ">
+
+                    </div>
+
+                </div>
+
+
+                <span
+                class="status ${clase}">
+
+                ${
+                    auditoria.estado ===
+                    "APROBADA"
+                    ? "🟢"
+                    :
+                    auditoria.estado ===
+                    "NECESITA MEJORAR"
+                    ? "🟡"
+                    : "🔴"
+                }
+
+                ${auditoria.estado}
+
+                </span>
+
+            </div>
+
+
+            <div class="grid grid-4">
+
+
+                <div class="kpi verde">
+
+                    <div class="kpi-label">
+                    Cumple
+                    </div>
+
+                    <div class="kpi-numero">
+                    ${auditoria.cumple}
+                    </div>
+
+                </div>
+
+
+                <div class="kpi rojo">
+
+                    <div class="kpi-label">
+                    No Cumple
+                    </div>
+
+                    <div class="kpi-numero">
+                    ${auditoria.noCumple}
+                    </div>
+
+                </div>
+
+
+                <div class="kpi amarillo">
+
+                    <div class="kpi-label">
+                    No Aplica
+                    </div>
+
+                    <div class="kpi-numero">
+                    ${auditoria.noAplica}
+                    </div>
+
+                </div>
+
+
+                <div class="kpi">
+
+                    <div class="kpi-label">
+                    Hallazgos
+                    </div>
+
+                    <div class="kpi-numero">
+                    ${auditoria.hallazgos}
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="grid grid-2 mt-20">
+
+
+                <div class="card">
+
+                    <div class="card-title">
+                    Puntuación
+                    </div>
+
+                    <div class="text-center">
+
+                        <strong
+                        style="font-size:35px">
+
+                        ${auditoria.puntosObtenidos}
+
+                        </strong>
+
+                        /
+
+                        <strong
+                        style="font-size:35px">
+
+                        ${auditoria.puntosPosibles}
+
+                        </strong>
+
+                        <div class="muted">
+                        puntos obtenidos / posibles
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-title">
+                    Criterio
+                    </div>
+
+                    <div>
+
+                    🟢 ≥ 70 % → APROBADA
+
+                    </div>
+
+                    <div class="mt-20">
+
+                    🟡 40 % a <70 % → NECESITA MEJORAR
+
+                    </div>
+
+                    <div class="mt-20">
+
+                    🔴 <40 % → RECHAZADA
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card mt-20">
+
+                <div class="card-title">
+
+                Cumplimiento por categoría
+
+                </div>
+
+                ${categoriasHTML}
+
+            </div>
+
+
+            <div class="card mt-20">
+
+                <div class="card-title">
+
+                Hallazgos detectados
+
+                </div>
+
+                ${hallazgosHTML}
+
+            </div>
+
+
+            <div class="button-row no-print mt-20">
+
+                <button
+                onclick="window.print()">
+
+                🖨 Imprimir / Guardar PDF
+
+                </button>
+
+
+                <button
+                class="btn-secondary"
+                onclick="mostrarVista('dashboard')">
+
+                Dashboard
+
+                </button>
+
+
+                <button
+                class="btn-success"
+                onclick="mostrarVista('nueva')">
+
+                + Nueva auditoría
+
+                </button>
+
+            </div>
+
+        </div>
+
+        `;
+
+}
+
+
+/* =========================================================
+   CATEGORIAS
+========================================================= */
+
+function calcularCategorias(auditoria){
+
+    const categorias = {};
+
+
+    auditoria.respuestas.forEach(
+        r => {
+
+            if(!categorias[r.categoria]){
+
+                categorias[r.categoria] = {
+
+                    obtenidos:0,
+
+                    posibles:0
+
+                };
+
+            }
+
+
+            if(
+                r.respuesta === "Cumple"
+            ){
+
+                categorias[r.categoria]
+                    .obtenidos +=
+                    Number(r.peso);
+
+                categorias[r.categoria]
+                    .posibles +=
+                    Number(r.peso);
+
+            }
+
+
+            else if(
+                r.respuesta ===
+                "No Cumple"
+            ){
+
+                categorias[r.categoria]
+                    .posibles +=
+                    Number(r.peso);
+
+            }
+
+        }
+    );
+
+
+    return categorias;
+
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+function renderDashboard(){
+
+    const total =
+        auditorias.length;
+
+
+    const promedio =
+        total
+        ?
+        auditorias.reduce(
+            (s,a) =>
+            s + Number(a.cumplimiento || 0),
+            0
+        ) / total
+        :
+        0;
+
+
+    const hallazgos =
+        auditorias.reduce(
+            (s,a) =>
+            s + Number(a.hallazgos || 0),
+            0
+        );
+
+
+    const aprobadas =
+        auditorias.filter(
+            a =>
+            a.estado === "APROBADA"
+        ).length;
+
+
+    document
+        .getElementById(
+            "dashboardKpis"
+        )
+        .innerHTML = `
+
+        <div class="kpi">
+
+            <div class="kpi-label">
+            Auditorías realizadas
+            </div>
+
+            <div class="kpi-numero">
+            ${total}
+            </div>
+
+        </div>
+
+
+        <div class="kpi verde">
+
+            <div class="kpi-label">
+            Cumplimiento promedio
+            </div>
+
+            <div class="kpi-numero">
+            ${promedio.toFixed(1)}%
+            </div>
+
+        </div>
+
+
+        <div class="kpi rojo">
+
+            <div class="kpi-label">
+            Hallazgos acumulados
+            </div>
+
+            <div class="kpi-numero">
+            ${hallazgos}
+            </div>
+
+        </div>
+
+
+        <div class="kpi amarillo">
+
+            <div class="kpi-label">
+            Auditorías aprobadas
+            </div>
+
+            <div class="kpi-numero">
+            ${aprobadas}
+            </div>
+
+        </div>
+
+        `;
+
+
+    renderSectorBars();
+
+    renderStatusChart();
+
+    renderCategoryBars();
+
+    renderLatestAudits();
+
+}
+
+
+/* =========================================================
+   SECTORES DASHBOARD
+========================================================= */
+
+function renderSectorBars(){
+
+    const contenedor =
+        document.getElementById(
+            "sectorBars"
+        );
+
+
+    if(!auditorias.length){
+
+        contenedor.innerHTML =
+            `<div class="empty">
+            Todavía no existen auditorías.
+            </div>`;
+
+        return;
+
+    }
+
+
+    const datos = {};
+
+
+    auditorias.forEach(
+        a => {
+
+            if(!datos[a.sector]){
+
+                datos[a.sector] = [];
+
+            }
+
+            datos[a.sector].push(
+                Number(a.cumplimiento)
+            );
+
+        }
+    );
+
+
+    contenedor.innerHTML =
+        Object
+        .entries(datos)
+        .map(
+            ([sector,valores]) => {
+
+                const promedio =
+                    valores.reduce(
+                        (a,b) => a+b,
+                        0
+                    ) /
+                    valores.length;
+
+
+                return `
+
+                <div class="bar-row">
+
+                    <div class="bar-header">
+
+                        <span>
+                        ${esc(sector)}
+                        </span>
+
+                        <strong>
+                        ${promedio.toFixed(1)}%
+                        </strong>
+
+                    </div>
+
+                    <div class="bar-bg">
+
+                        <div
+                        class="bar-fill ${
+                            promedio >=70
+                            ? "green"
+                            :
+                            promedio >=40
+                            ? "yellow"
+                            :
+                            "red"
+                        }"
+                        style="width:${promedio}%">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* =========================================================
+   STATUS DASHBOARD
+========================================================= */
+
+function renderStatusChart(){
+
+    const contenedor =
+        document.getElementById(
+            "statusChart"
+        );
+
+
+    const total =
+        auditorias.length;
+
+
+    if(!total){
+
+        contenedor.innerHTML =
+            `<div class="empty">
+            Sin datos todavía.
+            </div>`;
+
+        return;
+
+    }
+
+
+    const aprobadas =
+        auditorias.filter(
+            a =>
+            a.estado === "APROBADA"
+        ).length;
+
+
+    const mejorar =
+        auditorias.filter(
+            a =>
+            a.estado ===
+            "NECESITA MEJORAR"
+        ).length;
+
+
+    const rechazadas =
+        auditorias.filter(
+            a =>
+            a.estado ===
+            "RECHAZADA"
+        ).length;
+
+
+    const pa =
+        aprobadas / total * 360;
+
+
+    const pm =
+        mejorar / total * 360;
+
+
+    const inicioRojo =
+        pa + pm;
+
+
+    contenedor.innerHTML = `
+
+    <div
+    class="donut"
+    style="
+    background:
+    conic-gradient(
+        var(--verde) 0deg ${pa}deg,
+        var(--amarillo) ${pa}deg ${inicioRojo}deg,
+        var(--rojo) ${inicioRojo}deg 360deg
+    );
+    ">
+
+        <span>
+        ${total}
+        </span>
 
     </div>
 
 
-    <button
-    class="warning"
-    onclick="exportarJSON()">
+    <div class="text-center">
 
-    Exportar Auditoría
+        🟢 Aprobadas:
+        <strong>${aprobadas}</strong>
 
-    </button>
+        <br><br>
+
+        🟡 Necesitan mejorar:
+        <strong>${mejorar}</strong>
+
+        <br><br>
+
+        🔴 Rechazadas:
+        <strong>${rechazadas}</strong>
+
+    </div>
 
     `;
 
 }
 
 
-/* =========================
-   NUEVA AUDITORÍA
-========================= */
+/* =========================================================
+   CATEGORIAS DASHBOARD
+========================================================= */
 
-function nuevaAuditoria(){
+function renderCategoryBars(){
 
-    document
-    .getElementById("configuracion")
-    .classList.remove("hidden");
-
-    document
-    .getElementById("contenido")
-    .innerHTML = "";
-
-}
+    const contenedor =
+        document.getElementById(
+            "categoryBars"
+        );
 
 
-/* =========================
-   EXPORTAR JSON
-========================= */
-
-function exportarJSON(){
-
-    const datos =
-    JSON.stringify(
-        auditoria,
-        null,
-        2
-    );
+    const datos = {};
 
 
-    const blob =
-    new Blob(
-        [datos],
-        {
-            type:"application/json"
+    auditorias.forEach(
+        a => {
+
+            a.respuestas.forEach(
+                r => {
+
+                    if(
+                        r.respuesta !==
+                        "No Cumple"
+                    ){
+
+                        return;
+
+                    }
+
+
+                    if(
+                        !datos[r.categoria]
+                    ){
+
+                        datos[r.categoria] = 0;
+
+                    }
+
+
+                    datos[r.categoria]++;
+
+                }
+            );
+
         }
     );
 
 
+    const ordenados =
+        Object.entries(datos)
+        .sort(
+            (a,b) =>
+            b[1]-a[1]
+        );
+
+
+    if(!ordenados.length){
+
+        contenedor.innerHTML =
+            `<div class="empty">
+            No existen hallazgos todavía.
+            </div>`;
+
+        return;
+
+    }
+
+
+    const max =
+        ordenados[0][1];
+
+
+    contenedor.innerHTML =
+        ordenados
+        .slice(0,8)
+        .map(
+            ([nombre,cantidad]) => `
+
+            <div class="bar-row">
+
+                <div class="bar-header">
+
+                    <span>
+                    ${esc(nombre)}
+                    </span>
+
+                    <strong>
+                    ${cantidad}
+                    </strong>
+
+                </div>
+
+                <div class="bar-bg">
+
+                    <div
+                    class="bar-fill red"
+                    style="
+                    width:${cantidad/max*100}%">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            `
+        )
+        .join("");
+
+}
+
+
+/* =========================================================
+   ULTIMAS AUDITORIAS
+========================================================= */
+
+function renderLatestAudits(){
+
+    const contenedor =
+        document.getElementById(
+            "latestAudits"
+        );
+
+
+    const lista =
+        [...auditorias]
+        .reverse()
+        .slice(0,6);
+
+
+    if(!lista.length){
+
+        contenedor.innerHTML =
+            `<div class="empty">
+            No hay auditorías.
+            </div>`;
+
+        return;
+
+    }
+
+
+    contenedor.innerHTML =
+        lista
+        .map(
+            a => `
+
+            <div
+            style="
+            padding:12px 0;
+            border-bottom:1px solid #dee2e6;
+            ">
+
+                <strong>
+                ${esc(a.id)}
+                </strong>
+
+                <div class="muted">
+                ${esc(a.sector)}
+                ·
+                ${esc(a.auditor)}
+                </div>
+
+                <div class="mt-20">
+
+                <strong>
+                ${Number(a.cumplimiento).toFixed(1)}%
+                </strong>
+
+                ·
+
+                ${esc(a.estado)}
+
+                </div>
+
+            </div>
+
+            `
+        )
+        .join("");
+
+}
+
+
+/* =========================================================
+   HISTORIAL
+========================================================= */
+
+function renderHistorial(){
+
+    const texto =
+        (
+            document
+            .getElementById(
+                "filtroTexto"
+            )?.value || ""
+        )
+        .toLowerCase();
+
+
+    const sector =
+        document
+        .getElementById(
+            "filtroSector"
+        )?.value || "";
+
+
+    const tipo =
+        document
+        .getElementById(
+            "filtroTipo"
+        )?.value || "";
+
+
+    const estado =
+        document
+        .getElementById(
+            "filtroEstado"
+        )?.value || "";
+
+
+    const lista =
+        [...auditorias]
+        .reverse()
+        .filter(
+            a => {
+
+                const coincideTexto =
+                    !texto ||
+                    (
+                        a.id +
+                        " " +
+                        a.auditor +
+                        " " +
+                        a.sector
+                    )
+                    .toLowerCase()
+                    .includes(texto);
+
+
+                const coincideSector =
+                    !sector ||
+                    a.sector === sector;
+
+
+                const coincideTipo =
+                    !tipo ||
+                    a.tipo === tipo;
+
+
+                const coincideEstado =
+                    !estado ||
+                    a.estado === estado;
+
+
+                return (
+                    coincideTexto &&
+                    coincideSector &&
+                    coincideTipo &&
+                    coincideEstado
+                );
+
+            }
+        );
+
+
+    const contenedor =
+        document.getElementById(
+            "historialTabla"
+        );
+
+
+    if(!lista.length){
+
+        contenedor.innerHTML =
+            `<div class="empty">
+            No se encontraron auditorías.
+            </div>`;
+
+        return;
+
+    }
+
+
+    contenedor.innerHTML = `
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>ID</th>
+
+                <th>Fecha</th>
+
+                <th>Auditor</th>
+
+                <th>Sector</th>
+
+                <th>Tipo</th>
+
+                <th>Cumplimiento</th>
+
+                <th>Estado</th>
+
+                <th>Acciones</th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+        ${
+            lista
+            .map(
+                a => `
+
+                <tr>
+
+                    <td>
+                    ${esc(a.id)}
+                    </td>
+
+                    <td>
+                    ${esc(a.fecha)}
+                    </td>
+
+                    <td>
+                    ${esc(a.auditor)}
+                    </td>
+
+                    <td>
+                    ${esc(a.sector)}
+                    </td>
+
+                    <td>
+                    ${esc(a.tipo)}
+                    </td>
+
+                    <td>
+
+                    <strong>
+                    ${Number(a.cumplimiento).toFixed(2)}%
+                    </strong>
+
+                    </td>
+
+                    <td>
+                    ${esc(a.estado)}
+                    </td>
+
+                    <td>
+
+                    <div class="button-row">
+
+                        <button
+                        class="btn-small"
+                        onclick="abrirAuditoria('${a.id}')">
+
+                        Ver
+
+                        </button>
+
+
+                        <button
+                        class="btn-small btn-danger"
+                        onclick="eliminarAuditoria('${a.id}')">
+
+                        Eliminar
+
+                        </button>
+
+                    </div>
+
+                    </td>
+
+                </tr>
+
+                `
+            )
+            .join("")
+        }
+
+        </tbody>
+
+    </table>
+
+    `;
+
+}
+
+
+/* =========================================================
+   ABRIR AUDITORIA
+========================================================= */
+
+function abrirAuditoria(id){
+
+    const auditoria =
+        auditorias.find(
+            a => a.id === id
+        );
+
+
+    if(!auditoria)
+        return;
+
+
+    mostrarResultado(
+        auditoria
+    );
+
+}
+
+
+/* =========================================================
+   ELIMINAR AUDITORIA
+========================================================= */
+
+function eliminarAuditoria(id){
+
+    const confirmar =
+        confirm(
+            "¿Está seguro de eliminar esta auditoría?"
+        );
+
+
+    if(!confirmar)
+        return;
+
+
+    auditorias =
+        auditorias.filter(
+            a => a.id !== id
+        );
+
+
+    guardarStorage(
+        STORAGE.auditorias,
+        auditorias
+    );
+
+
+    renderHistorial();
+
+    renderDashboard();
+
+    renderPareto();
+
+}
+
+
+/* =========================================================
+   PARETO
+========================================================= */
+
+function construirPareto(datos){
+
+    const total =
+        Object.values(datos)
+        .reduce(
+            (a,b) => a+b,
+            0
+        );
+
+
+    return Object.entries(datos)
+        .sort(
+            (a,b) =>
+            b[1]-a[1]
+        )
+        .map(
+            ([nombre,cantidad]) => {
+
+                return {
+
+                    nombre,
+
+                    cantidad,
+
+                    porcentaje:
+                        total
+                        ?
+                        cantidad /
+                        total *
+                        100
+                        :
+                        0
+
+                };
+
+            }
+        );
+
+}
+
+
+function renderParetoLista(
+    contenedorId,
+    datos
+){
+
+    const contenedor =
+        document.getElementById(
+            contenedorId
+        );
+
+
+    const lista =
+        construirPareto(
+            datos
+        );
+
+
+    if(!lista.length){
+
+        contenedor.innerHTML =
+            `<div class="empty">
+            No existen hallazgos.
+            </div>`;
+
+        return;
+
+    }
+
+
+    const max =
+        lista[0].cantidad;
+
+
+    let acumulado = 0;
+
+
+    contenedor.innerHTML =
+        lista
+        .map(
+            item => {
+
+                acumulado +=
+                    item.porcentaje;
+
+
+                return `
+
+                <div class="pareto-item">
+
+                    <div class="pareto-header">
+
+                        <span>
+                        ${esc(item.nombre)}
+                        </span>
+
+                        <strong>
+                        ${item.cantidad}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="pareto-bar">
+
+                        <div
+                        class="pareto-fill"
+                        style="
+                        width:${
+                            item.cantidad/max*100
+                        }%">
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="cumulative">
+
+                    ${item.porcentaje.toFixed(1)}%
+                    del total · acumulado
+                    ${acumulado.toFixed(1)}%
+
+                    </div>
+
+                </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+function renderPareto(){
+
+    const porPregunta = {};
+
+    const porSector = {};
+
+    const porCategoria = {};
+
+
+    auditorias.forEach(
+        a => {
+
+            a.respuestas
+            .filter(
+                r =>
+                r.respuesta ===
+                "No Cumple"
+            )
+            .forEach(
+                r => {
+
+                    const pregunta =
+                        r.pregunta;
+
+
+                    porPregunta[pregunta] =
+                        (
+                            porPregunta[pregunta]
+                            || 0
+                        ) + 1;
+
+
+                    porSector[a.sector] =
+                        (
+                            porSector[a.sector]
+                            || 0
+                        ) + 1;
+
+
+                    porCategoria[r.categoria] =
+                        (
+                            porCategoria[r.categoria]
+                            || 0
+                        ) + 1;
+
+                }
+            );
+
+        }
+    );
+
+
+    renderParetoLista(
+        "paretoPreguntas",
+        porPregunta
+    );
+
+
+    renderParetoLista(
+        "paretoSectores",
+        porSector
+    );
+
+
+    renderParetoLista(
+        "paretoCategorias",
+        porCategoria
+    );
+
+}
+
+
+/* =========================================================
+   ADMINISTRACION
+========================================================= */
+
+function renderAdmin(){
+
+    const sectoresContenedor =
+        document.getElementById(
+            "listaSectores"
+        );
+
+
+    sectoresContenedor.innerHTML =
+        sectores
+        .map(
+            (sector,index) => `
+
+            <div
+            style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:10px;
+            padding:10px 0;
+            border-bottom:1px solid #dee2e6;
+            ">
+
+                <span>
+                ${esc(sector)}
+                </span>
+
+                <button
+                class="btn-small btn-danger"
+                onclick="eliminarSector(${index})">
+
+                Eliminar
+
+                </button>
+
+            </div>
+
+            `
+        )
+        .join("");
+
+
+    const preguntasContenedor =
+        document.getElementById(
+            "listaPreguntas"
+        );
+
+
+    preguntasContenedor.innerHTML =
+        preguntas
+        .map(
+            (p,index) => `
+
+            <div class="admin-row">
+
+                <div>
+
+                <strong>
+                ${esc(p.id)}
+                </strong>
+
+                </div>
+
+
+                <div>
+
+                <strong>
+                ${esc(p.texto)}
+                </strong>
+
+                <div class="muted">
+                ${esc(p.categoria)}
+                </div>
+
+                </div>
+
+
+                <div>
+
+                    <label
+                    style="font-size:11px">
+
+                    Peso
+
+                    </label>
+
+                    <input
+                    type="number"
+                    min="1"
+                    value="${p.peso}"
+                    onchange="cambiarPeso(${index},this.value)"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <div
+                    class="toggle ${
+                        p.activa
+                        ? "active"
+                        : ""
+                    }"
+                    onclick="alternarPregunta(${index})">
+
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <button
+                    class="btn-small btn-danger"
+                    onclick="eliminarPregunta(${index})">
+
+                    Eliminar
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            `
+        )
+        .join("");
+
+}
+
+
+/* =========================================================
+   AGREGAR SECTOR
+========================================================= */
+
+function agregarSector(){
+
+    const input =
+        document.getElementById(
+            "nuevoSector"
+        );
+
+
+    const valor =
+        input.value.trim();
+
+
+    if(!valor){
+
+        alert(
+            "Ingrese un nombre de sector."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        sectores
+        .some(
+            s =>
+            s.toLowerCase() ===
+            valor.toLowerCase()
+        )
+    ){
+
+        alert(
+            "Ese sector ya existe."
+        );
+
+        return;
+
+    }
+
+
+    sectores.push(
+        valor
+    );
+
+
+    guardarStorage(
+        STORAGE.sectores,
+        sectores
+    );
+
+
+    input.value = "";
+
+
+    cargarSelectores();
+
+    renderAdmin();
+
+}
+
+
+/* =========================================================
+   ELIMINAR SECTOR
+========================================================= */
+
+function eliminarSector(index){
+
+    const sector =
+        sectores[index];
+
+
+    if(
+        !confirm(
+            `¿Eliminar el sector "${sector}"?`
+        )
+    ){
+
+        return;
+
+    }
+
+
+    sectores.splice(
+        index,
+        1
+    );
+
+
+    guardarStorage(
+        STORAGE.sectores,
+        sectores
+    );
+
+
+    cargarSelectores();
+
+    renderAdmin();
+
+}
+
+
+/* =========================================================
+   AGREGAR PREGUNTA
+========================================================= */
+
+function agregarPregunta(){
+
+    const texto =
+        document
+        .getElementById(
+            "nuevaPregunta"
+        )
+        .value
+        .trim();
+
+
+    const categoria =
+        document
+        .getElementById(
+            "nuevaCategoria"
+        )
+        .value
+        .trim()
+        ||
+        "General";
+
+
+    const peso =
+        Number(
+            document
+            .getElementById(
+                "nuevoPeso"
+            )
+            .value
+        );
+
+
+    if(!texto){
+
+        alert(
+            "Ingrese la pregunta."
+        );
+
+        return;
+
+    }
+
+
+    if(!peso || peso < 1){
+
+        alert(
+            "El peso debe ser mayor o igual a 1."
+        );
+
+        return;
+
+    }
+
+
+    const numero =
+        preguntas.length + 1;
+
+
+    const id =
+        "P" +
+        String(numero)
+        .padStart(3,"0");
+
+
+    preguntas.push({
+
+        id,
+
+        categoria,
+
+        texto,
+
+        peso,
+
+        activa:true
+
+    });
+
+
+    guardarStorage(
+        STORAGE.preguntas,
+        preguntas
+    );
+
+
+    document
+        .getElementById(
+            "nuevaPregunta"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "nuevaCategoria"
+        )
+        .value = "";
+
+
+    document
+        .getElementById(
+            "nuevoPeso"
+        )
+        .value = 1;
+
+
+    renderAdmin();
+
+}
+
+
+/* =========================================================
+   PESO
+========================================================= */
+
+function cambiarPeso(
+    index,
+    valor
+){
+
+    const peso =
+        Number(valor);
+
+
+    if(!peso || peso < 1){
+
+        alert(
+            "El peso debe ser como mínimo 1."
+        );
+
+        renderAdmin();
+
+        return;
+
+    }
+
+
+    preguntas[index].peso =
+        peso;
+
+
+    guardarStorage(
+        STORAGE.preguntas,
+        preguntas
+    );
+
+}
+
+
+/* =========================================================
+   ACTIVAR / DESACTIVAR
+========================================================= */
+
+function alternarPregunta(index){
+
+    preguntas[index].activa =
+        !preguntas[index].activa;
+
+
+    guardarStorage(
+        STORAGE.preguntas,
+        preguntas
+    );
+
+
+    renderAdmin();
+
+}
+
+
+/* =========================================================
+   ELIMINAR PREGUNTA
+========================================================= */
+
+function eliminarPregunta(index){
+
+    const pregunta =
+        preguntas[index];
+
+
+    if(
+        !confirm(
+            "¿Eliminar esta pregunta? Las auditorías anteriores no serán modificadas."
+        )
+    ){
+
+        return;
+
+    }
+
+
+    preguntas.splice(
+        index,
+        1
+    );
+
+
+    guardarStorage(
+        STORAGE.preguntas,
+        preguntas
+    );
+
+
+    renderAdmin();
+
+}
+
+
+/* =========================================================
+   EXPORTAR DATOS
+========================================================= */
+
+function exportarDatos(){
+
+    const datos = {
+
+        exportado:
+            new Date()
+            .toISOString(),
+
+        auditorias,
+
+        sectores,
+
+        preguntas,
+
+        auditores
+
+    };
+
+
+    descargarArchivo(
+
+        JSON.stringify(
+            datos,
+            null,
+            2
+        ),
+
+        "auditorias-ar-backup.json",
+
+        "application/json"
+
+    );
+
+}
+
+
+/* =========================================================
+   BORRAR
+========================================================= */
+
+function confirmarBorrado(){
+
+    const texto =
+        prompt(
+            "Para borrar todas las auditorías escriba BORRAR"
+        );
+
+
+    if(texto !== "BORRAR"){
+
+        return;
+
+    }
+
+
+    auditorias = [];
+
+
+    guardarStorage(
+        STORAGE.auditorias,
+        auditorias
+    );
+
+
+    renderDashboard();
+
+    renderHistorial();
+
+    renderPareto();
+
+
+    alert(
+        "Las auditorías fueron eliminadas."
+    );
+
+}
+
+
+/* =========================================================
+   DESCARGAR ARCHIVO
+========================================================= */
+
+function descargarArchivo(
+    contenido,
+    nombre,
+    tipo
+){
+
+    const blob =
+        new Blob(
+            [contenido],
+            {
+                type:tipo
+            }
+        );
+
+
     const url =
-    URL.createObjectURL(blob);
+        URL.createObjectURL(
+            blob
+        );
 
 
     const a =
-    document.createElement("a");
+        document.createElement(
+            "a"
+        );
 
 
     a.href = url;
 
-    a.download =
-    `${auditoria.id}.json`;
+    a.download = nombre;
 
+    document.body.appendChild(a);
 
     a.click();
 
+    a.remove();
 
-    URL.revokeObjectURL(url);
+
+    setTimeout(
+        () =>
+        URL.revokeObjectURL(url),
+        1000
+    );
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function esc(valor){
+
+    return String(
+        valor ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 
 }
 
