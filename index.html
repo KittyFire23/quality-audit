@@ -9390,18 +9390,29 @@ function clearAllData(){
     );
 }
 
-/* =========================================================
-   GUARDAR RESPUESTAS EN SUPABASE
-========================================================= */
-
 async function saveAnswersToSupabase(
     auditId,
     respuestas
 ){
 
+    console.log(
+        "ENTRANDO A saveAnswersToSupabase"
+    );
+
+    console.log(
+        "AUDIT ID:",
+        auditId
+    );
+
+    console.log(
+        "RESPUESTAS:",
+        respuestas
+    );
+
     const records =
         respuestas.map(
             respuesta => ({
+
                 audit_id:
                     auditId,
 
@@ -9413,13 +9424,20 @@ async function saveAnswersToSupabase(
 
                 observation:
                     respuesta.observacion || null
+
             })
         );
+
+    console.log(
+        "RECORDS:",
+        records
+    );
 
     const { data, error } =
         await supabaseClient
             .from("answers")
-            .insert(records);
+            .insert(records)
+            .select();
 
     if(error){
 
@@ -9430,6 +9448,11 @@ async function saveAnswersToSupabase(
 
         throw error;
     }
+
+    console.log(
+        "RESPUESTAS INSERTADAS:",
+        data
+    );
 
     return data;
 
