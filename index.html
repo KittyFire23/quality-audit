@@ -9493,7 +9493,7 @@ return data;
     return data.publicUrl;
 
 }
-   async function uploadPhotoToSupabase(
+  async function uploadPhotoToSupabase(
     base64Photo,
     auditId,
     questionId
@@ -9525,12 +9525,16 @@ return data;
             );
 
     if(error){
+
+        console.error(
+            "ERROR UPLOAD:",
+            error
+        );
+
         throw error;
     }
 
-    const {
-        data
-    } =
+    const { data } =
         supabaseClient
             .storage
             .from("auditorias")
@@ -9538,86 +9542,96 @@ return data;
                 fileName
             );
 
+    console.log(
+        "PUBLIC URL:",
+        data
+    );
+
     return data.publicUrl;
 
 }
-   async function saveFindingsToSupabase(
+
+async function saveFindingsToSupabase(
     auditId,
     respuestas
 ){
 
-   const findings = [];
+    const findings = [];
 
-for(const r of respuestas){
+    for(const r of respuestas){
 
-    if(
-        r.respuesta !==
-        "No Cumple"
-    ){
-        continue;
-    }
+        if(
+            r.respuesta !==
+            "No Cumple"
+        ){
+            continue;
+        }
 
-    let photoUrl = null;
+        let photoUrl = null;
 
-    if(
-        r.fotos &&
-        r.fotos.length > 0
-    ){
+        if(
+            r.fotos &&
+            r.fotos.length > 0
+        ){
 
-        try{
+            try{
 
-            photoUrl =
-                await uploadPhotoToSupabase(
-                    r.fotos[0],
-                    auditId,
-                    r.preguntaId
+                photoUrl =
+                    await uploadPhotoToSupabase(
+                        r.fotos[0],
+                        auditId,
+                        r.preguntaId
+                    );
+
+                console.log(
+                    "PHOTO URL OBTENIDA:",
+                    photoUrl
                 );
 
-        }
-        catch(error){
+            }
+            catch(error){
 
-            console.error(
-                "ERROR SUBIENDO FOTO:",
-                error
-            );
+                console.error(
+                    "ERROR SUBIENDO FOTO:",
+                    error
+                );
+
+            }
 
         }
+
+        findings.push({
+
+            audit_id:
+                auditId,
+
+            question_id:
+                parseInt(
+                    r.preguntaId.replace(
+                        "P",
+                        ""
+                    ),
+                    10
+                ),
+
+            description:
+                r.observacion || "",
+
+            responsible:
+                "",
+
+            due_date:
+                null,
+
+            severity:
+                "MENOR",
+
+            photo_url:
+                photoUrl
+
+        });
 
     }
-
-    findings.push({
-
-        audit_id:
-            auditId,
-
-        question_id:
-            parseInt(
-                r.preguntaId.replace(
-                    "P",
-                    ""
-                ),
-                10
-            ),
-
-        description:
-            r.observacion || "",
-
-        responsible:
-            "",
-
-        due_date:
-            null,
-
-        severity:
-            "MENOR",
-
-        photo_url:
-            photoUrl
-
-    });
-
-}
-
 
     if(
         findings.length === 0
@@ -9650,80 +9664,6 @@ for(const r of respuestas){
     );
 
     return data;
-
-}
-async function saveAnswersToSupabase(
-    auditId,
-    respuestas
-){
-
-    console.log(
-        "ENTRANDO A saveAnswersToSupabase"
-    );
-
-    console.log(
-        "AUDIT ID:",
-        auditId
-    );
-
-    console.log(
-        "RESPUESTAS:",
-        respuestas
-    );
-
-    const records =
-        respuestas.map(
-            respuesta => ({
-
-                audit_id:
-                    auditId,
-
-               question_id:
-    parseInt(
-        respuesta.preguntaId.replace(
-            "P",
-            ""
-        ),
-        10
-    ),
-
-result:
-    respuesta.respuesta,
-
-observation:
-    respuesta.observacion || null
-
-})
-);
-
-console.log(
-    "RECORDS:",
-    records
-);
-
-const { data, error } =
-    await supabaseClient
-        .from("answers")
-        .insert(records)
-        .select();
-
-if(error){
-
-    console.error(
-        "ERROR GUARDANDO RESPUESTAS:",
-        error
-    );
-
-    throw error;
-
-}
-
-console.log(
-    "RESPUESTAS INSERTADAS:",
-    data
-);
-
-return data;
 
 }
 /* =========================================================
