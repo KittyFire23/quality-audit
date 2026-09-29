@@ -5196,7 +5196,7 @@ function previousQuestion(){
    FINALIZAR AUDITORÍA
 ========================================================= */
 
-function finishAudit(){
+async function finishAudit(){
 
     for(
         let i=0;
@@ -5289,42 +5289,50 @@ function finishAudit(){
         new Date().toISOString();
 
 
-    audits.unshift(
-        JSON.parse(
-            JSON.stringify(
-                currentAudit
-            )
+   audits.unshift(
+    JSON.parse(
+        JSON.stringify(
+            currentAudit
         )
-    );
+    )
+);
 
+saveData();
 
-    saveData();
+try{
 
-
-    localStorage.removeItem(
-        STORAGE.draft
-    );
-
-
-    currentResultAudit =
-        currentAudit;
-
-
-    renderResult(
+    await saveAuditToSupabase(
         currentAudit
     );
 
+}
+catch(error){
 
-    showView("result");
-
-
-    showToast(
-        "Auditoría finalizada correctamente.",
-        "success"
+    console.error(
+        "No se pudo guardar en Supabase:",
+        error
     );
+
 }
 
+localStorage.removeItem(
+    STORAGE.draft
+);
 
+currentResultAudit =
+    currentAudit;
+
+renderResult(
+    currentAudit
+);
+
+showView("result");
+
+showToast(
+    "Auditoría finalizada correctamente.",
+    "success"
+);
+}
 /* =========================================================
    CÁLCULO DE AUDITORÍA
 ========================================================= */
@@ -9859,7 +9867,7 @@ function init(){
 
 
     checkDraft();
-   testSaveAudit();
+   //testSaveAudit();
 //testSupabase();
 }
 
