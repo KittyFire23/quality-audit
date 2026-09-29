@@ -246,11 +246,27 @@ actual++;
 
 if(actual >= preguntas.length){
 
+const auditor =
+document.getElementById("auditor").value;
+
+const sector =
+document.getElementById("sector").value;
+
+const porcentaje =
+(
+(cumple / (cumple + noCumple))
+* 100
+).toFixed(2);
+
 document.getElementById("contenido").innerHTML = `
 
 <hr>
 
 <h2>Auditoría Finalizada</h2>
+
+<p><b>Auditor:</b> ${auditor}</p>
+
+<p><b>Sector:</b> ${sector}</p>
 
 <p><b>Total de preguntas:</b> ${preguntas.length}</p>
 
@@ -262,7 +278,10 @@ document.getElementById("contenido").innerHTML = `
 
 <p><b>Hallazgos detectados:</b> ${hallazgos}</p>
 
+<p><b>Cumplimiento:</b> ${porcentaje}%</p>
+
 `;
+
 return;
 
 }
