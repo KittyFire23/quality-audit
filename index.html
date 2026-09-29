@@ -9381,7 +9381,107 @@ function clearAllData(){
     );
 }
 
+/* =========================================================
+   GUARDAR AUDITORIA EN SUPABASE
+========================================================= */
 
+async function saveAuditToSupabase(audit){
+
+    try{
+
+        const result =
+            audit.resultado ||
+            calculateAudit(audit);
+
+        const { data, error } =
+            await supabaseClient
+                .from("audits")
+                .insert([
+                    {
+                        audit_code: audit.id,
+                        auditor: audit.auditor,
+                        area_type: audit.tipoArea,
+                        sector: audit.sector,
+                        status: result.estado,
+                        score: result.porcentaje,
+                        points_obtained: result.puntosObtenidos,
+                        points_possible: result.puntosPosibles,
+                        complies_count: result.cumple,
+                        non_complies_count: result.noCumple,
+                        not_applicable_count: result.noAplica,
+                        findings_count: result.hallazgos
+                    }
+                ])
+                .select()
+                .single();
+
+        if(error){
+            throw error;
+        }
+
+        console.log(
+            "AUDITORIA GUARDADA:",
+            data
+        );
+
+        return data;
+
+    }
+    catch(error){
+
+        console.error(
+            "ERROR GUARDANDO AUDITORIA:",
+            error
+        );
+
+        throw error;
+
+    }
+
+}
+async function testSaveAudit(){
+
+    try{
+
+        const audit = {
+            id: "TEST-" + Date.now(),
+            auditor: "Diego Nuñez",
+            tipoArea: "Producción",
+            sector: "Prueba",
+            resultado: {
+                estado: "APROBADA",
+                porcentaje: 100,
+                puntosObtenidos: 10,
+                puntosPosibles: 10,
+                cumple: 1,
+                noCumple: 0,
+                noAplica: 0,
+                hallazgos: 0
+            }
+        };
+
+        await saveAuditToSupabase(
+            audit
+        );
+
+        showToast(
+            "Prueba guardada en Supabase",
+            "success"
+        );
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        showToast(
+            "Error al guardar",
+            "error"
+        );
+
+    }
+
+}
 /* =========================================================
    EVENTOS
 ========================================================= */
@@ -9759,6 +9859,7 @@ function init(){
 
 
     checkDraft();
+   testSaveAudit();
 //testSupabase();
 }
 
