@@ -9617,32 +9617,7 @@ for(const r of respuestas){
     });
 
 }
-                    audit_id:
-                        auditId,
 
-                    question_id:
-                        parseInt(
-                            r.preguntaId.replace(
-                                "P",
-                                ""
-                            ),
-                            10
-                        ),
-
-                    description:
-                        r.observacion || "",
-
-                    responsible:
-                        "",
-
-                    due_date:
-                        null,
-
-                    severity:
-                        "MENOR"
-
-                })
-            );
 
     if(
         findings.length === 0
