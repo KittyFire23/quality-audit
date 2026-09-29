@@ -3626,14 +3626,19 @@ function showToast(
         );
 
     const toast =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     toast.className =
         "toast " + type;
 
-    toast.textContent = message;
+    toast.textContent =
+        message;
 
-    container.appendChild(toast);
+    container.appendChild(
+        toast
+    );
 
     setTimeout(
         ()=>{
@@ -3641,9 +3646,83 @@ function showToast(
         },
         duration
     );
+
 }
 
+/* =========================================================
+   TEST SUPABASE
+========================================================= */
+function showToast(
+    message,
+    type="",
+    duration=3000
+){
 
+    const container =
+        document.getElementById(
+            "toastContainer"
+        );
+
+    const toast =
+        document.createElement(
+            "div"
+        );
+
+    toast.className =
+        "toast " + type;
+
+    toast.textContent =
+        message;
+
+    container.appendChild(
+        toast
+    );
+
+    setTimeout(
+        ()=>{
+            toast.remove();
+        },
+        duration
+    );
+
+}
+
+/* =========================================================
+   TEST SUPABASE
+========================================================= */
+
+
+async function testSupabase(){
+
+    const { data, error } =
+        await supabase
+            .from("sectors")
+            .select("*");
+
+    if(error){
+
+        console.error(error);
+
+        showToast(
+            "Error conectando Supabase",
+            "error"
+        );
+
+        return;
+
+    }
+
+    console.log(
+        "SUPABASE OK:",
+        data
+    );
+
+    showToast(
+        "Supabase conectado",
+        "success"
+    );
+
+}
 /* =========================================================
    LOCAL STORAGE
 ========================================================= */
@@ -9679,7 +9758,7 @@ function init(){
 
 
     checkDraft();
-
+testSupabase();
 }
 
 
