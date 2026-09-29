@@ -6862,6 +6862,7 @@ async function renderHistory(){
                     <th>Cumplimiento</th>
                     <th>Estado</th>
                     <th>Hallazgos</th>
+                    <th>Acción</th>
                 </tr>
 
             </thead>
@@ -6951,12 +6952,25 @@ async function renderHistory(){
                                 </td>
 
                                 <td>
-                                    ${
-                                        audit.findings_count || 0
-                                    }
-                                </td>
 
-                            </tr>
+    ${
+        audit.findings_count || 0
+    }
+
+</td>
+
+<td>
+
+    <button
+        class="btn btn-info btn-small"
+        onclick="openAuditFromHistory('${audit.audit_code}')"
+    >
+        Ver
+    </button>
+
+</td>
+
+</tr>
 
                         `;
 
