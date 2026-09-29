@@ -3695,7 +3695,7 @@ function showToast(
 async function testSupabase(){
 
     const { data, error } =
-        await supabase
+        await supabaseClient
             .from("sectors")
             .select("*");
 
@@ -3709,8 +3709,19 @@ async function testSupabase(){
         );
 
         return;
-
     }
+
+    console.log(
+        "SUPABASE OK:",
+        data
+    );
+
+    showToast(
+        "Supabase conectado",
+        "success"
+    );
+
+}
 
     console.log(
         "SUPABASE OK:",
