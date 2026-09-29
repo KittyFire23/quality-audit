@@ -5289,12 +5289,21 @@ async function finishAudit(){
         new Date().toISOString();
 
 
-   audits.unshift(
+  const auditToSave =
     JSON.parse(
         JSON.stringify(
             currentAudit
         )
-    )
+    );
+
+auditToSave.respuestas.forEach(
+    r => {
+        r.fotos = [];
+    }
+);
+
+audits.unshift(
+    auditToSave
 );
 
 saveData();
