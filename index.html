@@ -6742,13 +6742,12 @@ function renderDashboardAreas(){
    HISTORIAL
 ========================================================= */
 
-function renderHistory(){
+async function renderHistory(){
 
     const container =
         document.getElementById(
             "historyTable"
         );
-
 
     const search =
         document.getElementById(
@@ -6757,54 +6756,71 @@ function renderHistory(){
         .toLowerCase()
         .trim();
 
-
     const type =
         document.getElementById(
             "historyType"
         ).value;
-
 
     const status =
         document.getElementById(
             "historyStatus"
         ).value;
 
+    const { data, error } =
+        await supabaseClient
+            .from("audits")
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
+    if(error){
+
+        console.error(
+            "ERROR CARGANDO HISTORIAL:",
+            error
+        );
+
+        container.innerHTML = `
+            <div class="empty">
+                <strong>Error</strong>
+                No se pudo cargar el historial.
+            </div>
+        `;
+
+        return;
+    }
 
     const filtered =
-        audits.filter(
-            audit=>{
+        data.filter(
+            audit => {
 
                 const text =
                     (
-                        audit.id +
+                        (audit.audit_code || "") +
                         " " +
-                        audit.auditor +
+                        (audit.auditor || "") +
                         " " +
-                        audit.tipoArea +
+                        (audit.area_type || "") +
                         " " +
-                        audit.sector
+                        (audit.sector || "")
                     )
                     .toLowerCase();
 
-
                 const matchesSearch =
                     !search ||
-                    text.includes(
-                        search
-                    );
-
+                    text.includes(search);
 
                 const matchesType =
                     !type ||
-                    audit.tipoArea ===
-                    type;
-
+                    audit.area_type === type;
 
                 const matchesStatus =
                     !status ||
-                    audit.resultado?.estado ===
-                    status;
-
+                    audit.status === status;
 
                 return (
                     matchesSearch &&
@@ -6815,71 +6831,34 @@ function renderHistory(){
             }
         );
 
-
     if(filtered.length === 0){
 
         container.innerHTML = `
-
             <div class="empty">
-
                 <strong>
                     No hay resultados
                 </strong>
-
-                No se encontraron auditorías con los filtros seleccionados.
-
+                No se encontraron auditorías.
             </div>
-
         `;
 
         return;
+
     }
 
-
     container.innerHTML = `
-
         <table>
 
             <thead>
 
                 <tr>
-
-                    <th>
-                        ID
-                    </th>
-
-                    <th>
-                        Fecha
-                    </th>
-
-                    <th>
-                        Auditor
-                    </th>
-
-                    <th>
-                        Tipo de Área
-                    </th>
-
-                    <th>
-                        Sector
-                    </th>
-
-                    <th>
-                        Cumplimiento
-                    </th>
-
-                    <th>
-                        Estado
-                    </th>
-
-                    <th>
-                        Hallazgos
-                    </th>
-
-                    <th>
-                        Acción
-                    </th>
-
+                    <th>ID</th>
+                    <th>Auditor</th>
+                    <th>Área</th>
+                    <th>Sector</th>
+                    <th>Cumplimiento</th>
+                    <th>Estado</th>
+                    <th>Hallazgos</th>
                 </tr>
 
             </thead>
@@ -6887,42 +6866,32 @@ function renderHistory(){
             <tbody>
 
                 ${filtered.map(
-                    audit=>{
+                    audit => {
 
                         let cls =
                             "sin-datos";
 
-
                         if(
-                            audit.resultado?.estado ===
+                            audit.status ===
                             "APROBADA"
                         ){
-
                             cls =
                                 "aprobada";
-
                         }
-
                         else if(
-                            audit.resultado?.estado ===
+                            audit.status ===
                             "NECESITA MEJORAR"
                         ){
-
                             cls =
                                 "mejorar";
-
                         }
-
                         else if(
-                            audit.resultado?.estado ===
+                            audit.status ===
                             "RECHAZADA"
                         ){
-
                             cls =
                                 "rechazada";
-
                         }
-
 
                         return `
 
@@ -6930,36 +6899,34 @@ function renderHistory(){
 
                                 <td>
                                     <strong>
-                                        ${escapeHTML(audit.id)}
+                                        ${escapeHTML(
+                                            audit.audit_code || ""
+                                        )}
                                     </strong>
                                 </td>
 
                                 <td>
-                                    ${escapeHTML(audit.fecha)}
+                                    ${escapeHTML(
+                                        audit.auditor || ""
+                                    )}
                                 </td>
 
                                 <td>
-                                    ${escapeHTML(audit.auditor)}
+                                    ${escapeHTML(
+                                        audit.area_type || ""
+                                    )}
                                 </td>
 
                                 <td>
-                                    ${escapeHTML(audit.tipoArea)}
+                                    ${escapeHTML(
+                                        audit.sector || ""
+                                    )}
                                 </td>
 
                                 <td>
-                                    ${escapeHTML(audit.sector)}
-                                </td>
-
-                                <td>
-
-                                    ${
-                                        audit.resultado?.porcentaje === null
-                                        ? "—"
-                                        : formatNumber(
-                                            audit.resultado?.porcentaje
-                                        )+"%"
-                                    }
-
+                                    ${formatNumber(
+                                        audit.score || 0
+                                    )}%
                                 </td>
 
                                 <td>
@@ -6969,10 +6936,11 @@ function renderHistory(){
                                         style="
                                             font-size:10px;
                                             padding:5px 9px;
-                                        ">
+                                        "
+                                    >
 
                                         ${escapeHTML(
-                                            audit.resultado?.estado || ""
+                                            audit.status || ""
                                         )}
 
                                     </span>
@@ -6980,36 +6948,9 @@ function renderHistory(){
                                 </td>
 
                                 <td>
-                                    ${audit.resultado?.hallazgos || 0}
-                                </td>
-
-                                <td>
-
-                                    <div
-                                        style="
-                                            display:flex;
-                                            gap:5px;
-                                        ">
-
-                                        <button
-                                            class="btn btn-info btn-small"
-                                            onclick="openAuditFromHistory('${audit.id}')">
-
-                                            Ver
-
-                                        </button>
-
-
-                                        <button
-                                            class="btn btn-danger btn-small"
-                                            onclick="deleteAudit('${audit.id}')">
-
-                                            ×
-
-                                        </button>
-
-                                    </div>
-
+                                    ${
+                                        audit.findings_count || 0
+                                    }
                                 </td>
 
                             </tr>
@@ -7022,10 +6963,9 @@ function renderHistory(){
             </tbody>
 
         </table>
-
     `;
-}
 
+}
 
 /* =========================================================
    ABRIR AUDITORÍA HISTÓRICA
