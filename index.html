@@ -9622,6 +9622,61 @@ async function saveFindingsToSupabase(
     return data;
 
 }
+   async function saveAnswersToSupabase(
+    auditId,
+    respuestas
+){
+
+    const records =
+        respuestas.map(
+            respuesta => ({
+
+                audit_id:
+                    auditId,
+
+                question_id:
+                    parseInt(
+                        respuesta.preguntaId.replace(
+                            "P",
+                            ""
+                        ),
+                        10
+                    ),
+
+                result:
+                    respuesta.respuesta,
+
+                observation:
+                    respuesta.observacion || null
+
+            })
+        );
+
+    const { data, error } =
+        await supabaseClient
+            .from("answers")
+            .insert(records)
+            .select();
+
+    if(error){
+
+        console.error(
+            "ERROR GUARDANDO RESPUESTAS:",
+            error
+        );
+
+        throw error;
+
+    }
+
+    console.log(
+        "RESPUESTAS INSERTADAS:",
+        data
+    );
+
+    return data;
+
+}
 async function saveFindingsToSupabase(
     auditId,
     respuestas
