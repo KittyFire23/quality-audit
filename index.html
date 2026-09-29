@@ -6211,9 +6211,8 @@ function renderResultFindings(audit){
                             <div class="photo-item">
 
                                 <img
-                                    src="${photo.dataUrl}"
-                                    alt="${escapeHTML(photo.name)}">
-
+                                   src="${photo.dataUrl || photo.photo_url || photo}"
+alt="${escapeHTML(photo.name || 'Foto')}"
                             </div>
 
                         `
