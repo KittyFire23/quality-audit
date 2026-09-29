@@ -9447,20 +9447,128 @@ console.log(
 return data;
 
 }
+   async function uploadPhotoToSupabase(
+    base64Photo,
+    auditId,
+    questionId
+){
+
+    if(!base64Photo){
+        return null;
+    }
+
+    const fileName =
+        `${auditId}_${questionId}_${Date.now()}.jpg`;
+
+    const response =
+        await fetch(base64Photo);
+
+    const blob =
+        await response.blob();
+
+    const { error } =
+        await supabaseClient
+            .storage
+            .from("auditorias")
+            .upload(
+                fileName,
+                blob,
+                {
+                    upsert: true
+                }
+            );
+
+    if(error){
+        throw error;
+    }
+
+    const { data } =
+        supabaseClient
+            .storage
+            .from("auditorias")
+            .getPublicUrl(
+                fileName
+            );
+
+    return data.publicUrl;
+
+}
    async function saveFindingsToSupabase(
     auditId,
     respuestas
 ){
 
-    const findings =
-        respuestas
-            .filter(
-                r => r.respuesta ===
-                "No Cumple"
-            )
-            .map(
-                r => ({
+   const findings = [];
 
+for(const r of respuestas){
+
+    if(
+        r.respuesta !==
+        "No Cumple"
+    ){
+        continue;
+    }
+
+    let photoUrl = null;
+
+    if(
+        r.fotos &&
+        r.fotos.length > 0
+    ){
+
+        try{
+
+            photoUrl =
+                await uploadPhotoToSupabase(
+                    r.fotos[0],
+                    auditId,
+                    r.preguntaId
+                );
+
+        }
+        catch(error){
+
+            console.error(
+                "ERROR SUBIENDO FOTO:",
+                error
+            );
+
+        }
+
+    }
+
+    findings.push({
+
+        audit_id:
+            auditId,
+
+        question_id:
+            parseInt(
+                r.preguntaId.replace(
+                    "P",
+                    ""
+                ),
+                10
+            ),
+
+        description:
+            r.observacion || "",
+
+        responsible:
+            "",
+
+        due_date:
+            null,
+
+        severity:
+            "MENOR",
+
+        photo_url:
+            photoUrl
+
+    });
+
+}
                     audit_id:
                         auditId,
 
