@@ -9427,12 +9427,95 @@ async function saveAuditToSupabase(audit){
     );
 
     await saveAnswersToSupabase(
-        data.id,
-        audit.respuestas
-    );
+    data.id,
+    audit.respuestas
+);
+
+console.log(
+    "RESPUESTAS GUARDADAS OK"
+);
+
+await saveFindingsToSupabase(
+    data.id,
+    audit.respuestas
+);
+
+console.log(
+    "HALLAZGOS GUARDADOS OK"
+);
+
+return data;
+
+}
+   async function saveFindingsToSupabase(
+    auditId,
+    respuestas
+){
+
+    const findings =
+        respuestas
+            .filter(
+                r => r.respuesta ===
+                "No Cumple"
+            )
+            .map(
+                r => ({
+
+                    audit_id:
+                        auditId,
+
+                    question_id:
+                        parseInt(
+                            r.preguntaId.replace(
+                                "P",
+                                ""
+                            ),
+                            10
+                        ),
+
+                    description:
+                        r.observacion || "",
+
+                    responsible:
+                        "",
+
+                    due_date:
+                        null,
+
+                    severity:
+                        "MENOR"
+
+                })
+            );
+
+    if(
+        findings.length === 0
+    ){
+
+        return [];
+
+    }
+
+    const { data, error } =
+        await supabaseClient
+            .from("findings")
+            .insert(findings)
+            .select();
+
+    if(error){
+
+        console.error(
+            "ERROR GUARDANDO HALLAZGOS:",
+            error
+        );
+
+        throw error;
+
+    }
 
     console.log(
-        "RESPUESTAS GUARDADAS OK"
+        "HALLAZGOS INSERTADOS:",
+        data
     );
 
     return data;
