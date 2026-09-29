@@ -5,6 +5,46 @@
 <title>Auditorías AR</title>
 
 <style>
+.kpi{
+
+    background:white;
+    border-radius:15px;
+    padding:25px;
+    margin-top:20px;
+    text-align:center;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+
+}
+
+.kpi-numero{
+
+    font-size:48px;
+    font-weight:bold;
+    color:#0d6efd;
+
+}
+
+.estado-verde{
+
+    color:#198754;
+    font-weight:bold;
+
+}
+
+.estado-amarillo{
+
+    color:#ffc107;
+    font-weight:bold;
+
+}
+
+.estado-rojo{
+
+    color:#dc3545;
+    font-weight:bold;
+
+}
+
 body{
     font-family: 'Segoe UI', sans-serif;
     background:#eef2f7;
@@ -289,10 +329,33 @@ document.getElementById("contenido").innerHTML = `
 
 <p><b>Hallazgos detectados:</b> ${hallazgos}</p>
 
-<p><b>Cumplimiento:</b> ${porcentaje}%</p>
+<div class="kpi">
+
+<div>CUMPLIMIENTO</div>
+
+<div class="kpi-numero">
+${porcentaje}%
+</div>
+
+</div>
 
 `;
+<div style="
+background:#dee2e6;
+height:25px;
+border-radius:15px;
+overflow:hidden;
+margin-top:15px;
+">
 
+<div style="
+background:#198754;
+width:${porcentaje}%;
+height:100%;
+">
+</div>
+
+</div>
 return;
 
 }
