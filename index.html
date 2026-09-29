@@ -9448,7 +9448,7 @@ return data;
 
 }
 
-  async function uploadPhotoToSupabase(
+async function uploadPhotoToSupabase(
     base64Photo,
     auditId,
     questionId
@@ -9487,6 +9487,7 @@ return data;
         );
 
         throw error;
+
     }
 
     const { data } =
@@ -9506,6 +9507,121 @@ return data;
 
 }
 
+async function saveFindingsToSupabase(
+    auditId,
+    respuestas
+){
+
+    const findings = [];
+
+    for(const r of respuestas){
+
+        if(
+            r.respuesta !==
+            "No Cumple"
+        ){
+            continue;
+        }
+
+        let photoUrl = null;
+
+        if(
+            r.fotos &&
+            r.fotos.length > 0
+        ){
+
+            try{
+
+                photoUrl =
+                    await uploadPhotoToSupabase(
+                        r.fotos[0],
+                        auditId,
+                        r.preguntaId
+                    );
+
+                console.log(
+                    "PHOTO URL OBTENIDA:",
+                    photoUrl
+                );
+
+            }
+            catch(error){
+
+                console.error(
+                    "ERROR SUBIENDO FOTO:",
+                    error
+                );
+
+            }
+
+        }
+
+        findings.push({
+
+            audit_id:
+                auditId,
+
+            question_id:
+                parseInt(
+                    r.preguntaId.replace(
+                        "P",
+                        ""
+                    ),
+                    10
+                ),
+
+            description:
+                r.observacion || "",
+
+            responsible:
+                "",
+
+            due_date:
+                null,
+
+            severity:
+                "MENOR",
+
+            photo_url:
+                photoUrl
+
+        });
+
+    }
+
+    if(
+        findings.length === 0
+    ){
+
+        return [];
+
+    }
+
+    const { data, error } =
+        await supabaseClient
+            .from("findings")
+            .insert(findings)
+            .select();
+
+    if(error){
+
+        console.error(
+            "ERROR GUARDANDO HALLAZGOS:",
+            error
+        );
+
+        throw error;
+
+    }
+
+    console.log(
+        "HALLAZGOS INSERTADOS:",
+        data
+    );
+
+    return data;
+
+}
 async function saveFindingsToSupabase(
     auditId,
     respuestas
