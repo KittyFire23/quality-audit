@@ -9464,45 +9464,52 @@ async function saveAnswersToSupabase(
                 audit_id:
                     auditId,
 
-                question_id:
-                    respuesta.preguntaId,
+               question_id:
+    parseInt(
+        respuesta.preguntaId.replace(
+            "P",
+            ""
+        ),
+        10
+    ),
 
-                result:
-                    respuesta.respuesta,
+result:
+    respuesta.respuesta,
 
-                observation:
-                    respuesta.observacion || null
+observation:
+    respuesta.observacion || null
 
-            })
-        );
+})
+);
 
-    console.log(
-        "RECORDS:",
-        records
+console.log(
+    "RECORDS:",
+    records
+);
+
+const { data, error } =
+    await supabaseClient
+        .from("answers")
+        .insert(records)
+        .select();
+
+if(error){
+
+    console.error(
+        "ERROR GUARDANDO RESPUESTAS:",
+        error
     );
 
-    const { data, error } =
-        await supabaseClient
-            .from("answers")
-            .insert(records)
-            .select();
+    throw error;
 
-    if(error){
+}
 
-        console.error(
-            "ERROR GUARDANDO RESPUESTAS:",
-            error
-        );
+console.log(
+    "RESPUESTAS INSERTADAS:",
+    data
+);
 
-        throw error;
-    }
-
-    console.log(
-        "RESPUESTAS INSERTADAS:",
-        data
-    );
-
-    return data;
+return data;
 
 }
 /* =========================================================
