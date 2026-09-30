@@ -1599,17 +1599,15 @@ tr:hover td{
         </button>
 
         <button
-            id="btnTemplates"
             class="nav-btn"
-            data-view="templates">
-            Plantillas
+            data-view="pareto">
+            Pareto
         </button>
 
         <button
-            id="btnUsers"
             class="nav-btn"
-            data-view="users">
-            Usuarios
+            data-view="config">
+            Configuración
         </button>
 
     </div>
@@ -2277,31 +2275,18 @@ tr:hover td{
 
                 </div>
 
-               <div
+                <div
     id="resultAuditMeta"
     class="audit-meta"
     style="margin-top:10px;">
 </div>
 
 <div
-    id="resultStatus"
-    style="margin-top:15px;">
+    id="resultExecutiveSummary">
 </div>
 
-</div>
-
-</div>
-
-<div class="card">
-
-    <div class="card-title">
-        Resumen Ejecutivo
-    </div>
-
-    <div
-        id="resultExecutiveSummary">
-    </div>
-
+<div
+    id="resultStatus">
 </div>
 
 
@@ -2651,141 +2636,7 @@ tr:hover td{
 
 </section>
 
-<section
-    id="view-users"
-    class="view">
 
-    <div class="page-title">
-
-        <h1>
-            Gestión de Usuarios
-        </h1>
-
-        <p>
-            Administración de usuarios y roles.
-        </p>
-
-    </div>
-
-    <div class="card">
-
-        <div class="card-title">
-            Usuarios
-        </div>
-
-        <div id="usersContainer">
-
-            <div class="finding">
-
-                <strong>
-                    Diego Nuñez
-                </strong>
-
-                <br>
-
-                diego.nunez@precisionglobal.com
-
-                <br>
-
-                ADMIN_MASTER
-
-            </div>
-
-            <br>
-
-            <div class="finding">
-
-                <strong>
-                    Invitado
-                </strong>
-
-                <br>
-
-                Usuario: invitado
-
-                <br>
-
-                Contraseña: 123
-
-                <br>
-
-                INVITADO
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-   <section
-    id="view-users"
-    class="view">
-
-    <div class="page-title">
-
-        <h1>
-            Gestión de Usuarios
-        </h1>
-
-        <p>
-            Administración de usuarios y roles.
-        </p>
-
-    </div>
-
-    <div class="card">
-
-        <div class="card-title">
-            Usuarios
-        </div>
-
-        <div id="usersContainer">
-
-            <div class="finding">
-
-                <strong>
-                    Diego Nuñez
-                </strong>
-
-                <br>
-
-                diego.nunez@precisionglobal.com
-
-                <br>
-
-                ADMIN_MASTER
-
-            </div>
-
-            <br>
-
-            <div class="finding">
-
-                <strong>
-                    Invitado
-                </strong>
-
-                <br>
-
-                Usuario: invitado
-
-                <br>
-
-                Contraseña: 123
-
-                <br>
-
-                INVITADO
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-`
 <!-- =======================================================
      HISTORIAL
 ======================================================== -->
@@ -6297,6 +6148,7 @@ function renderResultCategories(result){
 /* =========================================================
    HALLAZGOS RESULTADO
 ========================================================= */
+
 function renderResultFindings(audit){
 
     const container =
@@ -6304,12 +6156,14 @@ function renderResultFindings(audit){
             "resultFindings"
         );
 
+
     const findings =
         audit.respuestas.filter(
-            r =>
+            r=>
                 r.respuesta ===
                 "No Cumple"
         );
+
 
     if(findings.length === 0){
 
@@ -6333,10 +6187,11 @@ function renderResultFindings(audit){
         `;
 
         return;
-
     }
 
+
     container.innerHTML = "";
+
 
     findings.forEach(
         (finding,index)=>{
@@ -6346,30 +6201,41 @@ function renderResultFindings(audit){
                     "div"
                 );
 
+
             div.className =
                 "finding";
 
+
             const photos = [];
 
-            if(
-                finding.fotos &&
-                Array.isArray(
-                    finding.fotos
-                )
-            ){
-                photos.push(
-                    ...finding.fotos
-                );
-            }
+if(
+    finding.fotos &&
+    Array.isArray(
+        finding.fotos
+    )
+){
+    photos.push(
+        ...finding.fotos
+    );
+}
 
-            if(
-                finding.photo_url
-            ){
-                photos.push({
-                    photo_url:
-                        finding.photo_url
-                });
-            }
+if(
+    finding.photo_url
+){
+    photos.push({
+        photo_url:
+            finding.photo_url
+    });
+}
+console.log(
+    "FINDING:",
+    finding
+);
+
+console.log(
+    "PHOTOS:",
+    photos
+);
 
             div.innerHTML = `
 
@@ -6391,18 +6257,14 @@ function renderResultFindings(audit){
                                 line-height:1.45;
                             ">
 
-                            ${escapeHTML(
-                                finding.pregunta
-                            )}
+                            ${escapeHTML(finding.pregunta)}
 
                         </div>
 
                         <div class="finding-category">
 
                             Categoría:
-                            ${escapeHTML(
-                                finding.categoria
-                            )}
+                            ${escapeHTML(finding.categoria)}
 
                             ·
 
@@ -6413,6 +6275,7 @@ function renderResultFindings(audit){
 
                     </div>
 
+
                     <span
                         class="status rechazada">
 
@@ -6422,6 +6285,7 @@ function renderResultFindings(audit){
 
                 </div>
 
+
                 <div class="finding-observation">
 
                     ${escapeHTML(
@@ -6429,6 +6293,7 @@ function renderResultFindings(audit){
                     )}
 
                 </div>
+
 
                 <div
                     style="
@@ -6443,19 +6308,17 @@ function renderResultFindings(audit){
 
                 </div>
 
+
                 <div class="photo-grid">
 
                     ${photos.map(
-                        photo => `
+                        photo=>`
 
                             <div class="photo-item">
 
-                                ${
-                                        photo.dataUrl ||
-                                        photo.photo_url ||
-                                        photo
-                                    }                                    }">
-
+                                <img
+                                   src="${photo.dataUrl || photo.photo_url || photo}"
+alt="${escapeHTML(photo.name || 'Foto')}"
                             </div>
 
                         `
@@ -6465,14 +6328,16 @@ function renderResultFindings(audit){
 
             `;
 
+
             container.appendChild(
                 div
             );
 
         }
     );
-
 }
+
+
 /* =========================================================
    DASHBOARD
 ========================================================= */
