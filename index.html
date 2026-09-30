@@ -9604,11 +9604,11 @@ async function saveFindingsToSupabase(
             try{
 
                 photoUrl =
-                    await uploadPhotoToSupabase(
-                        r.fotos[0],
-                        auditId,
-                        r.preguntaId
-                    );
+    await uploadPhotoToSupabase(
+        r.fotos[0].dataUrl,
+        auditId,
+        r.preguntaId
+    );
 
                 console.log(
                     "PHOTO URL OBTENIDA:",
