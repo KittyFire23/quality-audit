@@ -6206,8 +6206,27 @@ function renderResultFindings(audit){
                 "finding";
 
 
-            const photos =
-                finding.fotos || [];
+            const photos = [];
+
+if(
+    finding.fotos &&
+    Array.isArray(
+        finding.fotos
+    )
+){
+    photos.push(
+        ...finding.fotos
+    );
+}
+
+if(
+    finding.photo_url
+){
+    photos.push({
+        photo_url:
+            finding.photo_url
+    });
+}
 
 
             div.innerHTML = `
