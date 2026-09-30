@@ -6317,8 +6317,9 @@ console.log(
                             <div class="photo-item">
 
                                 <img
-                                   src="${photo.dataUrl || photo.photo_url || photo}"
-alt="${escapeHTML(photo.name || 'Foto')}"
+   src="${photo.dataUrl}"
+   alt="${escapeHTML(photo.name || 'Foto')}"
+>
                             </div>
 
                         `
@@ -7068,7 +7069,7 @@ async function renderHistory(){
 
     <button
         class="btn btn-info btn-small"
-        onclick="openAuditFromHistory('${audit.audit_code}')"
+        onclick="openAuditFromHistory(${audit.id})"
     >
         Ver
     </button>
