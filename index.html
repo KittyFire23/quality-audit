@@ -7093,34 +7093,30 @@ async function renderHistory(){
    ABRIR AUDITORÍA HISTÓRICA
 ========================================================= */
 
-function openAuditFromHistory(id){
+async function openAuditFromHistory(id){
 
     const audit =
         audits.find(
-            a=>
+            a =>
                 a.id === id
         );
-
 
     if(!audit){
         return;
     }
 
-
     currentResultAudit =
         audit;
 
-
     console.log(audit);
-renderResult(
-    audit
-);
 
+    renderResult(
+        audit
+    );
 
     showView("result");
+
 }
-
-
 /* =========================================================
    ELIMINAR AUDITORÍA
 ========================================================= */
