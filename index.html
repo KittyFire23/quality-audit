@@ -2399,10 +2399,10 @@ tr:hover td{
             </div>
 
             <div
-                class="kpi-value"
-                id="resultFindings">
-                0
-            </div>
+    class="kpi-value"
+    id="resultFindingsCount">
+    0
+</div>
 
             <div class="kpi-detail">
                 No conformidades
@@ -5757,10 +5757,9 @@ function renderResult(audit){
         result.noAplica;
 
     document.getElementById(
-        "resultFindings"
-    ).textContent =
-        result.hallazgos;
-
+    "resultFindingsCount"
+).textContent =
+    result.hallazgos;
     document.getElementById(
         "resultScoreNumber"
     ).textContent =
