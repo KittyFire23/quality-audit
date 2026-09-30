@@ -5025,7 +5025,7 @@ console.log(
             div.innerHTML = `
 
                 <img
-                   src="${photo.dataUrl}"
+                   src="${photo.dataUrl || photo.photo_url || photo}"
 alt="${escapeHTML(photo.name || 'Foto')}"
 
 
@@ -6317,9 +6317,8 @@ console.log(
                             <div class="photo-item">
 
                                 <img
-   src="${photo.dataUrl}"
-   alt="${escapeHTML(photo.name || 'Foto')}"
->
+                                   src="${photo.dataUrl || photo.photo_url || photo}"
+alt="${escapeHTML(photo.name || 'Foto')}"
                             </div>
 
                         `
@@ -7094,30 +7093,33 @@ async function renderHistory(){
    ABRIR AUDITORÍA HISTÓRICA
 ========================================================= */
 
-async function openAuditFromHistory(id){
+function openAuditFromHistory(id){
 
     const audit =
         audits.find(
-            a =>
+            a=>
                 a.id === id
         );
+
 
     if(!audit){
         return;
     }
 
+
     currentResultAudit =
         audit;
 
-    console.log(audit);
 
     renderResult(
         audit
     );
 
-    showView("result");
 
+    showView("result");
 }
+
+
 /* =========================================================
    ELIMINAR AUDITORÍA
 ========================================================= */
@@ -9605,11 +9607,11 @@ async function saveFindingsToSupabase(
             try{
 
                 photoUrl =
-    await uploadPhotoToSupabase(
-        r.fotos[0].dataUrl,
-        auditId,
-        r.preguntaId
-    );
+                    await uploadPhotoToSupabase(
+                        r.fotos[0],
+                        auditId,
+                        r.preguntaId
+                    );
 
                 console.log(
                     "PHOTO URL OBTENIDA:",
