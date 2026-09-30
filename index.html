@@ -6297,7 +6297,6 @@ function renderResultCategories(result){
 /* =========================================================
    HALLAZGOS RESULTADO
 ========================================================= */
-
 function renderResultFindings(audit){
 
     const container =
@@ -6305,14 +6304,12 @@ function renderResultFindings(audit){
             "resultFindings"
         );
 
-
     const findings =
         audit.respuestas.filter(
-            r=>
+            r =>
                 r.respuesta ===
                 "No Cumple"
         );
-
 
     if(findings.length === 0){
 
@@ -6336,11 +6333,10 @@ function renderResultFindings(audit){
         `;
 
         return;
+
     }
 
-
     container.innerHTML = "";
-
 
     findings.forEach(
         (finding,index)=>{
@@ -6350,41 +6346,30 @@ function renderResultFindings(audit){
                     "div"
                 );
 
-
             div.className =
                 "finding";
 
-
             const photos = [];
 
-if(
-    finding.fotos &&
-    Array.isArray(
-        finding.fotos
-    )
-){
-    photos.push(
-        ...finding.fotos
-    );
-}
+            if(
+                finding.fotos &&
+                Array.isArray(
+                    finding.fotos
+                )
+            ){
+                photos.push(
+                    ...finding.fotos
+                );
+            }
 
-if(
-    finding.photo_url
-){
-    photos.push({
-        photo_url:
-            finding.photo_url
-    });
-}
-console.log(
-    "FINDING:",
-    finding
-);
-
-console.log(
-    "PHOTOS:",
-    photos
-);
+            if(
+                finding.photo_url
+            ){
+                photos.push({
+                    photo_url:
+                        finding.photo_url
+                });
+            }
 
             div.innerHTML = `
 
@@ -6406,14 +6391,18 @@ console.log(
                                 line-height:1.45;
                             ">
 
-                            ${escapeHTML(finding.pregunta)}
+                            ${escapeHTML(
+                                finding.pregunta
+                            )}
 
                         </div>
 
                         <div class="finding-category">
 
                             Categoría:
-                            ${escapeHTML(finding.categoria)}
+                            ${escapeHTML(
+                                finding.categoria
+                            )}
 
                             ·
 
@@ -6424,7 +6413,6 @@ console.log(
 
                     </div>
 
-
                     <span
                         class="status rechazada">
 
@@ -6434,7 +6422,6 @@ console.log(
 
                 </div>
 
-
                 <div class="finding-observation">
 
                     ${escapeHTML(
@@ -6442,7 +6429,6 @@ console.log(
                     )}
 
                 </div>
-
 
                 <div
                     style="
@@ -6457,17 +6443,19 @@ console.log(
 
                 </div>
 
-
                 <div class="photo-grid">
 
                     ${photos.map(
-                        photo=>`
+                        photo => `
 
                             <div class="photo-item">
 
-                                <img
-                                   src="${photo.dataUrl || photo.photo_url || photo}"
-alt="${escapeHTML(photo.name || 'Foto')}"
+                                ${
+                                        photo.dataUrl ||
+                                        photo.photo_url ||
+                                        photo
+                                    }                                    }">
+
                             </div>
 
                         `
@@ -6477,16 +6465,14 @@ alt="${escapeHTML(photo.name || 'Foto')}"
 
             `;
 
-
             container.appendChild(
                 div
             );
 
         }
     );
+
 }
-
-
 /* =========================================================
    DASHBOARD
 ========================================================= */
