@@ -5593,12 +5593,10 @@ function renderResult(audit){
             audit
         );
 
-
     document.getElementById(
         "resultAuditTitle"
     ).textContent =
         audit.id;
-
 
     document.getElementById(
         "resultAuditMeta"
@@ -5622,43 +5620,111 @@ function renderResult(audit){
 
     `;
 
-document.getElementById(
-    "resultExecutiveSummary"
-).innerHTML = `
+    const totalVerificaciones =
+        result.cumple +
+        result.noCumple;
 
-    <div class="executive-summary">
+    const porcentajeNC =
+        totalVerificaciones === 0
+            ? 0
+            : (
+                result.noCumple /
+                totalVerificaciones
+            ) * 100;
 
-        <h3>
-            Resumen Ejecutivo
-        </h3>
+    let conclusion = "";
 
-        <p>
+    if(result.porcentaje >= 90){
 
-            La auditoría obtuvo un resultado de
-            <strong>
-                ${formatNumber(result.porcentaje)}%
-            </strong>.
+        conclusion =
+            "La auditoría presenta un desempeño sobresaliente con un elevado nivel de cumplimiento.";
 
-            Se detectaron
-            <strong>
-                ${result.hallazgos}
-            </strong>
-            hallazgos sobre un total de
-            <strong>
-                ${result.cumple + result.noCumple}
-            </strong>
-            verificaciones.
+    }
+    else if(result.porcentaje >= 80){
 
-        </p>
+        conclusion =
+            "La auditoría presenta un resultado satisfactorio. Los hallazgos detectados representan oportunidades de mejora focalizadas.";
 
-    </div>
+    }
+    else if(result.porcentaje >= 70){
 
-`;
+        conclusion =
+            "Se identificaron desvíos relevantes que requieren seguimiento y acciones correctivas.";
+
+    }
+    else{
+
+        conclusion =
+            "El nivel de cumplimiento requiere una intervención prioritaria y una nueva verificación.";
+
+    }
+
+    document.getElementById(
+        "resultExecutiveSummary"
+    ).innerHTML = `
+
+        <div class="executive-summary">
+
+            <h3>
+                📊 Resumen Ejecutivo
+            </h3>
+
+            <p>
+
+                La auditoría obtuvo un cumplimiento de
+
+                <strong>
+                    ${formatNumber(
+                        result.porcentaje
+                    )}%
+                </strong>
+
+                con
+
+                <strong>
+                    ${result.hallazgos}
+                </strong>
+
+                hallazgos detectados sobre
+
+                <strong>
+                    ${totalVerificaciones}
+                </strong>
+
+                verificaciones realizadas.
+
+            </p>
+
+            <br>
+
+            <p>
+
+                El porcentaje de no conformidades detectadas es de
+
+                <strong>
+                    ${formatNumber(
+                        porcentajeNC
+                    )}%
+                </strong>.
+
+            </p>
+
+            <br>
+
+            <p>
+
+                ${conclusion}
+
+            </p>
+
+        </div>
+
+    `;
+
     const percentage =
         result.porcentaje === null
             ? 0
             : result.porcentaje;
-
 
     document.getElementById(
         "resultPercentage"
@@ -5667,8 +5733,7 @@ document.getElementById(
             ? "—"
             : formatNumber(
                 result.porcentaje
-            )+"%";
-
+            ) + "%";
 
     document.getElementById(
         "resultPoints"
@@ -5676,30 +5741,25 @@ document.getElementById(
         `${formatNumber(result.puntosObtenidos)}
          / ${formatNumber(result.puntosPosibles)}`;
 
-
     document.getElementById(
         "resultCumple"
     ).textContent =
         result.cumple;
-
 
     document.getElementById(
         "resultNoCumple"
     ).textContent =
         result.noCumple;
 
-
     document.getElementById(
         "resultNoAplica"
     ).textContent =
         result.noAplica;
 
-
     document.getElementById(
         "resultFindings"
     ).textContent =
         result.hallazgos;
-
 
     document.getElementById(
         "resultScoreNumber"
@@ -5708,14 +5768,12 @@ document.getElementById(
             ? "—"
             : formatNumber(
                 result.porcentaje
-            )+"%";
-
+            ) + "%";
 
     const progress =
         document.getElementById(
             "resultProgressBar"
         );
-
 
     progress.style.width =
         Math.max(
@@ -5724,12 +5782,10 @@ document.getElementById(
                 100,
                 percentage
             )
-        )+"%";
-
+        ) + "%";
 
     progress.className =
         "progress-bar";
-
 
     if(
         result.porcentaje !== null
@@ -5744,7 +5800,6 @@ document.getElementById(
             );
 
         }
-
         else if(
             result.porcentaje >= 40
         ){
@@ -5754,7 +5809,6 @@ document.getElementById(
             );
 
         }
-
         else{
 
             progress.classList.add(
@@ -5765,16 +5819,13 @@ document.getElementById(
 
     }
 
-
     const statusContainer =
         document.getElementById(
             "resultStatus"
         );
 
-
     let statusClass =
         "sin-datos";
-
 
     if(
         result.estado ===
@@ -5785,7 +5836,6 @@ document.getElementById(
             "aprobada";
 
     }
-
     else if(
         result.estado ===
         "NECESITA MEJORAR"
@@ -5795,7 +5845,6 @@ document.getElementById(
             "mejorar";
 
     }
-
     else if(
         result.estado ===
         "RECHAZADA"
@@ -5806,34 +5855,31 @@ document.getElementById(
 
     }
 
-
     statusContainer.innerHTML = `
 
         <span class="status ${statusClass}">
 
-            ${escapeHTML(result.estado)}
+            ${escapeHTML(
+                result.estado
+            )}
 
         </span>
 
     `;
 
-
     renderResultDonut(
         result
     );
-
 
     renderResultCategories(
         result
     );
 
-
     renderResultFindings(
         audit
     );
+
 }
-
-
 /* =========================================================
    DONUT RESULTADO
 ========================================================= */
