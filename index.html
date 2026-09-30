@@ -5025,7 +5025,7 @@ console.log(
             div.innerHTML = `
 
                 <img
-                   src="${photo.dataUrl || photo.photo_url}"
+                   src="${photo.dataUrl || photo.photo_url?.publicUrl || photo.publicUrl}"
 alt="${escapeHTML(photo.name || 'Foto')}"
 
 
