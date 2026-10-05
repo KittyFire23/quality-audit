@@ -7089,29 +7089,27 @@ async function renderHistory(){
    ABRIR AUDITORÍA HISTÓRICA
 ========================================================= */
 
-async function openAuditFromHistory(id){
+function openAuditFromHistory(id){
 
-    console.log("ID RECIBIDO:", id);
-
-    const { data, error } =
-        await supabaseClient
-            .from("audits")
-            .select("*")
-            .eq("audit_code", id);
-
-    console.log("DATA:", data);
-    console.log("ERROR:", error);
-
-    if(error){
-
-        showToast(
-            "Error Supabase",
-            "error"
+    const audit =
+        audits.find(
+            a =>
+                a.id === id
         );
 
+    if(!audit){
         return;
     }
 
+    currentResultAudit =
+        audit;
+
+    renderResult(
+        audit
+    );
+
+    showView("result");
+}
     if(!data || data.length === 0){
 
         showToast(
