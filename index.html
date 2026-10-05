@@ -7089,33 +7089,49 @@ async function renderHistory(){
    ABRIR AUDITORÍA HISTÓRICA
 ========================================================= */
 
-function openAuditFromHistory(id){
+async function openAuditFromHistory(id){
 
-    const audit =
-        audits.find(
-            a=>
-                a.id === id
+    const { data, error } =
+        await supabaseClient
+            .from("audits")
+            .select("*")
+            .eq("audit_code", id)
+            .single();
+
+    if(error || !data){
+
+        console.error(error);
+
+        showToast(
+            "No se pudo abrir la auditoría",
+            "error"
         );
 
-
-    if(!audit){
         return;
     }
 
+    const audit = {
 
-    currentResultAudit =
-        audit;
+        id: data.audit_code,
+        auditor: data.auditor,
+        tipoArea: data.area_type,
+        sector: data.sector,
+        fecha: data.created_at,
+        respuestas: [],
+        resultado: {
+            porcentaje: data.score,
+            estado: data.status,
+            hallazgos: data.findings_count || 0
+        }
 
+    };
 
-    renderResult(
-        audit
-    );
+    currentResultAudit = audit;
 
+    renderResult(audit);
 
     showView("result");
 }
-
-
 /* =========================================================
    ELIMINAR AUDITORÍA
 ========================================================= */
