@@ -7110,51 +7110,6 @@ function openAuditFromHistory(id){
 
     showView("result");
 }
-
-   
-    if(!data || data.length === 0){
-
-        showToast(
-            "Auditoria no encontrada",
-            "error"
-        );
-
-        return;
-    }
-
-    console.log(data);
-
-    alert(
-        JSON.stringify(
-            data[0],
-            null,
-            2
-        )
-    );
-
-}
-    const audit = {
-
-        id: data.audit_code,
-        auditor: data.auditor,
-        tipoArea: data.area_type,
-        sector: data.sector,
-        fecha: data.created_at,
-        respuestas: [],
-        resultado: {
-            porcentaje: data.score,
-            estado: data.status,
-            hallazgos: data.findings_count || 0
-        }
-
-    };
-
-    currentResultAudit = audit;
-
-    renderResult(audit);
-
-    showView("result");
-}
 /* =========================================================
    ELIMINAR AUDITORÍA
 ========================================================= */
