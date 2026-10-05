@@ -7091,15 +7091,14 @@ async function renderHistory(){
 
 async function openAuditFromHistory(id){
 
-    const { data, error } =
-        await supabaseClient
-            .from("audits")
-            .select("*")
-            .eq("audit_code", id)
-            .single();
-console.log("ID RECIBIDO:", id);
-console.log("DATA:", data);
-console.log("ERROR:", error);
+   const { data, error } =
+    await supabaseClient
+        .from("audits")
+        .select("*")
+        .limit(1);
+
+console.log(data);
+console.log(error);
     if(error || !data){
 
         console.error(error);
