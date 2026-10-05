@@ -7091,26 +7091,48 @@ async function renderHistory(){
 
 async function openAuditFromHistory(id){
 
-   const { data, error } =
-    await supabaseClient
-        .from("audits")
-        .select("*")
-        .limit(1);
+    console.log("ID RECIBIDO:", id);
 
-console.log(data);
-console.log(error);
-    if(error || !data){
+    const { data, error } =
+        await supabaseClient
+            .from("audits")
+            .select("*")
+            .eq("audit_code", id);
 
-        console.error(error);
+    console.log("DATA:", data);
+    console.log("ERROR:", error);
+
+    if(error){
 
         showToast(
-            "No se pudo abrir la auditoría",
+            "Error Supabase",
             "error"
         );
 
         return;
     }
 
+    if(!data || data.length === 0){
+
+        showToast(
+            "Auditoria no encontrada",
+            "error"
+        );
+
+        return;
+    }
+
+    console.log(data);
+
+    alert(
+        JSON.stringify(
+            data[0],
+            null,
+            2
+        )
+    );
+
+}
     const audit = {
 
         id: data.audit_code,
