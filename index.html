@@ -7097,7 +7097,9 @@ async function openAuditFromHistory(id){
             .select("*")
             .eq("audit_code", id)
             .single();
-
+console.log("ID RECIBIDO:", id);
+console.log("DATA:", data);
+console.log("ERROR:", error);
     if(error || !data){
 
         console.error(error);
