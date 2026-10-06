@@ -10242,11 +10242,17 @@ console.log("BASE64 PHOTO:", base64Photo);
     const fileName =
         `${auditId}_${questionId}_${Date.now()}.jpg`;
 
-    const response =
-        await fetch(base64Photo);
+ const photoData =
+    typeof base64Photo === "object"
+        ? base64Photo.dataUrl
+        : base64Photo;
 
-    const blob =
-        await response.blob();
+const response =
+    await fetch(photoData);
+
+const blob =
+    await response.blob();
+
 
     const { error } =
         await supabaseClient
