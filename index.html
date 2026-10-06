@@ -3850,33 +3850,39 @@ async function loadData(){
                         sector:
                             audit.sector,
 
-                        resultado:{
+                        resultado: {
 
-                            estado:
-                                audit.status,
+    estado:
+        audit.status,
 
-                            porcentaje:
-                                audit.score,
+    porcentaje:
+        audit.score,
 
-                            puntosObtenidos:
-                                audit.points_obtained,
+    puntosObtenidos:
+        audit.points_obtained,
 
-                            puntosPosibles:
-                                audit.points_possible,
+    puntosPosibles:
+        audit.points_possible,
 
-                            cumple:
-                                audit.complies_count,
+    cumple:
+        audit.complies_count,
 
-                            noCumple:
-                                audit.non_complies_count,
+    noCumple:
+        audit.non_complies_count,
 
-                            noAplica:
-                                audit.not_applicable_count,
+    noAplica:
+        audit.not_applicable_count,
 
-                            hallazgos:
-                                audit.findings_count
+    hallazgos:
+        audit.findings_count,
 
-                        },
+    categories:
+        calculateAudit({
+            respuestas:
+                respuestas
+        }).categories
+
+},
 
                         finalizada:
                             true,
@@ -7569,31 +7575,38 @@ const reconstructedAudit = {
 
     resultado: {
 
-        estado:
-            audit.status,
+    estado:
+        audit.status,
 
-        porcentaje:
-            audit.score,
+    porcentaje:
+        audit.score,
 
-        puntosObtenidos:
-            audit.points_obtained,
+    puntosObtenidos:
+        audit.points_obtained,
 
-        puntosPosibles:
-            audit.points_possible,
+    puntosPosibles:
+        audit.points_possible,
 
-        cumple:
-            audit.complies_count,
+    cumple:
+        audit.complies_count,
 
-        noCumple:
-            audit.non_complies_count,
+    noCumple:
+        audit.non_complies_count,
 
-        noAplica:
-            audit.not_applicable_count,
+    noAplica:
+        audit.not_applicable_count,
 
-        hallazgos:
-            audit.findings_count
+    hallazgos:
+        audit.findings_count,
 
-    },
+    categories:
+        calculateAudit({
+            respuestas:
+                respuestas
+        }).categories
+
+},
+
 
     finalizada:
         true,
