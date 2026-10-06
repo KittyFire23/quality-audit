@@ -5420,6 +5420,20 @@ async function finishAudit(){
         calculateAudit(
             currentAudit
         );
+console.log(
+    "AUDITORIA ANTES DE SUPABASE:",
+    currentAudit
+);
+
+console.log(
+    "FOTOS DE TODAS LAS RESPUESTAS:",
+    currentAudit.respuestas.map(
+        r => ({
+            preguntaId: r.preguntaId,
+            fotos: r.fotos
+        })
+    )
+);
 
 
     currentAudit.resultado =
