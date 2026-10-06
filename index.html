@@ -7335,15 +7335,29 @@ async function openAuditFromHistory(id){
            1. BUSCAR AUDITORÍA EN SUPABASE
         ========================================= */
 
-        const { data: audit, error: auditError } =
-            await supabaseClient
-                .from("audits")
-                .select("*")
-                .eq(
-                    "audit_code",
-                    id
-                )
-                .single();
+       const { data: auditsFound, error: auditError } =
+    await supabaseClient
+        .from("audits")
+        .select("*")
+        .eq(
+            "audit_code",
+            id
+        )
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
+        )
+        .limit(1);
+
+
+const audit =
+    auditsFound &&
+    auditsFound.length > 0
+        ? auditsFound[0]
+        : null;
+
 
 
         if(auditError){
