@@ -7458,111 +7458,150 @@ const audit =
         ========================================= */
 
         const respuestas =
-            (answers || []).map(
-                answer => {
+    (answers || []).map(
+        answer => {
 
-                    const finding =
-                        (findings || []).find(
-                            f =>
-                                Number(
-                                    f.question_id
-                                ) ===
-                                Number(
-                                    answer.question_id
-                                )
-                        );
+            const question =
+                questions.find(
+                    q =>
+                        Number(
+                            q.id.replace("P", "")
+                        ) ===
+                        Number(
+                            answer.question_id
+                        )
+                );
 
 
-                    return {
+            const finding =
+                (findings || []).find(
+                    f =>
+                        Number(
+                            f.question_id
+                        ) ===
+                        Number(
+                            answer.question_id
+                        )
+                );
 
-                        preguntaId:
-                            "P" +
-                            String(
-                                answer.question_id
-                            ).padStart(
-                                3,
-                                "0"
-                            ),
 
-                        respuesta:
-                            answer.result,
+            return {
 
-                        observacion:
-                            answer.observation || "",
+                preguntaId:
+                    question
+                        ? question.id
+                        : "P" +
+                          String(
+                              answer.question_id
+                          ).padStart(
+                              3,
+                              "0"
+                          ),
 
-                        fotos:
-                            finding?.photo_url
-                                ? [
-                                    finding.photo_url
-                                ]
-                                : []
+                pregunta:
+                    question
+                        ? question.texto
+                        : "",
 
-                    };
+                categoria:
+                    question
+                        ? question.categoria
+                        : "",
 
-                }
-            );
+                peso:
+                    question
+                        ? question.peso
+                        : 0,
 
+                respuesta:
+                    answer.result,
+
+                observacion:
+                    answer.observation || "",
+
+                fotos:
+                    finding?.photo_url
+                        ? [
+                            finding.photo_url
+                        ]
+                        : []
+
+            };
+
+        }
+    );
 
         /* =========================================
            5. RECONSTRUIR OBJETO DE AUDITORÍA
         ========================================= */
 
-        const reconstructedAudit = {
+const reconstructedAudit = {
 
-            id:
-                audit.audit_code,
+    id:
+        audit.audit_code,
 
-            supabase_id:
-                audit.id,
+    supabase_id:
+        audit.id,
 
-            auditor:
-                audit.auditor,
+    auditor:
+        audit.auditor,
 
-            tipoArea:
-                audit.area_type,
+    tipoArea:
+        audit.area_type,
 
-            sector:
-                audit.sector,
+    sector:
+        audit.sector,
 
-            respuestas:
-                respuestas,
+    fechaISO:
+        audit.created_at,
 
-            resultado: {
+    fecha:
+        audit.created_at
+            ? formatDate(
+                new Date(
+                    audit.created_at
+                )
+            )
+            : "",
 
-                estado:
-                    audit.status,
+    respuestas:
+        respuestas,
 
-                porcentaje:
-                    audit.score,
+    resultado: {
 
-                puntosObtenidos:
-                    audit.points_obtained,
+        estado:
+            audit.status,
 
-                puntosPosibles:
-                    audit.points_possible,
+        porcentaje:
+            audit.score,
 
-                cumple:
-                    audit.complies_count,
+        puntosObtenidos:
+            audit.points_obtained,
 
-                noCumple:
-                    audit.non_complies_count,
+        puntosPosibles:
+            audit.points_possible,
 
-                noAplica:
-                    audit.not_applicable_count,
+        cumple:
+            audit.complies_count,
 
-                hallazgos:
-                    audit.findings_count
+        noCumple:
+            audit.non_complies_count,
 
-            },
+        noAplica:
+            audit.not_applicable_count,
 
-            finalizada:
-                true,
+        hallazgos:
+            audit.findings_count
 
-            fechaFinalizacion:
-                audit.created_at
+    },
 
-        };
+    finalizada:
+        true,
 
+    fechaFinalizacion:
+        audit.created_at
+
+};
 
         /* =========================================
            6. GUARDAR EN MEMORIA LOCAL
