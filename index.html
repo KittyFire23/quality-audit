@@ -10232,9 +10232,12 @@ async function uploadPhotoToSupabase(
     questionId
 ){
 
-    if(!base64Photo){
-        return null;
-    }
+   if(!base64Photo){
+    return null;
+}
+
+console.log("BASE64 PHOTO:", base64Photo);
+   
 
     const fileName =
         `${auditId}_${questionId}_${Date.now()}.jpg`;
