@@ -3797,7 +3797,7 @@ async function loadData(){
        GUARDAR CONFIGURACIÓN LOCAL
     ========================================= */
 
-    saveData();
+   
 
 
     /* =========================================
@@ -5477,13 +5477,27 @@ async function finishAudit(){
        SOLO SI SUPABASE GUARDÓ CORRECTAMENTE
        GUARDAMOS EN EL HISTORIAL LOCAL
     ========================================= */
+const auditToSave = {
 
-    const auditToSave =
-        JSON.parse(
-            JSON.stringify(
-                currentAudit
-            )
-        );
+    ...currentAudit,
+
+    respuestas:
+        currentAudit.respuestas.map(
+            respuesta => ({
+
+                ...respuesta,
+
+                fotos: []
+
+            })
+        )
+
+};
+
+audits.unshift(
+    auditToSave
+);
+
 
 
     /*
