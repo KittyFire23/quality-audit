@@ -7699,12 +7699,18 @@ const audit =
                 observacion:
                     answer.observation || "",
 
-                fotos:
-                    finding?.photo_url
-                        ? [
-                            finding.photo_url
-                        ]
-                        : []
+                let fotoUrl = finding?.photo_url || "";
+
+if(fotoUrl.includes("<a ")){
+    const match =
+        fotoUrl.match(/href="([^"]+)"/);
+
+    fotoUrl =
+        match ? match[1] : "";
+}
+
+fotos:
+    fotoUrl ? [fotoUrl] : []
 
             };
 
