@@ -3876,11 +3876,8 @@ async function loadData(){
     hallazgos:
         audit.findings_count,
 
-    categories:
-        calculateAudit({
-            respuestas:
-                respuestas
-        }).categories
+    categories: {}
+
 
 },
 
@@ -5227,17 +5224,17 @@ function renderCurrentPhotos(){
 
             div.innerHTML = `
 
-                <img
+               <img
     src="${photoSrc}"
     alt="${photoName}"
-                    style="
-                        width:100%;
-                        height:180px;
-                        object-fit:cover;
-                        border-radius:8px;
-                        display:block;
-                    "
-                >
+    style="
+        width:100%;
+        height:180px;
+        object-fit:cover;
+        border-radius:8px;
+        display:block;
+    "
+>
 
                 <button
                     type="button"
@@ -6602,27 +6599,22 @@ function renderResultFindings(audit){
                             }
 
 
-                            return `
-
-                                <div class="photo-item">
-
-                                   <img
-    src="${src}"
-                                        alt="${escapeHTML(name)}"
-                                        style="
-                                            width:100%;
-                                            height:180px;
-                                            object-fit:cover;
-                                            border-radius:8px;
-                                            display:block;
-                                            cursor:pointer;
-                                        "
-                                    >
-
-                                </div>
-
-                            `;
-
+               return `
+    <div class="photo-item">
+        <img
+            src="${escapeHTML(src)}"
+            alt="${escapeHTML(name)}"
+            style="
+                width:100%;
+                height:180px;
+                object-fit:cover;
+                border-radius:8px;
+                display:block;
+                cursor:pointer;
+            "
+        >
+    </div>
+`;
                         }
                     )
                     .join("");
