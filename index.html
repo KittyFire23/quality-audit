@@ -10283,20 +10283,17 @@ const blob =
 
     }
 
-    const { data } =
-        supabaseClient
-            .storage
-            .from("auditorias")
-            .getPublicUrl(
-                fileName
-            );
+   const { data } =
+    supabaseClient
+        .storage
+        .from("auditorias")
+        .getPublicUrl(fileName);
 
-    console.log(
-        "PUBLIC URL:",
-        data
-    );
+console.log("FILE NAME:", fileName);
+console.log("PUBLIC URL:", data.publicUrl);
 
-    return data.publicUrl;
+return data.publicUrl;
+
 
 }
 
