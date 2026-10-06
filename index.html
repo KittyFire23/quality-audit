@@ -3730,22 +3730,29 @@ async function testSupabase(){
    LOCAL STORAGE
 ========================================================= */
 
-function loadData(){
+async function loadData(){
+
+    /* =========================================
+       CARGAR CONFIGURACIÓN LOCAL
+    ========================================= */
 
     const savedAreas =
         localStorage.getItem(
             STORAGE.areas
         );
 
+
     const savedSectors =
         localStorage.getItem(
             STORAGE.sectors
         );
 
+
     const savedQuestions =
         localStorage.getItem(
             STORAGE.questions
         );
+
 
     const savedAudits =
         localStorage.getItem(
@@ -3775,15 +3782,147 @@ function loadData(){
             );
 
 
+    /*
+       Las auditorías YA NO serán tomadas
+       solamente desde localStorage.
+    */
+
     audits =
         savedAudits
             ? JSON.parse(savedAudits)
             : [];
 
 
-    saveData();
-}
+    /* =========================================
+       GUARDAR CONFIGURACIÓN LOCAL
+    ========================================= */
 
+    saveData();
+
+
+    /* =========================================
+       CARGAR AUDITORÍAS DESDE SUPABASE
+    ========================================= */
+
+    try{
+
+        const { data, error } =
+            await supabaseClient
+                .from("audits")
+                .select("*")
+                .order(
+                    "created_at",
+                    {
+                        ascending:false
+                    }
+                );
+
+
+        if(error){
+
+            console.error(
+                "ERROR CARGANDO AUDITORÍAS DESDE SUPABASE:",
+                error
+            );
+
+            return;
+        }
+
+
+        if(data){
+
+            audits =
+                data.map(
+                    audit => ({
+
+                        id:
+                            audit.audit_code,
+
+                        supabase_id:
+                            audit.id,
+
+                        auditor:
+                            audit.auditor,
+
+                        tipoArea:
+                            audit.area_type,
+
+                        sector:
+                            audit.sector,
+
+                        resultado:{
+
+                            estado:
+                                audit.status,
+
+                            porcentaje:
+                                audit.score,
+
+                            puntosObtenidos:
+                                audit.points_obtained,
+
+                            puntosPosibles:
+                                audit.points_possible,
+
+                            cumple:
+                                audit.complies_count,
+
+                            noCumple:
+                                audit.non_complies_count,
+
+                            noAplica:
+                                audit.not_applicable_count,
+
+                            hallazgos:
+                                audit.findings_count
+
+                        },
+
+                        finalizada:
+                            true,
+
+                        fechaFinalizacion:
+                            audit.created_at,
+
+                        respuestas:
+                            []
+
+                    })
+                );
+
+
+            /*
+               Actualizamos el caché local
+               con lo que realmente existe
+               en Supabase.
+            */
+
+            localStorage.setItem(
+                STORAGE.audits,
+                JSON.stringify(
+                    audits
+                )
+            );
+
+
+            console.log(
+                "AUDITORÍAS CARGADAS DESDE SUPABASE:",
+                audits
+            );
+
+        }
+
+    }
+    catch(error){
+
+        console.error(
+            "ERROR CONECTANDO CON SUPABASE:",
+            error
+        );
+
+    }
+
+}
 
 function saveData(){
 
@@ -5205,8 +5344,8 @@ function previousQuestion(){
 async function finishAudit(){
 
     for(
-        let i=0;
-        i<currentAudit.respuestas.length;
+        let i = 0;
+        i < currentAudit.respuestas.length;
         i++
     ){
 
@@ -5216,13 +5355,12 @@ async function finishAudit(){
 
         if(!response.respuesta){
 
-            currentQuestionIndex =
-                i;
+            currentQuestionIndex = i;
 
             renderQuestion();
 
             showToast(
-                `Falta responder la pregunta ${i+1}.`,
+                `Falta responder la pregunta ${i + 1}.`,
                 "warning"
             );
 
@@ -5231,8 +5369,7 @@ async function finishAudit(){
 
 
         if(
-            response.respuesta ===
-            "No Cumple"
+            response.respuesta === "No Cumple"
         ){
 
             if(
@@ -5240,13 +5377,12 @@ async function finishAudit(){
                 !response.observacion.trim()
             ){
 
-                currentQuestionIndex =
-                    i;
+                currentQuestionIndex = i;
 
                 renderQuestion();
 
                 showToast(
-                    `Falta la observación de la pregunta ${i+1}.`,
+                    `Falta la observación de la pregunta ${i + 1}.`,
                     "warning"
                 );
 
@@ -5259,13 +5395,12 @@ async function finishAudit(){
                 response.fotos.length === 0
             ){
 
-                currentQuestionIndex =
-                    i;
+                currentQuestionIndex = i;
 
                 renderQuestion();
 
                 showToast(
-                    `Falta la evidencia fotográfica de la pregunta ${i+1}.`,
+                    `Falta la evidencia fotográfica de la pregunta ${i + 1}.`,
                     "warning"
                 );
 
@@ -5276,6 +5411,10 @@ async function finishAudit(){
 
     }
 
+
+    /* =========================================
+       CALCULAR RESULTADO
+    ========================================= */
 
     const calculated =
         calculateAudit(
@@ -5295,55 +5434,120 @@ async function finishAudit(){
         new Date().toISOString();
 
 
-  const auditToSave =
-    JSON.parse(
-        JSON.stringify(
-            currentAudit
-        )
+    /* =========================================
+       GUARDAR PRIMERO EN SUPABASE
+    ========================================= */
+
+    let savedAudit;
+
+    try{
+
+        showToast(
+            "Guardando auditoría...",
+            "info"
+        );
+
+
+        savedAudit =
+            await saveAuditToSupabase(
+                currentAudit
+            );
+
+
+    }
+    catch(error){
+
+        console.error(
+            "ERROR GUARDANDO AUDITORÍA:",
+            error
+        );
+
+
+        showToast(
+            "No se pudo guardar la auditoría en la base de datos. La auditoría NO fue finalizada.",
+            "error"
+        );
+
+
+        return;
+    }
+
+
+    /* =========================================
+       SOLO SI SUPABASE GUARDÓ CORRECTAMENTE
+       GUARDAMOS EN EL HISTORIAL LOCAL
+    ========================================= */
+
+    const auditToSave =
+        JSON.parse(
+            JSON.stringify(
+                currentAudit
+            )
+        );
+
+
+    /*
+       Guardamos el ID de Supabase
+       para poder identificar la auditoría
+       posteriormente.
+    */
+
+    if(savedAudit && savedAudit.id){
+
+        auditToSave.supabase_id =
+            savedAudit.id;
+
+    }
+
+
+    audits.unshift(
+        auditToSave
     );
 
 
+    /*
+       Esto solamente mantiene una copia
+       local para funcionamiento offline /
+       caché.
 
-audits.unshift(
-    auditToSave
-);
+       La fuente principal ahora es Supabase.
+    */
 
-saveData();
+    saveData();
 
 
-   try{
+    /* =========================================
+       BORRAR BORRADOR
+    ========================================= */
 
-    await saveAuditToSupabase(
-        currentAudit
+    localStorage.removeItem(
+        STORAGE.draft
     );
 
-}
-catch(error){
 
-    console.error(
-        "No se pudo guardar en Supabase:",
-        error
+    /* =========================================
+       MOSTRAR RESULTADO
+    ========================================= */
+
+    currentResultAudit =
+        auditToSave;
+
+
+    renderResult(
+        auditToSave
     );
 
-}
 
-localStorage.removeItem(
-    STORAGE.draft
-);
+    showView(
+        "result"
+    );
 
-currentResultAudit =
-    currentAudit;
 
-renderResult(
-    currentAudit
-);
+    showToast(
+        "Auditoría guardada correctamente.",
+        "success"
+    );
 
-showView("result");
-
-showToast(
-    "Auditoría finalizada correctamente.",
-    "success"
-);
 }
 /* =========================================================
    CÁLCULO DE AUDITORÍA
@@ -7089,26 +7293,309 @@ async function renderHistory(){
    ABRIR AUDITORÍA HISTÓRICA
 ========================================================= */
 
-function openAuditFromHistory(id){
+async function openAuditFromHistory(id){
 
-    const audit =
-        audits.find(
-            a =>
-                a.id === id
+    try{
+
+        showToast(
+            "Cargando auditoría...",
+            "info"
         );
 
-    if(!audit){
-        return;
+
+        /* =========================================
+           1. BUSCAR AUDITORÍA EN SUPABASE
+        ========================================= */
+
+        const { data: audit, error: auditError } =
+            await supabaseClient
+                .from("audits")
+                .select("*")
+                .eq(
+                    "audit_code",
+                    id
+                )
+                .single();
+
+
+        if(auditError){
+
+            console.error(
+                "ERROR CARGANDO AUDITORÍA:",
+                auditError
+            );
+
+            showToast(
+                "No se pudo cargar la auditoría.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if(!audit){
+
+            showToast(
+                "No se encontró la auditoría.",
+                "warning"
+            );
+
+            return;
+        }
+
+
+        /* =========================================
+           2. BUSCAR RESPUESTAS
+        ========================================= */
+
+        const { data: answers, error: answersError } =
+            await supabaseClient
+                .from("answers")
+                .select("*")
+                .eq(
+                    "audit_id",
+                    audit.id
+                )
+                .order(
+                    "question_id",
+                    {
+                        ascending:true
+                    }
+                );
+
+
+        if(answersError){
+
+            console.error(
+                "ERROR CARGANDO RESPUESTAS:",
+                answersError
+            );
+
+            showToast(
+                "No se pudieron cargar las respuestas.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        /* =========================================
+           3. BUSCAR HALLAZGOS
+        ========================================= */
+
+        const { data: findings, error: findingsError } =
+            await supabaseClient
+                .from("findings")
+                .select("*")
+                .eq(
+                    "audit_id",
+                    audit.id
+                );
+
+
+        if(findingsError){
+
+            console.error(
+                "ERROR CARGANDO HALLAZGOS:",
+                findingsError
+            );
+
+            showToast(
+                "No se pudieron cargar los hallazgos.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        /* =========================================
+           4. RECONSTRUIR RESPUESTAS
+        ========================================= */
+
+        const respuestas =
+            (answers || []).map(
+                answer => {
+
+                    const finding =
+                        (findings || []).find(
+                            f =>
+                                Number(
+                                    f.question_id
+                                ) ===
+                                Number(
+                                    answer.question_id
+                                )
+                        );
+
+
+                    return {
+
+                        preguntaId:
+                            "P" +
+                            String(
+                                answer.question_id
+                            ).padStart(
+                                3,
+                                "0"
+                            ),
+
+                        respuesta:
+                            answer.result,
+
+                        observacion:
+                            answer.observation || "",
+
+                        fotos:
+                            finding?.photo_url
+                                ? [
+                                    finding.photo_url
+                                ]
+                                : []
+
+                    };
+
+                }
+            );
+
+
+        /* =========================================
+           5. RECONSTRUIR OBJETO DE AUDITORÍA
+        ========================================= */
+
+        const reconstructedAudit = {
+
+            id:
+                audit.audit_code,
+
+            supabase_id:
+                audit.id,
+
+            auditor:
+                audit.auditor,
+
+            tipoArea:
+                audit.area_type,
+
+            sector:
+                audit.sector,
+
+            respuestas:
+                respuestas,
+
+            resultado: {
+
+                estado:
+                    audit.status,
+
+                porcentaje:
+                    audit.score,
+
+                puntosObtenidos:
+                    audit.points_obtained,
+
+                puntosPosibles:
+                    audit.points_possible,
+
+                cumple:
+                    audit.complies_count,
+
+                noCumple:
+                    audit.non_complies_count,
+
+                noAplica:
+                    audit.not_applicable_count,
+
+                hallazgos:
+                    audit.findings_count
+
+            },
+
+            finalizada:
+                true,
+
+            fechaFinalizacion:
+                audit.created_at
+
+        };
+
+
+        /* =========================================
+           6. GUARDAR EN MEMORIA LOCAL
+           COMO CACHÉ
+        ========================================= */
+
+        const existingIndex =
+            audits.findIndex(
+                a =>
+                    a.id ===
+                    reconstructedAudit.id
+            );
+
+
+        if(existingIndex >= 0){
+
+            audits[existingIndex] =
+                reconstructedAudit;
+
+        }
+        else{
+
+            audits.unshift(
+                reconstructedAudit
+            );
+
+        }
+
+
+        localStorage.setItem(
+            STORAGE.audits,
+            JSON.stringify(
+                audits
+            )
+        );
+
+
+        /* =========================================
+           7. MOSTRAR RESULTADO
+        ========================================= */
+
+        currentResultAudit =
+            reconstructedAudit;
+
+
+        renderResult(
+            reconstructedAudit
+        );
+
+
+        showView(
+            "result"
+        );
+
+
+        showToast(
+            "Auditoría cargada correctamente.",
+            "success"
+        );
+
+    }
+    catch(error){
+
+        console.error(
+            "ERROR ABRIENDO AUDITORÍA:",
+            error
+        );
+
+        showToast(
+            "Ocurrió un error al abrir la auditoría.",
+            "error"
+        );
+
     }
 
-    currentResultAudit =
-        audit;
-
-    renderResult(
-        audit
-    );
-
-    showView("result");
 }
 /* =========================================================
    ELIMINAR AUDITORÍA
@@ -10197,9 +10684,9 @@ document.getElementById(
    INICIALIZACIÓN
 ========================================================= */
 
-function init(){
+async function init(){
 
-    loadData();
+    await loadData();
 
 
     document.getElementById(
@@ -10233,11 +10720,8 @@ function init(){
 
 
     checkDraft();
-   //testSaveAudit();
-//testSupabase();
+
 }
-
-
 /* =========================================================
    INICIAR
 ========================================================= */
