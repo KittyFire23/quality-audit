@@ -5133,6 +5133,7 @@ function compressImage(file){
 
 
 /* =========================================================
+  /* =========================================================
    RENDER FOTOS
 ========================================================= */
 
@@ -5163,16 +5164,80 @@ function renderCurrentPhotos(){
             div.className =
                 "photo-item";
 
-console.log(
-    "PHOTO:",
-    photo
-);
+
+            console.log(
+                "PHOTO:",
+                photo
+            );
+
+
+            /*
+                La foto puede venir de:
+
+                1. Supabase:
+                   "https://..."
+
+                2. Foto local:
+                   {
+                       dataUrl: "...",
+                       name: "..."
+                   }
+            */
+
+            let photoSrc = "";
+            let photoName = "Foto";
+
+
+            if(
+                typeof photo === "string"
+            ){
+
+                photoSrc =
+                    photo;
+
+            }
+            else if(
+                photo &&
+                typeof photo === "object"
+            ){
+
+                photoSrc =
+                    photo.dataUrl ||
+                    photo.photo_url ||
+                    "";
+
+                photoName =
+                    photo.name ||
+                    "Foto";
+
+            }
+
+
+            if(!photoSrc){
+
+                console.warn(
+                    "Foto sin URL:",
+                    photo
+                );
+
+                return;
+
+            }
+
+
             div.innerHTML = `
 
                 <img
-                   src="${photo.dataUrl || photo.photo_url || photo}"
-alt="${escapeHTML(photo.name || 'Foto')}"
-
+                    src="${escapeHTML(photoSrc)}"
+                    alt="${escapeHTML(photoName)}"
+                    style="
+                        width:100%;
+                        height:180px;
+                        object-fit:cover;
+                        border-radius:8px;
+                        display:block;
+                    "
+                >
 
                 <button
                     type="button"
@@ -5187,34 +5252,36 @@ alt="${escapeHTML(photo.name || 'Foto')}"
             `;
 
 
-            div
-                .querySelector(
+            const removeButton =
+                div.querySelector(
                     ".photo-remove"
-                )
-                .addEventListener(
-                    "click",
-                    ()=>{
-
-                        currentPhotos.splice(
-                            index,
-                            1
-                        );
-
-
-                        currentAudit
-                            .respuestas[
-                                currentQuestionIndex
-                            ]
-                            .fotos =
-                                [...currentPhotos];
-
-
-                        renderCurrentPhotos();
-
-                        saveDraft();
-
-                    }
                 );
+
+
+            removeButton.addEventListener(
+                "click",
+                ()=>{
+
+                    currentPhotos.splice(
+                        index,
+                        1
+                    );
+
+
+                    currentAudit
+                        .respuestas[
+                            currentQuestionIndex
+                        ]
+                        .fotos =
+                            [...currentPhotos];
+
+
+                    renderCurrentPhotos();
+
+                    saveDraft();
+
+                }
+            );
 
 
             container.appendChild(
@@ -6380,6 +6447,7 @@ function renderResultCategories(result){
 
 
 /* =========================================================
+ /* =========================================================
    HALLAZGOS RESULTADO
 ========================================================= */
 
@@ -6393,7 +6461,7 @@ function renderResultFindings(audit){
 
     const findings =
         audit.respuestas.filter(
-            r=>
+            r =>
                 r.respuesta ===
                 "No Cumple"
         );
@@ -6440,36 +6508,129 @@ function renderResultFindings(audit){
                 "finding";
 
 
+            /* =========================================
+               FOTOS
+            ========================================= */
+
             const photos = [];
 
-if(
-    finding.fotos &&
-    Array.isArray(
-        finding.fotos
-    )
-){
-    photos.push(
-        ...finding.fotos
-    );
-}
 
-if(
-    finding.photo_url
-){
-    photos.push({
-        photo_url:
-            finding.photo_url
-    });
-}
-console.log(
-    "FINDING:",
-    finding
-);
+            if(
+                finding.fotos &&
+                Array.isArray(
+                    finding.fotos
+                )
+            ){
 
-console.log(
-    "PHOTOS:",
-    photos
-);
+                photos.push(
+                    ...finding.fotos
+                );
+
+            }
+
+
+            if(
+                finding.photo_url &&
+                !photos.includes(
+                    finding.photo_url
+                )
+            ){
+
+                photos.push(
+                    finding.photo_url
+                );
+
+            }
+
+
+            console.log(
+                "FINDING:",
+                finding
+            );
+
+
+            console.log(
+                "PHOTOS:",
+                photos
+            );
+
+
+            /* =========================================
+               GENERAR HTML DE FOTOS
+            ========================================= */
+
+            const photosHTML =
+                photos
+                    .map(
+                        photo=>{
+
+                            let src = "";
+                            let name = "Foto";
+
+
+                            if(
+                                typeof photo ===
+                                "string"
+                            ){
+
+                                src =
+                                    photo;
+
+                            }
+                            else if(
+                                photo &&
+                                typeof photo ===
+                                "object"
+                            ){
+
+                                src =
+                                    photo.dataUrl ||
+                                    photo.photo_url ||
+                                    "";
+
+                                name =
+                                    photo.name ||
+                                    "Foto";
+
+                            }
+
+
+                            if(!src){
+
+                                return "";
+
+                            }
+
+
+                            return `
+
+                                <div class="photo-item">
+
+                                    <img
+                                        src="${escapeHTML(src)}"
+                                        alt="${escapeHTML(name)}"
+                                        style="
+                                            width:100%;
+                                            height:180px;
+                                            object-fit:cover;
+                                            border-radius:8px;
+                                            display:block;
+                                            cursor:pointer;
+                                        "
+                                    >
+
+                                </div>
+
+                            `;
+
+                        }
+                    )
+                    .join("");
+
+
+            /* =========================================
+               RESULTADO DEL HALLAZGO
+            ========================================= */
 
             div.innerHTML = `
 
@@ -6480,9 +6641,12 @@ console.log(
                         <div class="finding-title">
 
                             Hallazgo ${index+1}
-                            · ${escapeHTML(finding.preguntaId)}
+                            · ${escapeHTML(
+                                finding.preguntaId || ""
+                            )}
 
                         </div>
+
 
                         <div
                             style="
@@ -6491,19 +6655,25 @@ console.log(
                                 line-height:1.45;
                             ">
 
-                            ${escapeHTML(finding.pregunta)}
+                            ${escapeHTML(
+                                finding.pregunta || ""
+                            )}
 
                         </div>
+
 
                         <div class="finding-category">
 
                             Categoría:
-                            ${escapeHTML(finding.categoria)}
+                            ${escapeHTML(
+                                finding.categoria || ""
+                            )}
 
                             ·
 
                             Peso:
-                            ${finding.peso} puntos
+                            ${finding.peso || 0}
+                            puntos
 
                         </div>
 
@@ -6523,7 +6693,7 @@ console.log(
                 <div class="finding-observation">
 
                     ${escapeHTML(
-                        finding.observacion
+                        finding.observacion || ""
                     )}
 
                 </div>
@@ -6545,18 +6715,22 @@ console.log(
 
                 <div class="photo-grid">
 
-                    ${photos.map(
-                        photo=>`
+                    ${
+                        photos.length > 0
+                        ? photosHTML
+                        : `
+                            <div
+                                style="
+                                    color:#777;
+                                    font-size:12px;
+                                    padding:10px 0;
+                                ">
 
-                            <div class="photo-item">
+                                No hay fotografías disponibles.
 
-                                <img
-                                   src="${photo.dataUrl || photo.photo_url || photo}"
-alt="${escapeHTML(photo.name || 'Foto')}"
                             </div>
-
                         `
-                    ).join("")}
+                    }
 
                 </div>
 
