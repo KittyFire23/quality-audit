@@ -7558,55 +7558,11 @@ const reconstructedAudit = {
     sector:
         audit.sector,
 
-    fechaISO:
-        audit.created_at,
-
-    fecha:
-        audit.created_at
-            ? formatDate(
-                new Date(
-                    audit.created_at
-                )
-            )
-            : "",
-
     respuestas:
         respuestas,
 
-    resultado: {
-
-    estado:
-        audit.status,
-
-    porcentaje:
-        audit.score,
-
-    puntosObtenidos:
-        audit.points_obtained,
-
-    puntosPosibles:
-        audit.points_possible,
-
-    cumple:
-        audit.complies_count,
-
-    noCumple:
-        audit.non_complies_count,
-
-    noAplica:
-        audit.not_applicable_count,
-
-    hallazgos:
-        audit.findings_count,
-
-    categories:
-        calculateAudit({
-            respuestas:
-                respuestas
-        }).categories
-
-},
-
+    resultado:
+        null,
 
     finalizada:
         true,
@@ -7615,6 +7571,9 @@ const reconstructedAudit = {
         audit.created_at
 
 };
+
+
+
 
         /* =========================================
            6. GUARDAR EN MEMORIA LOCAL
