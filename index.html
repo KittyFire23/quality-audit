@@ -3876,8 +3876,11 @@ async function loadData(){
     hallazgos:
         audit.findings_count,
 
-    categories: {}
-
+    categories:
+        calculateAudit({
+            respuestas:
+                respuestas
+        }).categories
 
 },
 
@@ -5224,17 +5227,17 @@ function renderCurrentPhotos(){
 
             div.innerHTML = `
 
-               <img
-    src="${photoSrc}"
-    alt="${photoName}"
-    style="
-        width:100%;
-        height:180px;
-        object-fit:cover;
-        border-radius:8px;
-        display:block;
-    "
->
+                <img
+                    src="${escapeHTML(photoSrc)}"
+                    alt="${escapeHTML(photoName)}"
+                    style="
+                        width:100%;
+                        height:180px;
+                        object-fit:cover;
+                        border-radius:8px;
+                        display:block;
+                    "
+                >
 
                 <button
                     type="button"
@@ -6599,22 +6602,27 @@ function renderResultFindings(audit){
                             }
 
 
-               return `
-    <div class="photo-item">
-        <img
-            src="${escapeHTML(src)}"
-            alt="${escapeHTML(name)}"
-            style="
-                width:100%;
-                height:180px;
-                object-fit:cover;
-                border-radius:8px;
-                display:block;
-                cursor:pointer;
-            "
-        >
-    </div>
-`;
+                            return `
+
+                                <div class="photo-item">
+
+                                    <img
+                                        src="${escapeHTML(src)}"
+                                        alt="${escapeHTML(name)}"
+                                        style="
+                                            width:100%;
+                                            height:180px;
+                                            object-fit:cover;
+                                            border-radius:8px;
+                                            display:block;
+                                            cursor:pointer;
+                                        "
+                                    >
+
+                                </div>
+
+                            `;
+
                         }
                     )
                     .join("");
@@ -7691,18 +7699,12 @@ const audit =
                 observacion:
                     answer.observation || "",
 
-                let fotoUrl = finding?.photo_url || "";
-
-if(fotoUrl.includes("<a ")){
-    const match =
-        fotoUrl.match(/href="([^"]+)"/);
-
-    fotoUrl =
-        match ? match[1] : "";
-}
-
-fotos:
-    fotoUrl ? [fotoUrl] : []
+                fotos:
+                    finding?.photo_url
+                        ? [
+                            finding.photo_url
+                        ]
+                        : []
 
             };
 
@@ -10230,27 +10232,18 @@ async function uploadPhotoToSupabase(
     questionId
 ){
 
-   if(!base64Photo){
-    return null;
-}
-
-console.log("BASE64 PHOTO:", base64Photo);
-   
+    if(!base64Photo){
+        return null;
+    }
 
     const fileName =
         `${auditId}_${questionId}_${Date.now()}.jpg`;
 
- const photoData =
-    typeof base64Photo === "object"
-        ? base64Photo.dataUrl
-        : base64Photo;
+    const response =
+        await fetch(base64Photo);
 
-const response =
-    await fetch(photoData);
-
-const blob =
-    await response.blob();
-
+    const blob =
+        await response.blob();
 
     const { error } =
         await supabaseClient
@@ -10275,17 +10268,20 @@ const blob =
 
     }
 
-   const { data } =
-    supabaseClient
-        .storage
-        .from("auditorias")
-        .getPublicUrl(fileName);
+    const { data } =
+        supabaseClient
+            .storage
+            .from("auditorias")
+            .getPublicUrl(
+                fileName
+            );
 
-console.log("FILE NAME:", fileName);
-console.log("PUBLIC URL:", data.publicUrl);
+    console.log(
+        "PUBLIC URL:",
+        data
+    );
 
-return data.publicUrl;
-
+    return data.publicUrl;
 
 }
 
