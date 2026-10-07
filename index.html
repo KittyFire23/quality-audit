@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Precision | Sistema de Auditorías GMP</title>
+
+<title>Auditorías AR - Sistema de Auditorías Industriales</title>
 
 <style>
 
@@ -1554,11 +1555,11 @@ tr:hover td{
 
             <div>
                 <div class="logo-title">
-                    Precision 
+                    Auditorías AR
                 </div>
 
                 <div class="logo-subtitle">
-                    Sistema de Auditorías GMP
+                    Sistema de Auditorías Industriales
                 </div>
             </div>
 
@@ -3827,10 +3828,7 @@ async function loadData(){
             return;
         }
 
-const { data: allAnswers } =
-    await supabaseClient
-        .from("answers")
-        .select("*");
+
         if(data){
 
             audits =
@@ -3888,21 +3886,12 @@ const { data: allAnswers } =
                         fechaFinalizacion:
                             audit.created_at,
 
-                     respuestas:
-    allAnswers
-        .filter(
-            a => a.audit_id === audit.id
-        )
-        .map(
-            a => ({
-                preguntaId:
-                    "P" + String(a.question_id).padStart(3,"0"),
-                respuesta:
-                    a.result,
-                observacion:
-                    a.observation || ""
-            })
-        )
+                        respuestas:
+                            []
+
+                    })
+                );
+
 
             /*
                Actualizamos el caché local
@@ -10961,10 +10950,10 @@ async function init(){
 ========================================================= */
 
 init();
-
-</script>
 <footer class="footer-credit">
     Precision GMP v1.0 | Developed by Diego Nuñez
 </footer>
+</script>
+
 </body>
 </html>
