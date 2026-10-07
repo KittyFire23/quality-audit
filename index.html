@@ -13,37 +13,38 @@
 ========================================================= */
 
 :root{
-    --primary:#00c2a8;
-    --primary-dark:#00917d;
-    --primary-light:#0f2d2a;
+    --primary:#174a7c;
+    --primary-dark:#103654;
+    --primary-light:#eaf3fa;
 
-    --success:#22c55e;
-    --success-light:#13281a;
+    --success:#198754;
+    --success-light:#e9f7ef;
 
-    --warning:#f59e0b;
-    --warning-light:#2c2110;
+    --warning:#d99a00;
+    --warning-light:#fff6dc;
 
-    --danger:#ef4444;
-    --danger-light:#301313;
+    --danger:#c62828;
+    --danger-light:#fdecec;
 
-    --info:#3b82f6;
-    --info-light:#14233e;
+    --info:#1976d2;
+    --info-light:#eaf3ff;
 
-    --gray:#94a3b8;
-    --gray-light:#1e293b;
+    --gray:#687582;
+    --gray-light:#f4f6f8;
 
-    --background:#0f172a;
-    --card:#1e293b;
+    --background:#f2f5f8;
+    --card:#ffffff;
 
-    --border:#334155;
+    --border:#d9e1e8;
 
-    --text:#f8fafc;
-    --muted:#94a3b8;
+    --text:#17212b;
+    --muted:#687582;
 
-    --shadow:0 10px 30px rgba(0,0,0,.35);
+    --shadow:0 5px 20px rgba(20,45,70,.08);
 
-    --radius:16px;
+    --radius:12px;
 }
+
 /* =========================================================
    GENERAL
 ========================================================= */
@@ -84,18 +85,13 @@ button{
 ========================================================= */
 
 header{
-    background:linear-gradient(
-        135deg,
-        #0b3a66,
-        #0f4c81,
-        #1b6ca8
-    );
+    background:linear-gradient(135deg,var(--primary-dark),var(--primary));
     color:#fff;
     padding:17px 25px;
     position:sticky;
     top:0;
     z-index:1000;
-    box-shadow:0 4px 20px rgba(0,0,0,.20);
+    box-shadow:0 3px 12px rgba(0,0,0,.15);
 }
 
 .header-inner{
@@ -173,25 +169,28 @@ nav{
 
 .nav-btn{
     border:0;
-    background:transparent;
+    background:#fff;
+
     color:#596774;
-    padding:15px 20px;
+
+    padding:15px 18px;
+
     font-size:14px;
-    font-weight:600;
+
     white-space:nowrap;
+
     border-bottom:3px solid transparent;
-    transition:.25s;
-    cursor:pointer;
 }
+
 .nav-btn:hover{
     background:#f7f9fb;
     color:var(--primary);
 }
 
 .nav-btn.active{
-    color:#0f4c81;
-    border-bottom:3px solid #0f4c81;
-    background:#f8fbff;
+    color:var(--primary);
+    border-bottom-color:var(--primary);
+    font-weight:bold;
 }
 
 /* =========================================================
@@ -235,17 +234,17 @@ main{
 ========================================================= */
 
 .card{
-    background:#ffffff;
-    border:none;
-    border-radius:18px;
-    box-shadow:0 10px 30px rgba(15,23,42,.08);
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:var(--radius);
+
+    box-shadow:var(--shadow);
+
     padding:22px;
+
     margin-bottom:20px;
-    transition:.25s;
-}
-   .card:hover{
-    transform:translateY(-3px);
-    box-shadow:0 16px 40px rgba(15,23,42,.12);
 }
 
 .card-title{
@@ -336,17 +335,24 @@ textarea{
 
 .btn{
     border:0;
-    border-radius:12px;
-    padding:12px 20px;
+
+    border-radius:8px;
+
+    padding:11px 17px;
+
     font-size:14px;
-    font-weight:600;
+
+    font-weight:bold;
+
     display:inline-flex;
+
     align-items:center;
+
     justify-content:center;
+
     gap:7px;
 
-    transition:all .2s ease;
-    box-shadow:0 4px 12px rgba(0,0,0,.10);
+    transition:.15s;
 }
 
 .btn:hover{
@@ -354,30 +360,9 @@ textarea{
 }
 
 .btn-primary{
-    background:linear-gradient(
-        135deg,
-        #0f4c81,
-        #1b6ca8
-    );
-    border:none;
-    color:#fff;
-    border-radius:12px;
-    padding:10px 18px;
-    font-weight:600;
-    transition:.25s;
-    box-shadow:0 4px 12px rgba(15,76,129,.30);
+    background:var(--primary);
+    color:white;
 }
-
-.btn-primary:hover{
-    background:linear-gradient(
-        135deg,
-        #1b6ca8,
-        #2f88d1
-    );
-    transform:translateY(-2px);
-    box-shadow:0 8px 20px rgba(15,76,129,.40);
-}
-
 
 .btn-primary:hover{
     background:var(--primary-dark);
