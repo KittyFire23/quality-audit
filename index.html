@@ -3885,12 +3885,21 @@ async function loadData(){
                         fechaFinalizacion:
                             audit.created_at,
 
-                        respuestas:
-                            []
-
-                    })
-                );
-
+                     respuestas:
+    allAnswers
+        .filter(
+            a => a.audit_id === audit.id
+        )
+        .map(
+            a => ({
+                preguntaId:
+                    "P" + String(a.question_id).padStart(3,"0"),
+                respuesta:
+                    a.result,
+                observacion:
+                    a.observation || ""
+            })
+        )
 
             /*
                Actualizamos el caché local
