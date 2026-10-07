@@ -3827,7 +3827,10 @@ async function loadData(){
             return;
         }
 
-
+const { data: allAnswers } =
+    await supabaseClient
+        .from("answers")
+        .select("*");
         if(data){
 
             audits =
